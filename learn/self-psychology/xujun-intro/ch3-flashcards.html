@@ -410,7 +410,7 @@ $('btnPrint').onclick=()=>{
 /* ============ 事件 ============ */
 ['fCat','fOrder'].forEach(id=>$(id).onchange=()=>{saveSettings();buildDeck();});
 ['fWeak','fRecite','fReverse'].forEach(id=>$(id).onchange=()=>{saveSettings();buildDeck();});
-$('fReset').onclick=()=>{if(confirm('清除本套闪卡的全部自评记录？\n（不影响「第一二章_思维导图与闪卡.html」「第1章_知识闪卡.html」「第2章_知识闪卡.html」三套的进度）')){saved.status={};persist();buildDeck();}};
+$('fReset').onclick=()=>{if(confirm('清除本套闪卡的全部自评记录？\n（不影响第一章、第二章闪卡的进度）')){saved.status={};persist();buildDeck();}};
 $('flip').onclick=e=>{e.stopPropagation();flip();};
 $('prev').onclick=()=>go(-1);
 $('next').onclick=()=>go(1);
