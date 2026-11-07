@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0f766e">
+<meta name="robots" content="noindex, nofollow">
+<title>2026 澳新旅行手册</title>
+<style>
+  :root{
+    --teal:#0f766e; --teal-d:#115e59; --teal-l:#14b8a6;
+    --amber:#f59e0b; --amber-bg:#fff7ed; --amber-bd:#fcd34d;
+    --ink:#1f2937; --sub:#64748b; --line:#e2e8f0;
+    --bg:#f5f7f7; --card:#ffffff; --soft:#eef4f4;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.65; font-size:16px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:480px; margin:0 auto; background:var(--bg); min-height:100vh; padding-bottom:40px;}
+
+  .hero{background:linear-gradient(135deg,var(--teal-d),var(--teal-l)); color:#fff; padding:30px 20px 26px;}
+  .hero .kicker{font-size:12.5px; letter-spacing:2px; opacity:.85; text-transform:uppercase; margin:0 0 6px;}
+  .hero h1{margin:0 0 8px; font-size:26px; font-weight:800; letter-spacing:.5px;}
+  .hero .sub{font-size:14px; opacity:.94; margin:0;}
+  .hero .badge{display:inline-block; margin-top:14px; background:rgba(255,255,255,.16);
+    border:1px solid rgba(255,255,255,.35); padding:6px 13px; border-radius:999px; font-size:13px; font-weight:600;}
+
+  /* 密码门 */
+  .gate{display:none;}
+  .gate.show{display:block;}
+  .gate-inner{background:var(--card); border:1px solid var(--line); border-radius:18px;
+    padding:28px 22px; margin:18px 16px; box-shadow:0 2px 8px rgba(15,118,110,.06); text-align:center;}
+  .gate-inner .lock{font-size:40px; margin-bottom:8px;}
+  .gate-inner h2{margin:0 0 6px; font-size:18px; color:var(--teal-d);}
+  .gate-inner p{margin:0 0 18px; font-size:13.5px; color:var(--sub);}
+  .gate-inner input{width:100%; padding:12px 14px; border:1.5px solid var(--line); border-radius:12px;
+    font-size:16px; text-align:center; letter-spacing:3px; outline:none; color:var(--ink);}
+  .gate-inner input:focus{border-color:var(--teal-l);}
+  .gate-inner button{margin-top:12px; width:100%; padding:12px; border:none; border-radius:12px;
+    background:var(--teal); color:#fff; font-size:16px; font-weight:700; cursor:pointer; letter-spacing:1px;}
+  .gate-inner button:active{background:var(--teal-d);}
+  .gate-err{display:none; color:#dc2626; font-size:13px; margin-top:10px;}
+  .gate-err.show{display:block;}
+
+  /* 内容区 */
+  .content{display:none;}
+  .content.show{display:block;}
+
+  .sec-title{display:flex; align-items:center; gap:8px; font-size:18px; font-weight:800; color:var(--teal-d);
+    margin:20px 16px 12px;}
+  .sec-title .ic{width:26px; height:26px; border-radius:8px; background:var(--soft); color:var(--teal);
+    display:flex; align-items:center; justify-content:center; font-size:15px;}
+
+  .day-link{display:block; text-decoration:none; color:inherit;}
+  .day-card{display:flex; align-items:center; gap:14px; background:var(--card); border:1px solid var(--line);
+    border-radius:16px; padding:14px 16px; margin:0 16px 12px; box-shadow:0 1px 3px rgba(15,118,110,.05);
+    transition:transform .12s;}
+  .day-card:active{transform:scale(.985);}
+  .day-card .num{flex:0 0 46px; height:46px; border-radius:12px; background:linear-gradient(135deg,var(--teal-d),var(--teal-l));
+    color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:15px;}
+  .day-card .num.rest{background:linear-gradient(135deg,#b45309,#f59e0b);}
+  .day-card .info{flex:1; min-width:0;}
+  .day-card .t{font-weight:700; font-size:15.5px; color:var(--ink);}
+  .day-card .d{font-size:13px; color:var(--sub); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .day-card .arrow{color:var(--teal-l); font-size:18px; flex:0 0 auto;}
+
+  .note{font-size:13px; color:var(--sub); margin:6px 18px 0; line-height:1.6;}
+  .foot{text-align:center; font-size:12px; color:var(--sub); padding:22px 16px 0;}
+
+  /* 退出按钮 */
+  .logout{display:block; text-align:center; margin:8px auto 0; background:none; border:none; color:var(--sub);
+    font-size:13px; text-decoration:underline; cursor:pointer;}
+
+  /* 返回内容导航 */
+  .backnav{display:block; margin:14px 16px 0; font-size:13px; color:var(--teal-d); text-decoration:none; font-weight:600;}
+  .backnav:active{opacity:.65;}
+  .gate-back{display:block; margin-top:16px; font-size:13px; color:var(--sub); text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <p class="kicker">Essie's Travel Guide</p>
+    <h1>2026 澳新旅行手册</h1>
+    <p class="sub">给爸妈的每日行程 · 攻略 · 地图</p>
+    <span class="badge">9月 悉尼 · 10月 墨尔本 · 新加坡</span>
+  </div>
+
+  <!-- 密码门 -->
+  <div class="gate" id="gate">
+    <div class="gate-inner">
+      <div class="lock">🔒</div>
+      <h2>输入密码查看</h2>
+      <p>这是家人私享的旅行手册</p>
+      <input type="password" id="pwd" placeholder="请输入密码" inputmode="text" autocomplete="off">
+      <button onclick="tryUnlock()">进入</button>
+      <div class="gate-err" id="err">密码不对，再试试</div>
+      <a class="gate-back" href="../index.html">← 返回内容导航</a>
+    </div>
+  </div>
+
+  <!-- 内容 -->
+  <div class="content" id="content">
+    <a class="backnav" href="../index.html">← 返回内容导航</a>
+    <div class="sec-title"><span class="ic">🗓</span>悉尼行程</div>
+
+    <a class="day-link" href="../day1-birkenhead.html">
+      <div class="day-card">
+        <div class="num">9.23</div>
+        <div class="info"><div class="t">Birkenhead Point 奥特莱斯</div><div class="d">海港奥莱 · 购物 + 退税攻略</div></div>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <a class="day-link" href="../day2-city.html">
+      <div class="day-card">
+        <div class="num">9.24</div>
+        <div class="info"><div class="t">悉尼市中心一日游</div><div class="d">歌剧院 · 植物园 · 岩石区</div></div>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <a class="day-link" href="../day3-taronga.html">
+      <div class="day-card">
+        <div class="num">9.25</div>
+        <div class="info"><div class="t">塔龙加动物园</div><div class="d">动物园 + 海德公园 · 圣玛丽教堂</div></div>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <a class="day-link" href="../day4-bondi.html">
+      <div class="day-card">
+        <div class="num">9.26</div>
+        <div class="info"><div class="t">Bondi 海滩</div><div class="d">海滩 + Bondi Junction 商场</div></div>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <a class="day-link" href="../day5-museums.html">
+      <div class="day-card">
+        <div class="num">9.27</div>
+        <div class="info"><div class="t">博物馆 + 美术馆（雨天版）</div><div class="d">澳大利亚博物馆 · AGNSW · 达令港日落</div></div>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <a class="day-link" href="../day6-fishmarket-uni.html">
+      <div class="day-card">
+        <div class="num">9.28</div>
+        <div class="info"><div class="t">鱼市场 + 悉尼大学</div><div class="d">海鲜午餐 · 哈利波特楼拍照</div></div>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <div class="sec-title"><span class="ic">📷</span>悉尼旅行记录</div>
+    <a class="day-link" href="../records-sydney.html">
+      <div class="day-card">
+        <div class="num">📷</div>
+        <div class="info"><div class="t">悉尼旅行记录</div><div class="d">9/22–9/28 实际行程 · 每天照片回顾</div></div>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <div class="sec-title"><span class="ic">✈️</span>墨尔本行程</div>
+    <a class="day-link" href="../day7-melbourne.html">
+      <div class="day-card">
+        <div class="num rest">9.29</div>
+        <div class="info"><div class="t">悉尼 → 墨尔本（转场日）</div><div class="d">VA834 航班 · 入住 Ibis · 休息</div></div>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <a class="day-link" href="../day8-penguin.html">
+      <div class="day-card">
+        <div class="num rest">9.30</div>
+        <div class="info"><div class="t">小火车 · 企鹅岛一日游</div><div class="d">普芬比利蒸汽火车 · 考拉 · 小企鹅归巢</div></div>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <a class="day-link" href="../day9-city.html">
+      <div class="day-card">
+        <div class="num rest">10.1</div>
+        <div class="info"><div class="t">墨尔本市区一日游</div><div class="d">QVM 简看 · CBD 经典线 · Carlton 博物馆</div></div>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <a class="day-link" href="../day10-greatocean.html">
+      <div class="day-card">
+        <div class="num rest">10.2</div>
+        <div class="info"><div class="t">大洋路一日游</div><div class="d">十二门徒 · 洛克阿德峡谷 · 阿波罗贝 · 伦敦桥</div></div>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <a class="day-link" href="../day11-qvm-city.html">
+      <div class="day-card">
+        <div class="num rest">10.3</div>
+        <div class="info"><div class="t">QVM 正日子 + 咖啡 + 市中心续程</div><div class="d">CRFT*WRK 手作市集 · 咖啡四杯 · 涂鸦街→NGV · 晚场 SIX</div></div>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <div class="sec-title"><span class="ic">📷</span>墨尔本旅行记录</div>
+    <a class="day-link" href="../records-melbourne.html">
+      <div class="day-card">
+        <div class="num">📷</div>
+        <div class="info"><div class="t">墨尔本旅行记录</div><div class="d">10/1 起 · 实际行程 · 每天照片回顾</div></div>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <div class="sec-title"><span class="ic">🇸🇬</span>新加坡行程</div>
+    <a class="day-link" href="../day12-singapore.html">
+      <div class="day-card">
+        <div class="num rest">10.5</div>
+        <div class="info"><div class="t">墨尔本 → 新加坡</div><div class="d">TRS 退税 · 值机托运 · 樟宜落地与入境</div></div>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+    <a class="day-link" href="../day13-singapore-1006.html">
+      <div class="day-card">
+        <div class="num rest">10.6</div>
+        <div class="info"><div class="t">新加坡 Day 2 · 牛车水 + 夜游</div><div class="d">达士岭 50 楼 · 麦士威 · 甘榜格南 · 夜间野生动物园</div></div>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+    <a class="day-link" href="../day14-singapore-1007.html">
+      <div class="day-card">
+        <div class="num rest">10.7</div>
+        <div class="info"><div class="t">新加坡 Day 3 · 经典地标 + 滨海湾</div><div class="d">鱼尾狮 · 花穹云雾林 · OCBC · 超级树灯光秀</div></div>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+    <a class="day-link" href="../day15-singapore-1008.html">
+      <div class="day-card">
+        <div class="num rest">10.8</div>
+        <div class="info"><div class="t">新加坡 → 北京（离开日）</div><div class="d">退房 · T1 ECI 早值机 · 逛 Jewel · CA890 17:55 起飞</div></div>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <div class="sec-title"><span class="ic">📌</span>其他</div>
+    <a class="day-link" href="../day3-taronga.html">
+      <div class="day-card">
+        <div class="num rest">💊</div>
+        <div class="info"><div class="t">药妆采购备忘卡</div><div class="d">保健品 · 绵羊油 · 退税策略</div></div>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <div class="note">💡 每个攻略页都有可缩放的地图，点右上角「地图」可直接查看。票价、开放时间以当日官方为准。</div>
+
+    <button class="logout" onclick="lock()">退出（重新上锁）</button>
+    <div class="foot">Essie 的旅行手册 · 仅供家人查看</div>
+</div>
+
+</div>
+
+<script>
+  var PASSWORD = "lxjh2026";
+
+  function tryUnlock(){
+    var v = document.getElementById('pwd').value.trim();
+    if(v === PASSWORD){
+      sessionStorage.setItem('essie_unlocked', '1');
+      document.getElementById('gate').classList.remove('show');
+      document.getElementById('content').classList.add('show');
+      document.getElementById('err').classList.remove('show');
+    } else {
+      document.getElementById('err').classList.add('show');
+      document.getElementById('pwd').value = '';
+    }
+  }
+
+  function lock(){
+    sessionStorage.removeItem('essie_unlocked');
+    document.getElementById('content').classList.remove('show');
+    document.getElementById('gate').classList.add('show');
+  }
+
+  document.getElementById('pwd').addEventListener('keydown', function(e){
+    if(e.key === 'Enter') tryUnlock();
+  });
+
+  // 初始状态：已解锁则直接进，否则显示密码门
+  if(sessionStorage.getItem('essie_unlocked') === '1'){
+    document.getElementById('content').classList.add('show');
+  } else {
+    document.getElementById('gate').classList.add('show');
+  }
+</script>
+</body>
+</html>
