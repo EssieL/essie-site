@@ -54,6 +54,31 @@
   .card .meta .count{color:var(--sub);}
   .card .meta .go{color:var(--teal); font-weight:700; white-space:nowrap;}
 
+  /* 站内板块：两个分组，组内逐条列出 */
+  .board{background:var(--card); border:1px solid var(--line); border-radius:18px;
+    margin:0 24px 14px; padding:18px 18px 6px; box-shadow:0 2px 10px rgba(15,118,110,.05);}
+  .board-head{display:flex; align-items:center; gap:12px; padding-bottom:12px;
+    border-bottom:1px solid var(--line);}
+  .board-head .symbol{font-size:24px; line-height:1;}
+  .board-head h3{margin:0; font-size:18px; font-weight:800; color:var(--teal-d); flex:1;}
+  .board-head .bsub{font-size:12.5px; color:var(--sub);}
+  .board-head .tag{font-size:12px; font-weight:700; padding:4px 10px; border-radius:999px;
+    background:var(--soft); color:var(--teal-d); white-space:nowrap;}
+  .board-head .tag.locked{background:var(--amber-bg); color:var(--amber); border:1px solid var(--amber-bd);}
+  .items{display:flex; flex-direction:column;}
+  .item{display:flex; align-items:center; gap:14px; padding:14px 4px; text-decoration:none;
+    color:inherit; border-bottom:1px dashed var(--line);}
+  .item:last-child{border-bottom:0;}
+  .item .ic{width:34px; height:34px; flex:0 0 34px; border-radius:10px; background:var(--soft);
+    display:flex; align-items:center; justify-content:center; font-size:16px; color:var(--teal-d);}
+  .item .txt{flex:1; min-width:0;}
+  .item .txt b{display:block; font-size:15px; font-weight:750; color:var(--ink);}
+  .item .txt small{display:block; font-size:12.5px; color:var(--sub); margin-top:3px; line-height:1.6;}
+  .item .go{font-size:13px; font-weight:700; color:var(--teal); white-space:nowrap;}
+  .item:hover .go{text-decoration:underline;}
+  .item .go.lock{color:var(--amber);}
+  @media (max-width:620px){ .board{margin:0 14px 12px; padding:16px 14px 4px;} .item{gap:10px;} .board-head .bsub{display:none;} }
+
   .note{margin:26px 24px 0; padding:18px 20px; background:#eef4f4; border-radius:16px;
     font-size:13.5px; color:#475569; line-height:1.8;}
   .note b{color:var(--teal-d);}
@@ -72,36 +97,59 @@
     <div class="hero-inner">
       <p class="kicker">Essie · Personal Site</p>
       <h1>内容导航</h1>
-      <p class="sub">旅行记录与学习笔记，都从这里进入。</p>
+      <p class="sub">学习笔记与旅行记录，都从这里进入。</p>
       <span class="badge">持续整理中 · 无需密码</span>
     </div>
   </div>
 
   <h2 class="sec-title"><span class="ic">◈</span>站内板块</h2>
-  <div class="grid">
 
-    <a class="card" href="travel/">
-      <span class="tag locked">🔒 需密码</span>
-      <div class="symbol">🧳</div>
-      <h2>2026 澳新旅行手册</h2>
-      <p>给爸妈的每日行程、攻略与地图，覆盖悉尼、墨尔本与新加坡。点入后需输入密码查看。</p>
-      <div class="meta"><span class="count">15 天行程 · 家人私享</span><span class="go">输入密码进入 →</span></div>
-    </a>
-
-    <a class="card" href="learn/">
+  <section class="board">
+    <div class="board-head">
+      <span class="symbol">📚</span>
+      <h3>个人学习</h3>
+      <span class="bsub">先读，再整理</span>
       <span class="tag">开放浏览</span>
-      <div class="symbol">📚</div>
-      <h2>个人学习</h2>
-      <p>自体心理学系统阅读：书目精读、按章知识闪卡、知识图，以及可管理、编辑与自由组卡的统一闪卡空间。</p>
-      <div class="meta"><span class="count">1 个主题 · 444 张卡</span><span class="go">直接浏览 →</span></div>
-    </a>
+    </div>
+    <div class="items">
+      <a class="item" href="learn/">
+        <span class="ic">◈</span>
+        <span class="txt"><b>个人学习分站</b><small>自体心理学系统阅读：书目精读、12 章正文、按章闪卡与知识图。</small></span>
+        <span class="go">进入 →</span>
+      </a>
+      <a class="item" href="learn/self-psychology/xujun-intro/">
+        <span class="ic">▤</span>
+        <span class="txt"><b>《自体心理学入门》</b><small>徐钧 著 · 正文／闪卡／知识图三部分，全 12 章依次列出。</small></span>
+        <span class="go">进入 →</span>
+      </a>
+      <a class="item" href="learn/self-psychology/flashcards/">
+        <span class="ic">▣</span>
+        <span class="txt"><b>统一闪卡空间</b><small>444 张卡，可管理、编辑、勾选组卡；与按章闪卡页面双向同步。</small></span>
+        <span class="go">进入 →</span>
+      </a>
+    </div>
+  </section>
 
-  </div>
+  <section class="board">
+    <div class="board-head">
+      <span class="symbol">🧳</span>
+      <h3>旅行记录</h3>
+      <span class="bsub">家人私享</span>
+      <span class="tag locked">🔒 部分需密码</span>
+    </div>
+    <div class="items">
+      <a class="item" href="travel/">
+        <span class="ic">🗺</span>
+        <span class="txt"><b>2026 澳新旅行手册</b><small>给爸妈的每日行程、攻略与地图，覆盖悉尼、墨尔本与新加坡；点入后需输入密码。</small></span>
+        <span class="go lock">输入密码进入 →</span>
+      </a>
+    </div>
+  </section>
 
   <div class="note">
     <b>关于这个小站</b>
     <ul>
-      <li>首页是公开的内容导航，无需密码；只有进入「旅行手册」时才需要输入密码。</li>
+      <li>首页是公开的内容导航，无需密码；只有点进「旅行记录 → 2026 澳新旅行手册」时才需要输入密码。</li>
       <li>学习分站可直接浏览，闪卡的复习进度保存在本机浏览器里，换设备不会同步。</li>
       <li>内容均由个人阅读与出行笔记整理而成，仅供自己和家人自用。</li>
     </ul>
