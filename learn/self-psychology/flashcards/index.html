@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>闪卡空间 · 自体心理学</title>
+<link rel="stylesheet" href="../../assets/site.css">
+<script src="cards-data.js"></script>
+<script src="../assets/hub-store.js"></script>
+<style>
+  :root{ --red:#b4493f; --green:#2f7d6b; --amber:#b07b23; --blue:#3b6ea5; }
+  body{font-size:15px;}
+  .wrap{max-width:1080px;}
+  .hero .badge{margin-right:8px;}
+  .syncbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:#eef4f2;
+    border:1px solid #cfe4de;border-radius:12px;padding:10px 14px;margin:0 0 16px;font-size:12.5px;color:#3c5b55;}
+  .syncbar b{color:var(--teal-d);}
+  .syncbar .dot{width:8px;height:8px;border-radius:50%;background:#2f9e7b;display:inline-block;margin-right:6px;}
+  .statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px;margin:0 0 18px;}
+  .statbox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;}
+  .statbox .n{font-size:22px;font-weight:800;color:var(--teal-d);font-variant-numeric:tabular-nums;}
+  .statbox .l{font-size:11.5px;color:var(--sub);margin-top:2px;}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin:0 0 18px;}
+  .tabs button{border:1px solid transparent;border-bottom:none;background:none;color:var(--sub);
+    font-size:14px;font-weight:700;padding:9px 16px;border-radius:10px 10px 0 0;cursor:pointer;}
+  .tabs button.on{background:#fff;border-color:var(--line);color:var(--teal-d);}
+  .pane{display:none;} .pane.on{display:block;}
+
+  .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:#fff;
+    border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:12px;}
+  .filters select,.filters input{border:1px solid var(--line);border-radius:9px;padding:7px 9px;
+    font-size:13px;background:#fff;color:var(--ink);font-family:inherit;}
+  .filters input[type=search]{min-width:210px;flex:1;}
+  .filters .hint{font-size:12px;color:var(--sub);}
+  .toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 12px;}
+  .btn{font-size:13px;padding:8px 13px;border:1px solid var(--line);background:#fff;color:var(--ink);
+    border-radius:9px;cursor:pointer;font-family:inherit;}
+  .btn:hover{background:#f1efe8;}
+  .btn.primary{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:700;}
+  .btn.primary:hover{background:var(--teal-d);}
+  .btn.danger{color:var(--red);border-color:#e8cfcb;}
+  .btn.sm{font-size:12px;padding:5px 9px;}
+  .selcount{font-size:13px;color:var(--teal-d);font-weight:700;margin-left:auto;}
+
+  .list{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;}
+  .row{display:flex;gap:10px;align-items:flex-start;padding:10px 13px;border-bottom:1px solid #f0eee7;cursor:pointer;}
+  .row:last-child{border-bottom:none;}
+  .row:hover{background:#faf9f5;}
+  .row.sel{background:#f0f8f6;}
+  .row input{margin-top:4px;flex:0 0 auto;}
+  .row .body{flex:1;min-width:0;}
+  .row .q{font-size:13.5px;line-height:1.5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .row .meta{font-size:11.5px;color:var(--sub);margin-top:3px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+  .chip{display:inline-block;padding:1px 7px;border-radius:999px;font-size:11px;font-weight:700;
+    background:var(--soft);color:var(--teal-d);white-space:nowrap;}
+  .chip.ch1{background:#e8f0f8;color:#2f5f8f;} .chip.ch2{background:#f4ecf8;color:#6a4a8f;}
+  .chip.ch3{background:#eaf5ee;color:#2f6f4f;} .chip.intro{background:#fff4e2;color:#9a6b1f;}
+  .chip.st1{background:#fdeaea;color:#b4493f;} .chip.st2{background:#fff4e2;color:#a8791f;}
+  .chip.st3{background:#e7f5ee;color:#2f7d6b;} .chip.edit{background:#f0ecfa;color:#6a4a9f;}
+  .chip.custom{background:#e6f4f7;color:#2b6d7d;}
+  .detail{background:#fcfbf7;border-top:1px dashed var(--line);padding:14px 18px;font-size:13px;line-height:1.75;}
+  .detail h4{margin:0 0 8px;font-size:14px;color:var(--teal-d);}
+  .detail .kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:4px 18px;margin:8px 0 12px;}
+  .detail .kv div{color:var(--sub);font-size:12px;} .detail .kv b{color:var(--ink);font-weight:600;}
+  .detail .ans{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:8px 0;}
+  .detail ol{margin:4px 0 0 18px;padding:0;}
+  .pager{display:flex;gap:8px;align-items:center;justify-content:center;padding:14px;font-size:13px;color:var(--sub);}
+  .empty{padding:30px;text-align:center;color:var(--sub);font-size:13px;}
+
+  /* 学习区 */
+  .studybar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:#fff;
+    border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:14px;}
+  .studybar label{font-size:12.5px;color:var(--sub);}
+  .fc{background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px 26px 22px;
+    box-shadow:0 4px 20px rgba(15,118,110,.07);min-height:250px;}
+  .fc .src{font-size:11.5px;color:var(--sub);margin-bottom:12px;display:flex;flex-wrap:wrap;gap:7px;align-items:center;}
+  .fc .q{font-size:20px;font-weight:750;line-height:1.65;color:var(--ink);}
+  .fc .a{margin-top:16px;border-top:1px dashed var(--line);padding-top:14px;}
+  .fc .a li{font-size:15px;line-height:1.8;margin:0 0 6px;}
+  .fc .k{font-size:12.5px;color:var(--sub);margin-top:12px;}
+  .fc .mine{width:100%;min-height:92px;border:1px solid var(--line);border-radius:10px;padding:10px;
+    font:14px/1.7 inherit;font-family:inherit;margin-top:14px;resize:vertical;}
+  .fcnav{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin:14px 0;}
+  .ratebar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:6px 0 14px;}
+  .ratebar button{font-size:14px;font-weight:700;padding:10px 22px;border-radius:10px;border:1px solid var(--line);
+    background:#fff;cursor:pointer;font-family:inherit;}
+  .ratebar button.r1{color:#b4493f;border-color:#e8cfcb;} .ratebar button.r2{color:#a8791f;border-color:#ecd9ae;}
+  .ratebar button.r3{color:#2f7d6b;border-color:#bfe0d2;}
+  .ratebar button:hover{background:#f4f2ec;}
+  .progress{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--sub);margin:8px 0 16px;}
+  .track{flex:1;height:7px;background:#e9e7df;border-radius:99px;overflow:hidden;}
+  .track i{display:block;height:100%;background:var(--teal-l);width:0;}
+
+  /* 弹窗 */
+  .mask{display:none;position:fixed;inset:0;background:rgba(30,35,33,.45);z-index:1000;
+    align-items:center;justify-content:center;padding:20px;}
+  .mask.on{display:flex;}
+  .modal{background:#fff;border-radius:16px;max-width:640px;width:100%;max-height:88vh;overflow:auto;
+    padding:22px 24px;box-shadow:0 18px 60px rgba(0,0,0,.22);}
+  .modal h3{margin:0 0 14px;color:var(--teal-d);font-size:18px;}
+  .modal label{display:block;font-size:12.5px;color:var(--sub);margin:10px 0 4px;font-weight:600;}
+  .modal input,.modal textarea,.modal select{width:100%;border:1px solid var(--line);border-radius:9px;
+    padding:8px 10px;font:14px/1.6 inherit;font-family:inherit;color:var(--ink);}
+  .modal textarea{min-height:88px;resize:vertical;}
+  .modal .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px;}
+  .modal .acts{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;}
+  .note{font-size:13px;}
+  .note li{margin:5px 0;}
+  .datalist{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:12px 0;font-size:13px;}
+  .datalist .item{display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px dashed var(--line);}
+  .datalist .item:last-child{border-bottom:none;}
+  .datalist .item span{flex:1;}
+  footer a{margin-right:14px;}
+  @media (max-width:640px){
+    .hero h1{font-size:22px;} .fc{padding:18px;} .fc .q{font-size:17px;}
+    .modal .grid2{grid-template-columns:1fr;} .selcount{margin-left:0;width:100%;}
+  }
+  @media print{
+    .tabs,.filters,.toolbar,.pager,.hero,.syncbar,.studybar,.fcnav,.ratebar,.xjLearnBar,footer{display:none!important;}
+    .pane{display:none!important;} .pane.on{display:block!important;}
+    .row{break-inside:avoid;} .detail{display:none!important;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="crumb">
+    <a href="../../index.html">个人学习</a><span class="sep">›</span>
+    <a href="../index.html">自体心理学</a><span class="sep">›</span><span>闪卡空间</span>
+  </div>
+
+  <div class="hero">
+    <p class="kicker">FLASHCARD HUB · SELF PSYCHOLOGY</p>
+    <h1>闪卡空间</h1>
+    <p class="sub">徐钧《自体心理学入门》前三章的知识性闪卡，整合成一个可管理、可选择、可复习的库。</p>
+    <span class="badge" id="heroCount">444 张 · 31 模块</span>
+    <span class="badge">与按章页面双向同步</span>
+  </div>
+
+  <div class="syncbar">
+    <span><span class="dot"></span><b>同步状态</b>：本页与「第一章／第二章／第三章知识闪卡」共用一份浏览器存储，任一侧的复习、编辑、新增与删除都会同步到另一侧。</span>
+    <span id="syncInfo"></span>
+  </div>
+
+  <div class="statgrid" id="statgrid"></div>
+
+  <div class="tabs" id="tabs">
+    <button data-tab="library" class="on">卡片库</button>
+    <button data-tab="study">学习 / 复习</button>
+    <button data-tab="groups">我的卡组</button>
+    <button data-tab="data">数据管理</button>
+  </div>
+
+  <!-- ============ 卡片库 ============ -->
+  <div class="pane on" id="pane-library">
+    <div class="filters">
+      <select id="fCh"><option value="all">全部章节</option></select>
+      <select id="fMod"><option value="all">全部模块</option></select>
+      <select id="fType"><option value="all">全部类型</option><option value="q">题卡</option><option value="intro">案例情节卡</option></select>
+      <select id="fStatus"><option value="all">全部掌握度</option><option value="0">未评</option><option value="1">不会</option><option value="2">模糊</option><option value="3">记得</option></select>
+      <select id="fMark"><option value="all">全部来源标记</option><option value="edited">已编辑</option><option value="custom">自定义新增</option><option value="plain">原书基线</option></select>
+      <input type="search" id="fSearch" placeholder="搜索题干 / 答案 / 关键词 / 小节…">
+    </div>
+    <div class="toolbar">
+      <button class="btn sm" id="btnSelAll">全选当前筛选</button>
+      <button class="btn sm" id="btnSelInv">反选</button>
+      <button class="btn sm" id="btnSelNone">清空选择</button>
+      <button class="btn sm" id="btnSelChapter">按章全选</button>
+      <button class="btn sm primary" id="btnStudySel">学习选中的卡 →</button>
+      <button class="btn sm" id="btnSaveGroup">存为卡组</button>
+      <button class="btn sm" id="btnAdd">＋ 新增卡片</button>
+      <span class="selcount" id="selCount"></span>
+    </div>
+    <div class="list" id="list"></div>
+    <div class="pager" id="pager"></div>
+  </div>
+
+  <!-- ============ 学习 / 复习 ============ -->
+  <div class="pane" id="pane-study">
+    <div class="studybar">
+      <label>卡组来源</label>
+      <select id="sSource">
+        <option value="all">全部卡片</option>
+        <option value="filtered">当前筛选结果</option>
+        <option value="selected">已勾选的卡</option>
+        <option value="group">已保存的卡组</option>
+      </select>
+      <select id="sGroup" style="display:none"></select>
+      <label>顺序</label>
+      <select id="sOrder">
+        <option value="seq">原书顺序（推荐）</option>
+        <option value="weak">弱项优先</option>
+        <option value="status">按掌握度</option>
+        <option value="rand">随机</option>
+      </select>
+      <label>模式</label>
+      <select id="sMode"><option value="normal">正常翻卡</option><option value="recite">默写／背诵</option><option value="reverse">反向提问</option></select>
+      <label><input type="checkbox" id="sOnlyQ"> 仅题卡</label>
+      <button class="btn primary sm" id="btnBuild">生成卡组</button>
+    </div>
+    <div class="progress"><span id="studyProg">—</span><div class="track"><i id="studyBar"></i></div><span id="studyCount"></span></div>
+    <div class="fc" id="fc">
+      <div class="src" id="fcSrc"></div>
+      <div class="q" id="fcQ">点「生成卡组」开始学习。</div>
+      <div class="a" id="fcA" style="display:none"></div>
+      <textarea class="mine" id="fcMine" placeholder="先自己默写，再翻面对照…" style="display:none"></textarea>
+    </div>
+    <div class="fcnav">
+      <button class="btn" id="btnPrev">‹ 上一张</button>
+      <button class="btn primary" id="btnFlip">翻面看答案</button>
+      <button class="btn" id="btnNext">下一张 ›</button>
+    </div>
+    <div class="ratebar" id="ratebar">
+      <button class="r1" data-r="1">不会</button>
+      <button class="r2" data-r="2">模糊</button>
+      <button class="r3" data-r="3">记得</button>
+    </div>
+    <div class="note" id="studyHint"></div>
+  </div>
+
+  <!-- ============ 卡组 ============ -->
+  <div class="pane" id="pane-groups">
+    <div class="datalist" id="groupList"></div>
+    <div class="note">
+      <b>用法</b>：在「卡片库」勾选若干卡片后点「存为卡组」，之后在「学习 / 复习」里选择该卡组即可只学这部分。
+      卡组保存的是卡片 uid，编辑或新增卡片不会让卡组错位。
+    </div>
+  </div>
+
+  <!-- ============ 数据管理 ============ -->
+  <div class="pane" id="pane-data">
+    <div class="datalist">
+      <b>同步与存储</b>
+      <div id="storeInfo" style="margin-top:8px;color:var(--sub);font-size:12.5px;line-height:1.8"></div>
+    </div>
+    <div class="toolbar" style="margin-top:16px">
+      <button class="btn primary" id="btnExportJSON">导出完整备份（JSON）</button>
+      <button class="btn" id="btnExportCSV">导出当前筛选（CSV）</button>
+      <button class="btn" id="btnExportMD">导出当前筛选（Markdown）</button>
+      <button class="btn" id="btnPrint">打印当前列表</button>
+      <label class="btn" style="display:inline-block;cursor:pointer">导入备份<input type="file" id="fileImport" accept=".json,application/json" style="display:none"></label>
+    </div>
+    <div class="datalist">
+      <b>已删除的卡片</b><span style="color:var(--sub);font-size:12px">（软删除，可恢复）</span>
+      <div id="deletedList" style="margin-top:8px"></div>
+    </div>
+    <div class="toolbar" style="margin-top:16px">
+      <button class="btn danger" id="btnClearStatus">清除全部复习状态</button>
+      <button class="btn danger" id="btnResetEdits">撤销全部编辑 / 新增 / 删除</button>
+    </div>
+    <div class="note" style="margin-top:18px">
+      <b>说明与边界</b>
+      <ul>
+        <li>所有数据保存在<b>当前浏览器的 localStorage</b>，同一浏览器、同一设备上的四个页面共用；换设备、换浏览器或清理浏览器数据不会自动同步，请用上面的 JSON 备份迁移。</li>
+        <li>三套按章页面原有的复习进度会在首次打开任意接入页面时自动合并进来，按「章号｜题干指纹」对齐，不会串章。</li>
+        <li>编辑题干不会丢失该卡的复习记录（状态按稳定 uid 保存，不按题干重新计算）。</li>
+        <li>按章页面已打开时，复习状态会实时更新；若有编辑／新增／删除变动，页面右下角会提示刷新以同步内容。</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer><a href="../index.html">← 返回自体心理学</a><a href="../../index.html">个人学习</a><a href="../../../index.html">个人网站首页</a></footer>
+</div>
+
+<!-- ============ 编辑弹窗 ============ -->
+<div class="mask" id="mask">
+  <div class="modal">
+    <h3 id="edTitle">编辑卡片</h3>
+    <div id="edSource" style="font-size:12px;color:var(--sub);margin-bottom:8px"></div>
+    <label>题干 / 标题</label>
+    <input id="edQ" type="text">
+    <label>答案（每行一条）</label>
+    <textarea id="edA"></textarea>
+    <label>关键词（用、或逗号分隔）</label>
+    <input id="edK" type="text">
+    <div class="grid2">
+      <div><label>所属章节</label><select id="edCh"></select></div>
+      <div><label>知识模块</label><input id="edMod" type="text" list="modList"><datalist id="modList"></datalist></div>
+      <div><label>所在小节 / 来源</label><input id="edSrc" type="text"></div>
+      <div><label>卡片类型</label><select id="edType"><option value="题卡">题卡</option><option value="案例情节卡">案例情节卡</option></select></div>
+      <div><label>语境标签</label><input id="edCtx" type="text"></div>
+      <div><label>案例编号</label><input id="edCase" type="text"></div>
+    </div>
+    <label>后续提示（可选）</label>
+    <input id="edFollow" type="text">
+    <div class="acts">
+      <button class="btn danger" id="edDelete" style="margin-right:auto">删除此卡</button>
+      <button class="btn" id="edCancel">取消</button>
+      <button class="btn primary" id="edSave">保存</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ==================== 基础 ==================== */
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const META = window.HUB_META || {chapters:[],total:0,modules:0};
+Hub.init();
+
+const ST = {
+  selected: new Set(), page: 1, pageSize: 40, detail: null,
+  deck: [], pos: 0, flipped: false, editing: null, isNew: false,
+  mine: ''
+};
+
+function all(){ return Hub.allCards(); }
+function byUid(u){ return all().filter(c => c.uid === u)[0]; }
+function allMods(){
+  const out = [];
+  META.chapters.forEach(ch => ch.cats.forEach(c => out.push({k:c.k,label:c.label,ch:ch.n})));
+  /* 自定义模块 */
+  all().forEach(c => { if(!out.some(x => x.k === c.cat)) out.push({k:c.cat,label:c.module,ch:c.ch}); });
+  return out;
+}
+function modLabel(c){
+  const m = allMods().filter(x => x.k === c.cat)[0];
+  return m ? m.label : (c.module || c.cat);
+}
+function statusChip(v){
+  return v ? '<span class="chip st'+v+'">'+Hub.statusName(v)+'</span>' : '<span class="chip">未评</span>';
+}
+function chapterChip(ch){ return '<span class="chip ch'+ch+'">第'+ch+'章</span>'; }
+
+/* ==================== 筛选 ==================== */
+function filtered(){
+  const ch=$('fCh').value, mod=$('fMod').value, type=$('fType').value,
+        st=$('fStatus').value, mark=$('fMark').value,
+        kw=$('fSearch').value.trim().toLowerCase();
+  return all().filter(c => {
+    if(ch!=='all' && String(c.ch)!==ch) return false;
+    if(mod!=='all' && c.cat!==mod) return false;
+    if(type==='q' && c.intro) return false;
+    if(type==='intro' && !c.intro) return false;
+    if(st!=='all' && String(c.status||0)!==st) return false;
+    if(mark==='edited' && !c.edited) return false;
+    if(mark==='custom' && !c.custom) return false;
+    if(mark==='plain' && (c.edited || c.custom)) return false;
+    if(kw){
+      const hay=[c.q,(c.a||[]).join(' '),(c.k||[]).join(' '),c.src,c.module,c.ctx,c.id,c.uid]
+        .join(' ').toLowerCase();
+      if(hay.indexOf(kw)<0) return false;
+    }
+    return true;
+  });
+}
+
+function fillFilters(){
+  const chSel=$('fCh');
+  META.chapters.forEach(c=>{ const o=document.createElement('option'); o.value=String(c.n);
+    o.textContent='第'+c.n+'章 · '+c.title.replace(/^第.章\s*/,''); chSel.appendChild(o); });
+  refreshModOptions();
+  const dl=$('modList'); dl.innerHTML='';
+  allMods().forEach(m=>{const o=document.createElement('option');o.value=m.label;dl.appendChild(o);});
+  const edCh=$('edCh'); edCh.innerHTML='';
+  META.chapters.forEach(c=>{const o=document.createElement('option');o.value=String(c.n);o.textContent=c.title;edCh.appendChild(o);});
+}
+function refreshModOptions(){
+  const sel=$('fMod'), keep=sel.value; sel.innerHTML='<option value="all">全部模块</option>';
+  const ch=$('fCh').value;
+  allMods().filter(m=>ch==='all'||String(m.ch)===ch).forEach(m=>{
+    const o=document.createElement('option'); o.value=m.k; o.textContent=m.label; sel.appendChild(o);
+  });
+  if([...sel.options].some(o=>o.value===keep)) sel.value=keep; else sel.value='all';
+}
+
+/* ==================== 卡片库 ==================== */
+function renderStats(){
+  const a=all(), q=a.filter(c=>!c.intro), rated=q.filter(c=>(c.status||0)>0),
+        got=q.filter(c=>c.status===3), ed=a.filter(c=>c.edited), cu=a.filter(c=>c.custom),
+        del=(Hub.data().deleted||[]).length;
+  const boxes=[['卡片总数',a.length],['题卡',q.length],['案例情节卡',a.length-q.length],
+    ['已评',rated.length],['记得',got.length],['已编辑',ed.length],['自定义新增',cu.length],['已删除',del]];
+  $('statgrid').innerHTML=boxes.map(b=>'<div class="statbox"><div class="n">'+b[1]+'</div><div class="l">'+b[0]+'</div></div>').join('');
+  $('heroCount').textContent=a.length+' 张 · '+META.modules+' 模块';
+  const h=Hub.data();
+  $('syncInfo').textContent='最后更新：'+(h.updatedAt?new Date(h.updatedAt).toLocaleString('zh-CN'):'尚无记录')
+    +' ｜ 已迁移旧进度 '+(h.migrated||[]).length+'/3 套';
+}
+
+function detailHtml(c){
+  const kv=[
+    ['全库 uid',c.uid],['原卡号',c.id],['题干指纹 sid',c.sid],
+    ['书名',c.book],['章节',c.chapter],['原书页码',c.pages],['修复稿',c.sourceFile],
+    ['所在小节',c.sourceSection||c.src],['知识模块',modLabel(c)],['模块说明',c.moduleNote],
+    ['模块键',c.cat],['卡片类型',c.type],['语境标签',c.ctx||'—'],['案例编号',c.case||'—'],
+    ['后续提示',c.follow||'—'],['关联情节卡',(c.refs||[]).join('、')||'—'],
+    ['关联 uid',(c.refUids||[]).join('、')||'—'],['按章网页',c.web||'—'],
+    ['原进度键',c.legacyKey||'—'],['掌握度',Hub.statusName(c.status)],
+    ['编辑状态',c.custom?'自定义新增':(c.edited?'已编辑':'原书基线')]
+  ];
+  return '<h4>卡片全部信息 · '+esc(c.id)+'</h4><div class="kv">'
+    + kv.map(x=>'<div>'+esc(x[0])+'：<b>'+esc(x[1])+'</b></div>').join('')
+    + '</div><div class="ans"><b>题干</b><br>'+esc(c.q)
+    + '<br><br><b>答案</b><ol>'+(c.a||[]).map(x=>'<li>'+esc(x)+'</li>').join('')+'</ol></div>'
+    + '<div style="font-size:12.5px;color:var(--sub)"><b>关键词</b>：'+esc((c.k||[]).join('、'))+'</div>'
+    + '<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">'
+    + '<button class="btn sm primary" data-act="edit" data-u="'+esc(c.uid)+'">编辑此卡</button>'
+    + '<button class="btn sm" data-act="study1" data-u="'+esc(c.uid)+'">只学这张</button>'
+    + (c.custom||c.edited ? '<button class="btn sm" data-act="revert" data-u="'+esc(c.uid)+'">还原为基线</button>' : '')
+    + '</div>';
+}
+
+function renderList(){
+  const f=filtered(), pages=Math.max(1,Math.ceil(f.length/ST.pageSize));
+  if(ST.page>pages) ST.page=pages;
+  const start=(ST.page-1)*ST.pageSize, rows=f.slice(start,start+ST.pageSize);
+  const html=rows.map(c=>{
+    const open=ST.detail===c.uid;
+    return '<div class="row'+(ST.selected.has(c.uid)?' sel':'')+'" data-u="'+esc(c.uid)+'">'
+      + '<input type="checkbox" data-check="'+esc(c.uid)+'"'+(ST.selected.has(c.uid)?' checked':'')+'>'
+      + '<div class="body"><div class="q">'+esc(c.q)+'</div><div class="meta">'
+      + chapterChip(c.ch)+'<span class="chip">'+esc(modLabel(c))+'</span>'
+      + (c.intro?'<span class="chip intro">情节卡</span>':'')
+      + statusChip(c.status)
+      + (c.edited?'<span class="chip edit">已编辑</span>':'')
+      + (c.custom?'<span class="chip custom">自定义</span>':'')
+      + '<span>'+esc(c.id)+' · '+esc(c.pages)+' · '+esc(c.sourceSection||c.src)+'</span>'
+      + '</div></div></div>'
+      + (open?'<div class="detail" id="detailBox">'+detailHtml(c)+'</div>':'');
+  }).join('');
+  $('list').innerHTML = rows.length ? html : '<div class="empty">没有符合条件的卡片，试试放宽筛选。</div>';
+  $('pager').innerHTML = '第 '+ST.page+' / '+pages+' 页 · 共 '+f.length+' 张'
+    + ' <button class="btn sm" data-pg="prev"'+(ST.page<=1?' disabled':'')+'>‹ 上一页</button>'
+    + ' <button class="btn sm" data-pg="next"'+(ST.page>=pages?' disabled':'')+'>下一页 ›</button>';
+  $('selCount').textContent='当前筛选 '+f.length+' 张 · 已勾选 '+ST.selected.size+' 张';
+  renderStats();
+}
+
+/* ==================== 学习 / 复习 ==================== */
+function refreshGroupSelect(){
+  const g=Hub.data().groups||{}, sel=$('sGroup');
+  sel.innerHTML='';
+  const names=Object.keys(g);
+  if(!names.length){const o=document.createElement('option');o.value='';o.textContent='（暂无卡组）';sel.appendChild(o);}
+  names.forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n+'（'+g[n].length+' 张）';sel.appendChild(o);});
+  $('sGroup').style.display=$('sSource').value==='group'?'':'none';
+}
+
+function buildDeck(){
+  let pool;
+  const src=$('sSource').value;
+  if(src==='filtered') pool=filtered().slice();
+  else if(src==='selected') pool=all().filter(c=>ST.selected.has(c.uid));
+  else if(src==='group'){
+    const g=(Hub.data().groups||{})[$('sGroup').value]||[];
+    pool=all().filter(c=>g.indexOf(c.uid)>=0);
+  } else pool=all().slice();
+
+  if($('sOnlyQ').checked) pool=pool.filter(c=>!c.intro);
+  if(!pool.length){ ST.deck=[]; ST.pos=0; $('fcQ').textContent='这个卡组里没有卡片，请换一个来源或调整筛选。';
+    $('fcA').style.display='none'; $('fcSrc').innerHTML=''; $('studyProg').textContent='—'; return; }
+
+  const order=$('sOrder').value;
+  if(order==='rand') pool.sort(()=>Math.random()-.5);
+  else if(order==='weak') pool.sort((a,b)=>{
+    const w=v=>v===0?1.5:v; return w(a.status||0)-w(b.status||0)||Math.random()-.5; });
+  else if(order==='status') pool.sort((a,b)=>(a.status||0)-(b.status||0));
+  /* seq 保持全库原始顺序（章 → 模块 → 卡序） */
+
+  /* 案例情节卡锚定：只在该案例题卡首次出现前插入一次，其余顺序全局去重 */
+  const intros=pool.filter(c=>c.intro), questions=pool.filter(c=>!c.intro);
+  let out;
+  if(order==='seq' && !$('sOnlyQ').checked){
+    const byUid={}; all().forEach(c=>byUid[c.uid]=c);
+    out=[]; const used=new Set();
+    questions.forEach(c=>{
+      (c.refUids||[]).forEach(u=>{
+        if(!used.has(u) && byUid[u] && byUid[u].intro && pool.some(x=>x.uid===u)){
+          used.add(u); out.push(byUid[u]);
+        }
+      });
+      out.push(c);
+    });
+    intros.forEach(c=>{ if(!used.has(c.uid)) out.push(c); });
+  } else out=pool;
+
+  ST.deck=out; ST.pos=0; ST.flipped=false; ST.mine='';
+  showCard();
+}
+
+function showCard(){
+  const c=ST.deck[ST.pos];
+  if(!c){ $('fcQ').textContent='卡组为空。'; return; }
+  ST.flipped=false;
+  const mode=$('sMode').value;
+  const front=mode==='reverse' ? (c.a||[]).join('　／　') : c.q;
+  const back=mode==='reverse' ? c.q : (c.a||[]);
+  $('fcSrc').innerHTML=chapterChip(c.ch)+'<span class="chip">'+esc(modLabel(c))+'</span>'
+    + (c.intro?'<span class="chip intro">案例情节卡 · 无需自评</span>':'')
+    + statusChip(c.status)
+    + '<span>'+esc(c.book)+' · '+esc(c.pages)+' · '+esc(c.sourceSection||c.src)+' · '+esc(c.id)+'</span>';
+  $('fcQ').textContent=front;
+  $('fcA').innerHTML='<ol>'+(Array.isArray(back)?back:[back]).map(x=>'<li>'+esc(x)+'</li>').join('')+'</ol>'
+    + '<div class="k"><b>关键词</b>：'+esc((c.k||[]).join('、'))
+    + (c.ctx?'<br><b>语境</b>：'+esc(c.ctx):'')
+    + (c.follow?'<br><b>后续</b>：'+esc(c.follow):'')
+    + '<br><b>来源</b>：'+esc(c.book)+' · '+esc(c.chapter)+' · '+esc(c.pages)+' · '+esc(c.sourceSection||c.src)
+    + ' · 模块「'+esc(modLabel(c))+'」 · '+esc(c.uid)+'</div>';
+  $('fcA').style.display='none';
+  $('fcMine').style.display=mode==='recite'?'':'none';
+  $('fcMine').value=ST.mine;
+  $('btnFlip').textContent='翻面看答案';
+  const q=ST.deck.filter(x=>!x.intro);
+  const done=q.filter(x=>(x.status||0)>0).length, got=q.filter(x=>x.status===3).length;
+  $('studyProg').textContent='第 '+(ST.pos+1)+' / '+ST.deck.length+' 张 ｜ 已评 '+done+'/'+q.length+' ｜ 记得 '+got;
+  $('studyBar').style.width=(q.length?done/q.length*100:0)+'%';
+  $('studyCount').textContent='含情节卡 '+ST.deck.filter(x=>x.intro).length+' 张';
+  $('studyHint').textContent=c.intro
+    ? '案例情节卡用于先读背景，不参与自评；点「下一张」继续。'
+    : '空格／点击卡面翻面，← → 翻页，1 / 2 / 3 快速自评。';
+}
+
+function flip(){
+  if(!ST.deck.length) return;
+  ST.flipped=!ST.flipped;
+  $('fcA').style.display=ST.flipped?'':'none';
+  $('btnFlip').textContent=ST.flipped?'收起答案':'翻面看答案';
+}
+function go(d){
+  if(!ST.deck.length) return;
+  ST.mine=$('fcMine').value;
+  ST.pos=(ST.pos+d+ST.deck.length)%ST.deck.length;
+  ST.mine=''; showCard();
+}
+function rate(v){
+  const c=ST.deck[ST.pos]; if(!c||c.intro) return;
+  Hub.setStatus(c.uid,v);
+  c.status=v;
+  ST.deck.forEach(x=>{ if(x.uid===c.uid) x.status=v; });
+  showCard();
+  go(1);
+}
+
+/* ==================== 编辑 ==================== */
+function openEditor(uid,isNew){
+  ST.editing=uid; ST.isNew=!!isNew;
+  const c=isNew?null:byUid(uid);
+  $('edTitle').textContent=isNew?'新增卡片':'编辑卡片';
+  $('edSource').textContent=c
+    ? '知识来源：'+c.book+' · '+c.chapter+' · '+c.pages+' ｜ uid '+c.uid+'（复习记录按 uid 保留）'
+    : '新增卡将出现在所选章节的按章闪卡网页中，与全库同步。';
+  $('edQ').value=c?c.q:''; $('edA').value=c?(c.a||[]).join('\n'):'';
+  $('edK').value=c?(c.k||[]).join('、'):'';
+  $('edCh').value=String(c?c.ch:1);
+  /* uid 与章节绑定，已有卡不换章；新增卡可选归属章节 */
+  $('edCh').disabled=!isNew;
+  $('edMod').value=c?modLabel(c):'';
+  $('edSrc').value=c?(c.sourceSection||c.src):'';
+  $('edType').value=c?c.type:'题卡';
+  $('edCtx').value=c?(c.ctx||''):''; $('edCase').value=c?(c.case||''):'';
+  $('edFollow').value=c?(c.follow||''):'';
+  $('edDelete').style.display=isNew?'none':'';
+  $('mask').classList.add('on');
+}
+function closeEditor(){ $('mask').classList.remove('on'); ST.editing=null; }
+
+function saveEditor(){
+  const q=$('edQ').value.trim();
+  if(!q){ alert('题干不能为空'); return; }
+  const a=$('edA').value.split('\n').map(x=>x.trim()).filter(Boolean);
+  if(!a.length){ alert('答案至少写一条'); return; }
+  const k=$('edK').value.split(/[、,，;；]/).map(x=>x.trim()).filter(Boolean);
+  const ch=Number($('edCh').value)||1;
+  const modText=$('edMod').value.trim()||'自定义';
+  const mods=allMods(), m=mods.filter(x=>x.label===modText&&x.ch===ch)[0];
+  const cat=m?m.k:'custom_'+modText.replace(/[^\w\u4e00-\u9fa5]/g,'').slice(0,8);
+  const type=$('edType').value;
+  const patch={q:q,a:a,k:k,ch:ch,cat:cat,module:modText,src:$('edSrc').value.trim(),
+    sourceSection:$('edSrc').value.trim(),type:type,intro:type==='案例情节卡'?1:0,
+    ctx:$('edCtx').value.trim(),case:$('edCase').value.trim(),follow:$('edFollow').value.trim()};
+  if(ST.isNew){
+    const meta=(META.chapters||[]).filter(x=>x.n===ch)[0]||{};
+    Hub.addCustom(Object.assign({},patch,{
+      chapter:meta.title||'',pages:meta.pages||'',sourceFile:meta.sourceFile||'',
+      web:meta.web||'',legacyKey:meta.legacy||'',moduleNote:'自定义卡片'
+    }));
+  } else {
+    Hub.setEdit(ST.editing,patch);
+  }
+  closeEditor();
+  ST.page=1; renderAll();
+}
+
+/* ==================== 导出 / 导入 ==================== */
+function download(name,text,type){
+  const b=new Blob([text],{type:type||'text/plain;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=name;
+  document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);
+}
+function csvCell(v){ return '"'+String(v==null?'':v).replace(/"/g,'""')+'"'; }
+function exportCSV(){
+  const head=['uid','章','章名','页码','所在小节','模块','原卡号','类型','题干','答案','关键词','语境','案例','关联情节卡','掌握度','编辑状态'];
+  const rows=filtered().map(c=>[c.uid,c.ch,c.chapter,c.pages,c.sourceSection||c.src,modLabel(c),c.id,c.type,
+    c.q,(c.a||[]).join(' / '),(c.k||[]).join('、'),c.ctx,c.case,(c.refs||[]).join('、'),
+    Hub.statusName(c.status),c.custom?'自定义':(c.edited?'已编辑':'基线')]);
+  download('闪卡空间_当前筛选.csv','\ufeff'+[head].concat(rows).map(r=>r.map(csvCell).join(',')).join('\n'),'text/csv;charset=utf-8');
+}
+function exportMD(){
+  const f=filtered(), L=['# 闪卡空间 · 当前筛选导出','','> '+META.book+' 前三章 ｜ 共 '+f.length+' 张 ｜ 导出 '+new Date().toLocaleString('zh-CN'),''];
+  let ch=0,mod='';
+  f.forEach(c=>{
+    if(c.ch!==ch){ch=c.ch;mod='';L.push('','## 第'+ch+'章 '+c.chapter+'（'+c.pages+'）','');}
+    if(modLabel(c)!==mod){mod=modLabel(c);L.push('','### '+mod,'');}
+    L.push('#### '+c.id+' · '+c.type+' · '+Hub.statusName(c.status));
+    L.push('','- 来源：'+c.book+' ｜ '+c.pages+' ｜ '+(c.sourceSection||c.src)+' ｜ uid `'+c.uid+'`');
+    if(c.ctx)L.push('- 语境：'+c.ctx);
+    L.push('- 题干：'+c.q,'- 答案：'+(c.a||[]).join('　／　'),'- 关键词：'+(c.k||[]).join('、'),'');
+  });
+  download('闪卡空间_当前筛选.md',L.join('\n'),'text/markdown;charset=utf-8');
+}
+
+/* ==================== 卡组 / 数据管理 ==================== */
+function renderGroups(){
+  const g=Hub.data().groups||{}, names=Object.keys(g);
+  $('groupList').innerHTML=names.length?names.map(n=>
+    '<div class="item"><b>'+esc(n)+'</b><span>'+g[n].length+' 张 · '+esc(g[n].slice(0,3).join('、'))+(g[n].length>3?' …':'')+'</span>'
+    +'<button class="btn sm primary" data-gstudy="'+esc(n)+'">学习</button>'
+    +'<button class="btn sm danger" data-gdel="'+esc(n)+'">删除</button></div>').join('')
+    : '<div style="color:var(--sub);font-size:13px;padding:8px 0">还没有卡组。到「卡片库」勾选卡片后点「存为卡组」。</div>';
+  refreshGroupSelect();
+}
+function renderData(){
+  const h=Hub.data();
+  $('storeInfo').innerHTML='共享存储键：<code>'+Hub.KEY+'</code><br>'
+    +'复习状态 '+Object.keys(h.status||{}).length+' 条 ｜ 编辑覆盖 '+Object.keys(h.edits||{}).length
+    +' 张 ｜ 自定义新增 '+(h.custom||[]).length+' 张 ｜ 软删除 '+(h.deleted||[]).length+' 张 ｜ 卡组 '+Object.keys(h.groups||{}).length+' 个<br>'
+    +'旧进度迁移：'+(h.migrated||[]).map(x=>esc(x)).join('、')||'尚未迁移'
+    +'<br>最后更新：'+(h.updatedAt?esc(new Date(h.updatedAt).toLocaleString('zh-CN')):'—');
+  const del=h.deleted||[];
+  $('deletedList').innerHTML=del.length?del.map(u=>{
+    const c=byUid(u), base=(window.HUB_CARDS||[]).filter(x=>x.uid===u)[0];
+    const tag=c||base;
+    return '<div class="item"><span>'+esc(tag?tag.q:u)+' <code>'+esc(u)+'</code></span>'
+      +'<button class="btn sm" data-restore="'+esc(u)+'">恢复</button></div>';
+  }).join(''):'<div style="color:var(--sub);font-size:12.5px">暂无删除记录。</div>';
+}
+
+/* ==================== 渲染总入口 ==================== */
+function renderAll(){
+  renderList(); renderGroups(); renderData();
+}
+
+/* ==================== 事件 ==================== */
+$('tabs').onclick=e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  [...$('tabs').children].forEach(x=>x.classList.toggle('on',x===b));
+  ['library','study','groups','data'].forEach(t=>$('pane-'+t).classList.toggle('on',t===b.dataset.tab));
+};
+['fCh','fMod','fType','fStatus','fMark'].forEach(id=>$(id).onchange=()=>{
+  if(id==='fCh')refreshModOptions(); ST.page=1; renderList();
+});
+$('fSearch').oninput=()=>{ST.page=1;renderList();};
+$('list').onclick=e=>{
+  const chk=e.target.closest('[data-check]');
+  if(chk){ const u=chk.dataset.check; chk.checked?ST.selected.add(u):ST.selected.delete(u);
+    renderList(); return; }
+  const act=e.target.closest('[data-act]');
+  if(act){
+    const u=act.dataset.u;
+    if(act.dataset.act==='edit') openEditor(u,false);
+    else if(act.dataset.act==='study1'){ ST.selected=new Set([u]); $('sSource').value='selected';
+      $('tabs').querySelector('[data-tab=study]').click(); buildDeck(); }
+    else if(act.dataset.act==='revert'){
+      if(confirm('把这张卡还原为原书基线？自定义卡将被删除。')){
+        const c=byUid(u); if(c&&c.custom) Hub.remove(u);
+        else { Hub.data().edits && delete Hub.data().edits[u]; Hub.save(); }
+        ST.detail=null; renderAll();
+      }
+    }
+    return;
+  }
+  const pg=e.target.closest('[data-pg]');
+  if(pg){ ST.page+=pg.dataset.pg==='next'?1:-1; renderList(); return; }
+  const row=e.target.closest('.row');
+  if(row){ ST.detail=ST.detail===row.dataset.u?null:row.dataset.u; renderList(); }
+};
+$('btnSelAll').onclick=()=>{filtered().forEach(c=>ST.selected.add(c.uid));renderList();};
+$('btnSelInv').onclick=()=>{const f=filtered();f.forEach(c=>ST.selected.has(c.uid)?ST.selected.delete(c.uid):ST.selected.add(c.uid));renderList();};
+$('btnSelNone').onclick=()=>{ST.selected.clear();renderList();};
+$('btnSelChapter').onclick=()=>{
+  const ch=$('fCh').value;
+  if(ch==='all'){alert('请先在「全部章节」里选好某一章，再点按章全选。');return;}
+  all().filter(c=>String(c.ch)===ch).forEach(c=>ST.selected.add(c.uid));renderList();
+};
+$('btnStudySel').onclick=()=>{
+  if(!ST.selected.size){alert('请先勾选要学习的卡片。');return;}
+  $('sSource').value='selected'; $('tabs').querySelector('[data-tab=study]').click(); buildDeck();
+};
+$('btnSaveGroup').onclick=()=>{
+  if(!ST.selected.size){alert('请先勾选卡片。');return;}
+  const n=prompt('给这个卡组起个名字：','我的卡组 '+(Object.keys(Hub.data().groups||{}).length+1));
+  if(!n)return;
+  Hub.saveGroup(n.trim(),[...ST.selected]); renderGroups();
+  alert('已保存「'+n.trim()+'」共 '+ST.selected.size+' 张，可在「学习 / 复习」里选用。');
+};
+$('btnAdd').onclick=()=>openEditor(null,true);
+
+$('sSource').onchange=refreshGroupSelect;
+$('btnBuild').onclick=buildDeck;
+$('btnFlip').onclick=flip;
+$('btnPrev').onclick=()=>go(-1);
+$('btnNext').onclick=()=>go(1);
+$('fc').onclick=e=>{ if(e.target.id!=='fcMine' && !e.target.closest('button')) flip(); };
+$('ratebar').onclick=e=>{const b=e.target.closest('[data-r]');if(b)rate(+b.dataset.r);};
+document.addEventListener('keydown',e=>{
+  if($('mask').classList.contains('on'))return;
+  const tag=(e.target&&e.target.tagName)||'';
+  if(['INPUT','TEXTAREA','SELECT'].indexOf(tag)>=0)return;
+  if(!document.getElementById('pane-study').classList.contains('on'))return;
+  if(e.code==='Space'){e.preventDefault();flip();}
+  else if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}
+  else if(e.key==='ArrowRight'){e.preventDefault();go(1);}
+  else if(['1','2','3'].indexOf(e.key)>=0)rate(+e.key);
+});
+
+$('groupList').onclick=e=>{
+  const s=e.target.closest('[data-gstudy]');
+  if(s){ $('sSource').value='group'; refreshGroupSelect(); $('sGroup').value=s.dataset.gstudy;
+    $('tabs').querySelector('[data-tab=study]').click(); buildDeck(); return; }
+  const d=e.target.closest('[data-gdel]');
+  if(d && confirm('删除卡组「'+d.dataset.gdel+'」？卡片本身不受影响。')){Hub.deleteGroup(d.dataset.gdel);renderGroups();}
+};
+$('deletedList').onclick=e=>{
+  const r=e.target.closest('[data-restore]');
+  if(r){Hub.restore(r.dataset.restore);renderAll();}
+};
+
+$('edCancel').onclick=closeEditor;
+$('edSave').onclick=saveEditor;
+$('edDelete').onclick=()=>{
+  if(!ST.editing)return;
+  if(confirm('删除这张卡？（软删除，可在「数据管理」恢复）')){
+    Hub.remove(ST.editing); ST.selected.delete(ST.editing); ST.detail=null; closeEditor(); renderAll();
+  }
+};
+$('mask').onclick=e=>{if(e.target===$('mask'))closeEditor();};
+
+$('btnExportJSON').onclick=()=>download('闪卡空间_完整备份.json',Hub.exportAll(),'application/json;charset=utf-8');
+$('btnExportCSV').onclick=exportCSV;
+$('btnExportMD').onclick=exportMD;
+$('btnPrint').onclick=()=>{ $('tabs').querySelector('[data-tab=library]').click(); window.print(); };
+$('fileImport').onchange=e=>{
+  const f=e.target.files[0]; if(!f)return;
+  if(!confirm('导入备份会覆盖当前浏览器的复习状态、编辑与卡组，确定继续？')){e.target.value='';return;}
+  const r=new FileReader();
+  r.onload=()=>{ try{ Hub.importAll(r.result); alert('导入成功，页面将刷新。'); location.reload(); }
+    catch(err){ alert('导入失败：'+err.message); } };
+  r.readAsText(f); e.target.value='';
+};
+$('btnClearStatus').onclick=()=>{
+  if(confirm('清除全部 444 张卡的自评记录？此操作会同步到三套按章页面。')){Hub.clearStatus();renderAll();}
+};
+$('btnResetEdits').onclick=()=>{
+  if(confirm('撤销全部编辑、删除自定义新增卡、恢复所有已删除卡？复习状态会保留。')){Hub.resetEdits();renderAll();}
+};
+
+/* 另一标签页（按章页面）的复习/编辑变动实时反映 */
+window.addEventListener('hubchange',()=>{
+  if($('mask').classList.contains('on'))return;
+  renderAll();
+});
+
+/* ==================== 启动 ==================== */
+fillFilters();
+renderAll();
+$('sSource').onchange();
+buildDeck();
+</script>
+</body>
+</html>
