@@ -1,0 +1,76 @@
+/* 个人学习分站点 · 共享样式（与主站 teal 主色一致，学习页用暖米白底） */
+:root{
+  --teal:#0f766e; --teal-d:#115e59; --teal-l:#14b8a6;
+  --ink:#25262b; --sub:#6f716c; --line:#e3e1d8;
+  --bg:#f6f5f1; --card:#fff; --soft:#eef4f2; --amber:#b45309;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0; padding:0;}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--bg); color:var(--ink); line-height:1.65; font-size:16px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:860px; margin:0 auto; padding:0 18px 64px;}
+
+/* 面包屑 */
+.crumb{display:flex; flex-wrap:wrap; align-items:center; gap:6px; padding:16px 0 4px;
+  font-size:12.5px; color:var(--sub);}
+.crumb a{color:var(--teal-d); text-decoration:none;}
+.crumb a:hover{text-decoration:underline;}
+.crumb .sep{color:#b9b7ae;}
+
+/* Hero */
+.hero{background:linear-gradient(135deg,var(--teal-d),var(--teal-l)); color:#fff;
+  border-radius:18px; padding:26px 24px 24px; margin:10px 0 22px;
+  box-shadow:0 4px 18px rgba(15,118,110,.14);}
+.hero .kicker{font-size:12px; letter-spacing:2px; opacity:.85; margin:0 0 10px;}
+.hero h1{margin:0 0 8px; font-size:27px; font-weight:800; letter-spacing:.5px; line-height:1.35;}
+.hero .sub{margin:0; font-size:14px; opacity:.94;}
+.hero .badge{display:inline-block; margin-top:14px; padding:5px 13px; border-radius:999px;
+  background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.38);
+  font-size:12.5px; font-weight:600;}
+
+/* 区块 */
+.sec{margin:26px 0 0;}
+.sec-title{display:flex; align-items:center; gap:9px; font-size:18px; font-weight:800;
+  color:var(--teal-d); margin:0 0 14px;}
+.sec-title .ic{width:26px; height:26px; border-radius:8px; background:var(--soft);
+  color:var(--teal); display:flex; align-items:center; justify-content:center; font-size:14px;}
+
+/* 卡片网格 */
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:14px;}
+.card{background:var(--card); border:1px solid var(--line); border-radius:16px;
+  padding:18px 18px 16px; box-shadow:0 1px 3px rgba(15,118,110,.05);
+  display:flex; flex-direction:column; min-height:150px;
+  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;}
+a.card{text-decoration:none; color:inherit;}
+a.card:hover{transform:translateY(-2px); box-shadow:0 6px 20px rgba(15,118,110,.12);
+  border-color:var(--teal-l);}
+.card .tag{align-self:flex-start; font-size:11.5px; font-weight:700; letter-spacing:.5px;
+  color:var(--teal-d); background:var(--soft); border-radius:999px; padding:3px 10px; margin-bottom:10px;}
+.card h3{margin:0 0 7px; font-size:17px; font-weight:750; line-height:1.4;}
+.card p{margin:0 0 12px; font-size:13.5px; color:var(--sub); flex:1; line-height:1.6;}
+.card .meta{font-size:12px; color:var(--sub); border-top:1px dashed var(--line); padding-top:10px;
+  display:flex; justify-content:space-between; align-items:center; gap:8px;}
+.card .meta .go{color:var(--teal-d); font-weight:700; white-space:nowrap;}
+.card .meta .num{font-variant-numeric:tabular-nums;}
+
+/* 说明块 */
+.note{background:#fffdf7; border:1px solid #f0e6cf; border-left:4px solid #e6b45c;
+  border-radius:12px; padding:14px 16px; font-size:13.5px; color:#5c5344; margin-top:26px;}
+.note b{color:var(--amber);}
+.note ul{margin:8px 0 0; padding-left:20px;}
+.note li{margin:4px 0;}
+
+footer{margin-top:36px; padding-top:16px; border-top:1px solid var(--line);
+  font-size:12.5px; color:var(--sub); display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between;}
+footer a{color:var(--teal-d); text-decoration:none;}
+
+@media (max-width:600px){
+  .wrap{padding:0 14px 48px;}
+  .hero{padding:22px 18px 20px; border-radius:15px;}
+  .hero h1{font-size:23px;}
+  .grid{grid-template-columns:1fr; gap:12px;}
+  .card{min-height:0;}
+}

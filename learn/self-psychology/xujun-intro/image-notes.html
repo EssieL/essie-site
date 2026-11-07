@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>徐钧《自体心理学入门》· 图片笔记播放</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f6f5f1; color: #2c2c2a; }
+  header { padding: 14px 20px; border-bottom: 1px solid #e3e1d8; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  header h1 { font-size: 15px; font-weight: 600; margin: 0; }
+  header .sub { font-size: 12px; color: #888780; }
+  .stage { position: absolute; top: 52px; bottom: 112px; left: 0; right: 0; display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .stage img { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 2px 18px rgba(0,0,0,.12); border-radius: 8px; background: #fff; }
+  .bar { position: fixed; bottom: 56px; left: 0; right: 0; display: flex; align-items: center; justify-content: center; gap: 12px; padding: 8px; }
+  .bar button { font-size: 13px; padding: 8px 14px; border: 1px solid #d3d1c7; background: #fff; border-radius: 8px; cursor: pointer; color: #2c2c2a; }
+  .bar button:hover { background: #f1efe8; }
+  .bar .meta { font-size: 13px; color: #5f5e5a; min-width: 280px; text-align: center; }
+  .thumbs { position: fixed; bottom: 0; left: 0; right: 0; height: 56px; display: flex; gap: 8px; align-items: center; padding: 6px 12px; overflow-x: auto; background: #fff; border-top: 1px solid #e3e1d8; }
+  .thumbs img { height: 44px; border-radius: 4px; cursor: pointer; opacity: .55; border: 2px solid transparent; }
+  .thumbs img.active { opacity: 1; border-color: #378add; }
+  .chap { display: flex; gap: 6px; }
+  .chap button { font-size: 11px; padding: 4px 9px; border: 1px solid #d3d1c7; background: #fff; border-radius: 7px; cursor: pointer; color: #5f5e5a; }
+  .chap button:hover { background: #f1efe8; }
+
+/* === 个人学习分站 · 顶部返回条（部署时注入，打印时隐藏） === */
+.xjLearnBar{background:#115e59;color:#fff;padding:7px 16px;display:flex;gap:7px;
+  flex-wrap:wrap;align-items:center;font:12.5px/1.5 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  position:relative;z-index:99}
+.xjLearnBar a{color:#d9f4ee;text-decoration:none;white-space:nowrap}
+.xjLearnBar a:hover{text-decoration:underline}
+.xjLearnBar .xjSep{opacity:.55}
+.xjLearnBar .xjHere{opacity:.8;white-space:nowrap}
+@media print{.xjLearnBar{display:none!important}}
+/* 顶部返回条占位后，图片舞台下移 */
+.xjLearnBar ~ .stage, .stage{top:88px !important;}
+/* 页头在窄／中等宽度下不挤压章节按钮 */
+header{flex-wrap:wrap}
+.chap{flex:0 0 auto; display:flex; gap:6px}
+.chap button{white-space:nowrap}
+@media (max-width:1180px){ header .sub{display:none} }
+
+</style>
+</head>
+<body>
+<div class="xjLearnBar" role="navigation"><a href="../../index.html">个人学习</a><span class="xjSep">›</span><a href="../index.html">自体心理学</a><span class="xjSep">›</span><a href="index.html">《自体心理学入门》</a><span class="xjSep">›</span><span class="xjHere">知识图 · 图片笔记播放</span></div>
+<header>
+  <h1>徐钧《自体心理学入门》· 图片笔记</h1>
+  <span class="sub">第一章 6 张 + 第二章 5 张 + 第三章 7 张 · 共 18 张 · ← → 翻页，或点「播放」自动轮播</span>
+  <span class="chap" id="chap"><button data-n="0">第一章</button><button data-n="6">第二章</button><button data-n="11">第三章</button></span>
+</header>
+<div class="stage"><img id="slide" alt="图片笔记"></div>
+<div class="bar">
+  <button id="prev">‹ 上一张</button>
+  <span class="meta" id="meta"></span>
+  <button id="play">▶ 播放</button>
+  <button id="next">下一张 ›</button>
+</div>
+<div class="thumbs" id="thumbs"></div>
+<script>
+const data = [
+  {f: "notes/full/n01.jpg", s: "notes/thumb/t01.jpg", t: "【第一章】01 · 弗洛伊德的三个核心概念"},
+  {f: "notes/full/n02.jpg", s: "notes/thumb/t02.jpg", t: "【第一章】02 · 精神分析有哪些学派"},
+  {f: "notes/full/n03.jpg", s: "notes/thumb/t03.jpg", t: "【第一章】03 · 科胡特：从维也纳到芝加哥"},
+  {f: "notes/full/n04.jpg", s: "notes/thumb/t04.jpg", t: "【第一章】04 · 先倾听，再理论"},
+  {f: "notes/full/n05.jpg", s: "notes/thumb/t05.jpg", t: "【第一章】附图 · 精神分析主要学派发展树（箭头修正版）"},
+  {f: "notes/full/n06.jpg", s: "notes/thumb/t06.jpg", t: "【第一章】当代发展 · Sketchnote 05"},
+  {f: "notes/full/n07.jpg", s: "notes/thumb/t07.jpg", t: "【第二章】01 · 精神现实与成熟的道德主义"},
+  {f: "notes/full/n08.jpg", s: "notes/thumb/t08.jpg", t: "【第二章】02 · 共情是什么：巴施的故事"},
+  {f: "notes/full/n09.jpg", s: "notes/thumb/t09.jpg", t: "【第二章】03 · 两种共情，别搞混"},
+  {f: "notes/full/n10.jpg", s: "notes/thumb/t10.jpg", t: "【第二章】04 · 内省-共情的四个关键点"},
+  {f: "notes/full/n11.jpg", s: "notes/thumb/t11.jpg", t: "【第二章】05 · 表象之下：理解的内涵"},
+  {f: "notes/full/n12.jpg", s: "notes/thumb/t12.jpg", t: "【第三章】01 · 自我 ego 与自体 self"},
+  {f: "notes/full/n13.jpg", s: "notes/thumb/t13.jpg", t: "【第三章】02 · 同一个现象，两种看法"},
+  {f: "notes/full/n14.jpg", s: "notes/thumb/t14.jpg", t: "【第三章】03 · 当分析变成顺从"},
+  {f: "notes/full/n15.jpg", s: "notes/thumb/t15.jpg", t: "【第三章】04 · 健康的自体长什么样"},
+  {f: "notes/full/n16.jpg", s: "notes/thumb/t16.jpg", t: "【第三章】05 · 比自体更重要：自体客体"},
+  {f: "notes/full/n17.jpg", s: "notes/thumb/t17.jpg", t: "【第三章】06 · 自体客体经验：无处不在"},
+  {f: "notes/full/n18.jpg", s: "notes/thumb/t18.jpg", t: "【第三章】07 · 蜕变性内化：长成自己的力量"}
+];
+let i = 0, timer = null;
+const slide = document.getElementById('slide');
+const meta = document.getElementById('meta');
+const thumbs = document.getElementById('thumbs');
+const playBtn = document.getElementById('play');
+data.forEach((d, idx) => {
+  const im = new Image();
+  im.src = encodeURI(d.s || d.f);   // 缩略图用小图，主舞台才加载原图
+  im.loading = 'lazy';
+  im.decoding = 'async';
+  im.title = d.t;
+  im.onclick = () => show(idx);
+  thumbs.appendChild(im);
+});
+function show(n) {
+  i = (n + data.length) % data.length;
+  slide.src = encodeURI(data[i].f);
+  meta.textContent = (i + 1) + " / " + data.length + "　" + data[i].t;
+  Array.prototype.forEach.call(thumbs.children, (c, k) => c.classList.toggle('active', k === i));
+}
+document.getElementById('prev').onclick = () => show(i - 1);
+document.getElementById('next').onclick = () => show(i + 1);
+playBtn.onclick = () => {
+  if (timer) { clearInterval(timer); timer = null; playBtn.textContent = "▶ 播放"; }
+  else { playBtn.textContent = "⏸ 暂停"; timer = setInterval(() => show(i + 1), 4000); }
+};
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') show(i - 1);
+  if (e.key === 'ArrowRight') show(i + 1);
+  if (e.key === ' ') { e.preventDefault(); playBtn.onclick(); }
+});
+document.getElementById('chap').onclick = e => {
+  const b = e.target.closest('button');
+  if (b) show(+b.dataset.n);
+};
+show(0);
+</script>
+</body>
+</html>

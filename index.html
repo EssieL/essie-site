@@ -252,7 +252,27 @@
 
     <button class="logout" onclick="lock()">退出（重新上锁）</button>
     <div class="foot">Essie 的旅行手册 · 仅供家人查看</div>
-  </div>
+  
+<!-- === 个人学习分站入口（2026-11-07 追加；自包含样式，不改动原有结构与脚本） === -->
+<style>
+  #xjLearnEntry{max-width:480px;margin:18px auto 34px;padding:0 14px;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;}
+  #xjLearnEntry .card{display:block;text-decoration:none;background:#fff;border:1px solid #e2e8f0;border-left:4px solid #0f766e;border-radius:14px;padding:15px 16px;box-shadow:0 1px 3px rgba(15,118,110,.06);}
+  #xjLearnEntry .card:active{background:#eef4f2;}
+  #xjLearnEntry .k{font-size:11px;letter-spacing:1.5px;color:#0f766e;font-weight:700;margin:0 0 6px;}
+  #xjLearnEntry h2{font-size:17px;color:#115e59;font-weight:800;margin:0 0 5px;}
+  #xjLearnEntry p{font-size:13px;color:#64748b;line-height:1.6;margin:0 0 10px;}
+  #xjLearnEntry .go{font-size:13px;color:#0f766e;font-weight:700;}
+  @media print{#xjLearnEntry{display:none}}
+</style>
+<section id="xjLearnEntry">
+  <a class="card" href="learn/">
+    <p class="k">LEARNING SPACE</p>
+    <h2>个人学习</h2>
+    <p>自体心理学 ·《自体心理学入门》知识闪卡与知识图</p>
+    <span class="go">进入学习分站 →</span>
+  </a>
+</section>
+</div>
 
 </div>
 
