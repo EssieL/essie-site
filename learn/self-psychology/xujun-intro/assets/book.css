@@ -109,6 +109,26 @@ a.chrow:hover{transform:translateY(-2px); box-shadow:0 6px 18px rgba(15,118,110,
   background:var(--teal); color:#fff; text-decoration:none; font-size:13px; font-weight:700;}
 .np-empty a.ghost{background:#fff; color:var(--teal-d); border:1px solid var(--line);}
 
+/* ---------- 正文阅读区前端门禁（展示层，非服务端鉴权） ---------- */
+html.xj-locked body > .wrap{display:none !important;}
+#xjGate{display:none;}
+html.xj-locked #xjGate{display:flex; position:fixed; inset:0; z-index:999;
+  align-items:center; justify-content:center; padding:20px;
+  background:linear-gradient(135deg,#115e59,#14b8a6);}
+#xjGate .box{width:100%; max-width:360px; background:#fff; border-radius:18px;
+  padding:28px 24px; box-shadow:0 12px 40px rgba(0,0,0,.18); text-align:center;}
+#xjGate .lock{font-size:38px; line-height:1; display:block; margin-bottom:10px;}
+#xjGate h2{margin:0 0 6px; font-size:18px; color:var(--teal-d);}
+#xjGate p{margin:0 0 18px; font-size:13px; color:var(--sub); line-height:1.7;}
+#xjGate input{width:100%; padding:12px 14px; border:1.5px solid var(--line);
+  border-radius:12px; font-size:15px; outline:none;}
+#xjGate input:focus{border-color:var(--teal-l);}
+#xjGate button{margin-top:12px; width:100%; padding:12px; border:0; border-radius:12px;
+  background:var(--teal); color:#fff; font-size:14px; font-weight:700; cursor:pointer;}
+#xjGate button:active{background:var(--teal-d);}
+#xjGate .err{display:none; color:#dc2626; font-size:13px; margin-top:10px;}
+#xjGate .back{display:block; margin-top:16px; font-size:12.5px; color:var(--sub); text-decoration:none;}
+
 @media (max-width:700px){
   .chlist{grid-template-columns:1fr;}
   .article{padding:24px 20px 30px;}
