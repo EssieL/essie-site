@@ -170,8 +170,10 @@
     Object.keys(btns).forEach(function (pid) {
       var b = btns[pid];
       var n = notes.filter(function (x) { return x.pid === pid; }).length;
+      var isSec = !!(b.parentNode && b.parentNode.getAttribute('data-sec'));
       b.textContent = n ? '✎ ' + n : '✎';
-      b.className = 'ann-note-btn' + (n ? ' has' : '');
+      // 保留小节标题按钮的专用样式类，别在状态刷新时抹掉
+      b.className = 'ann-note-btn' + (isSec ? ' ann-note-btn-sec' : '') + (n ? ' has' : '');
     });
   }
 
