@@ -1,11 +1,16 @@
-/* 正文阅读区 · 前端展示层门禁
-   与 travel/index.html 使用同一个密码、同一个 sessionStorage 键（essie_unlocked），
-   因此同一标签页里解锁过旅行手册后，正文也直接放行；反之亦然。
+/* 站内通用展示层门禁（旅行手册除外）
+   用户 2026-11-08 要求：旅行手册密码保持原样；网站其它部分如需密码，
+   统一换成另一个。因此本站所有「非旅行」门禁共用下列一对常量：
+     PASSWORD     = esgrmima
+     SESSION_KEY  = essie_learn_unlocked
+   与 travel/index.html、rec-*.html、records-*.html 的密码及 essie_unlocked
+   完全隔离：解锁旅行不会放行正文，解锁正文也不会放行旅行。
+   日后站内其它区域新增门禁，请引用本文件（或复制这一对常量），勿另设密码。
    注意：纯静态站没有服务端鉴权，HTML 源码与公开仓库里仍含全文，
    此门禁只挡「随手点开」，不构成真正的访问控制。 */
 (function () {
-  var PASSWORD = 'lxjh2026';
-  var KEY = 'essie_unlocked';
+  var PASSWORD = 'esgrmima';
+  var SESSION_KEY = 'essie_learn_unlocked';
   var root = document.documentElement;
   if ((' ' + root.className + ' ').indexOf(' xj-locked ') < 0) return;
 
@@ -21,7 +26,7 @@
       input.select();
       return;
     }
-    try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+    try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (e) {}
     root.className = (' ' + root.className + ' ').replace(' xj-locked ', ' ').replace(/^\s+|\s+$/g, '');
   }
 
