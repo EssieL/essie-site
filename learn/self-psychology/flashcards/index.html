@@ -134,13 +134,13 @@
   <div class="hero">
     <p class="kicker">FLASHCARD HUB · SELF PSYCHOLOGY</p>
     <h1>闪卡空间</h1>
-    <p class="sub">徐钧《自体心理学入门》前三章的知识性闪卡，整合成一个可管理、可选择、可复习的库。</p>
-    <span class="badge" id="heroCount">444 张 · 31 模块</span>
+    <p class="sub">徐钧《自体心理学入门》前四章的知识性闪卡，整合成一个可管理、可选择、可复习的库。</p>
+    <span class="badge" id="heroCount">672 张 · 46 模块</span>
     <span class="badge">与按章页面双向同步</span>
   </div>
 
   <div class="syncbar">
-    <span><span class="dot"></span><b>同步状态</b>：本页与「第一章／第二章／第三章知识闪卡」共用一份浏览器存储，任一侧的复习、编辑、新增与删除都会同步到另一侧。</span>
+    <span><span class="dot"></span><b>同步状态</b>：本页与「第一章／第二章／第三章／第四章知识闪卡」共用一份浏览器存储，任一侧的复习、编辑、新增与删除都会同步到另一侧。</span>
     <span id="syncInfo"></span>
   </div>
 
@@ -253,8 +253,8 @@
     <div class="note" style="margin-top:18px">
       <b>说明与边界</b>
       <ul>
-        <li>所有数据保存在<b>当前浏览器的 localStorage</b>，同一浏览器、同一设备上的四个页面共用；换设备、换浏览器或清理浏览器数据不会自动同步，请用上面的 JSON 备份迁移。</li>
-        <li>三套按章页面原有的复习进度会在首次打开任意接入页面时自动合并进来，按「章号｜题干指纹」对齐，不会串章。</li>
+        <li>所有数据保存在<b>当前浏览器的 localStorage</b>，同一浏览器、同一设备上的五个页面共用；换设备、换浏览器或清理浏览器数据不会自动同步，请用上面的 JSON 备份迁移。</li>
+        <li>四套按章页面原有的复习进度会在首次打开任意接入页面时自动合并进来，按「章号｜题干指纹」对齐，不会串章。</li>
         <li>编辑题干不会丢失该卡的复习记录（状态按稳定 uid 保存，不按题干重新计算）。</li>
         <li>按章页面已打开时，复习状态会实时更新；若有编辑／新增／删除变动，页面右下角会提示刷新以同步内容。</li>
       </ul>
@@ -600,7 +600,7 @@ function exportCSV(){
   download('闪卡空间_当前筛选.csv','\ufeff'+[head].concat(rows).map(r=>r.map(csvCell).join(',')).join('\n'),'text/csv;charset=utf-8');
 }
 function exportMD(){
-  const f=filtered(), L=['# 闪卡空间 · 当前筛选导出','','> '+META.book+' 前三章 ｜ 共 '+f.length+' 张 ｜ 导出 '+new Date().toLocaleString('zh-CN'),''];
+  const f=filtered(), L=['# 闪卡空间 · 当前筛选导出','','> '+META.book+' 已收录 '+(META.chapters||[]).length+' 章 ｜ 共 '+f.length+' 张 ｜ 导出 '+new Date().toLocaleString('zh-CN'),''];
   let ch=0,mod='';
   f.forEach(c=>{
     if(c.ch!==ch){ch=c.ch;mod='';L.push('','## 第'+ch+'章 '+c.chapter+'（'+c.pages+'）','');}
@@ -752,7 +752,7 @@ $('fileImport').onchange=e=>{
   r.readAsText(f); e.target.value='';
 };
 $('btnClearStatus').onclick=()=>{
-  if(confirm('清除全部 444 张卡的自评记录？此操作会同步到三套按章页面。')){Hub.clearStatus();renderAll();}
+  if(confirm('清除全部 '+Hub.allCards().length+' 张卡的自评记录？此操作会同步到 '+(META.chapters||[]).length+' 套按章页面。')){Hub.clearStatus();renderAll();}
 };
 $('btnResetEdits').onclick=()=>{
   if(confirm('撤销全部编辑、删除自定义新增卡、恢复所有已删除卡？复习状态会保留。')){Hub.resetEdits();renderAll();}
