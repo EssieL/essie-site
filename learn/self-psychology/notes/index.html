@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>笔记管理 · 自体心理学 · 个人学习</title>
+<link rel="stylesheet" href="../../assets/site.css">
+<style>
+  .hero .badge{background:#e7f5f2; color:#0f766e;}
+  .tabs{display:flex; gap:8px; flex-wrap:wrap; margin:18px 0 14px;}
+  .tabs button{padding:9px 16px; border:1px solid var(--line); border-radius:10px;
+    background:#fff; color:var(--sub); font-size:13.5px; cursor:pointer; font-family:inherit;}
+  .tabs button.on{background:var(--teal); border-color:var(--teal); color:#fff; font-weight:700;}
+  .bar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; background:#f5f9f8;
+    border:1px solid var(--line); border-radius:12px; padding:11px 13px; margin-bottom:14px;}
+  .bar select,.bar input{padding:7px 10px; border:1px solid var(--line); border-radius:8px;
+    background:#fff; font-size:13px; font-family:inherit; color:var(--ink); outline:none;}
+  .bar input[type=text]{flex:1 1 190px; min-width:150px;}
+  .bar label{font-size:12.5px; color:var(--sub); display:flex; align-items:center; gap:5px;}
+  .bar .btn{padding:7px 13px; border:0; border-radius:8px; background:var(--teal);
+    color:#fff; font-size:13px; cursor:pointer; font-family:inherit; font-weight:700;}
+  .bar .btn.ghost{background:#fff; color:var(--teal-d); border:1px solid var(--line); font-weight:400;}
+  .stat{font-size:12.5px; color:var(--sub); margin:0 0 12px;}
+  .stat b{color:var(--teal-d);}
+  .list{display:flex; flex-direction:column; gap:10px;}
+  .item{background:var(--card); border:1px solid var(--line); border-radius:13px;
+    padding:13px 15px; box-shadow:0 1px 3px rgba(15,118,110,.05);}
+  .item.del{opacity:.6; background:#f7f7f6;}
+  .item .top{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:7px;}
+  .pill{font-size:11px; padding:2px 8px; border-radius:20px; background:#eef4f3; color:var(--teal-d);}
+  .pill.type{background:#e8f0fb; color:#35618f;}
+  .pill.src{background:#fff4dd; color:#96690d;}
+  .pill.tag{background:#f3eefb; color:#6c4a9c;}
+  .item .anchor{font-size:11.5px; color:var(--sub); margin-bottom:6px; line-height:1.6;}
+  .item .text{font-size:14px; line-height:1.85; color:var(--ink); white-space:pre-wrap; word-break:break-word;}
+  .item .quote{font-size:13.5px; line-height:1.8; color:#42544f; border-left:3px solid #ffe27a;
+    padding-left:10px; white-space:pre-wrap; word-break:break-word;}
+  .item .foot{display:flex; gap:8px; align-items:center; margin-top:10px; font-size:11.5px; color:var(--sub);}
+  .item .foot .sp{margin-left:auto;}
+  .item .foot button{padding:4px 10px; border:1px solid var(--line); background:#fff;
+    border-radius:7px; font-size:11.5px; color:var(--teal-d); cursor:pointer; font-family:inherit;}
+  .item .foot button.danger{color:#c0392b;}
+  .dot{display:inline-block; width:10px; height:10px; border-radius:50%;}
+  .empty{text-align:center; padding:38px 16px; color:var(--sub); font-size:13.5px; line-height:2;
+    background:#fff; border:1px dashed var(--line); border-radius:13px;}
+  .empty b{color:var(--teal-d);}
+  table{width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--line);
+    border-radius:12px; overflow:hidden; font-size:13px;}
+  th,td{padding:9px 12px; border-bottom:1px solid var(--line); text-align:left;}
+  th{background:#f3f8f7; color:var(--teal-d); font-weight:700;}
+  tr:last-child td{border-bottom:0;}
+  td a{color:var(--teal-d); text-decoration:none;}
+  .hint{font-size:12.5px; color:var(--sub); line-height:1.9; background:#f5f9f8;
+    border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:14px 0;}
+  .ops{display:flex; flex-wrap:wrap; gap:10px; margin:14px 0;}
+  .ops button{padding:9px 15px; border:1px solid var(--line); background:#fff; border-radius:9px;
+    font-size:13px; color:var(--teal-d); cursor:pointer; font-family:inherit;}
+  .ops button.warn{color:#c0392b;}
+  .pane{display:none;} .pane.on{display:block;}
+  .mask{display:none; position:fixed; inset:0; z-index:900; align-items:center; justify-content:center;
+    padding:20px; background:rgba(15,40,38,.42);}
+  .mask.show{display:flex;}
+  .dlg{width:100%; max-width:500px; max-height:88vh; overflow:auto; background:#fff;
+    border-radius:16px; padding:18px 20px; box-shadow:0 18px 50px rgba(0,0,0,.2);}
+  .dlg h3{margin:0 0 12px; font-size:16px; color:var(--teal-d);}
+  .dlg label{display:block; font-size:12px; color:var(--sub); margin:10px 0 4px;}
+  .dlg input,.dlg select,.dlg textarea{width:100%; padding:9px 11px; border:1px solid var(--line);
+    border-radius:9px; font-size:13.5px; font-family:inherit; outline:none;}
+  .dlg textarea{min-height:130px; line-height:1.8; resize:vertical;}
+  .dlg .row{display:flex; gap:10px;} .dlg .row>div{flex:1;}
+  .dlg .acts{display:flex; gap:9px; justify-content:flex-end; margin-top:16px;}
+  .dlg .acts button{padding:8px 16px; border-radius:9px; border:1px solid var(--line);
+    background:#fff; font-size:13px; cursor:pointer; font-family:inherit;}
+  .dlg .acts .ok{background:var(--teal); color:#fff; border-color:var(--teal); font-weight:700;}
+  @media(max-width:700px){ .bar input[type=text]{flex-basis:100%;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="crumb">
+    <a href="../../../index.html">个人网站</a><span class="sep">›</span>
+    <a href="../../index.html">个人学习</a><span class="sep">›</span>
+    <a href="../index.html">自体心理学</a><span class="sep">›</span><span>笔记管理</span>
+  </div>
+
+  <div class="hero">
+    <p class="kicker">CROSS-CHAPTER TOOL</p>
+    <h1>笔记管理</h1>
+    <p class="sub">把阅读《自体心理学入门》正文时写下的笔记与重点汇成一个库；与正文阅读页双向编辑。</p>
+    <span class="badge">空库启动 · 本地存储 · 双向同步 · 结构预留跨书目</span>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button data-tab="notes" class="on">笔记库</button>
+    <button data-tab="marks">重点标记</button>
+    <button data-tab="chapters">按章汇总</button>
+    <button data-tab="data">数据管理</button>
+  </div>
+
+  <div class="pane on" id="pane-notes">
+    <div class="bar">
+      <select id="fCh"><option value="all">全部章节</option></select>
+      <select id="fType"><option value="all">笔记＋重点</option><option value="note">仅笔记</option><option value="mark">仅重点</option></select>
+      <input type="text" id="fQ" placeholder="搜索正文、引用、锚点、标签…">
+      <label><input type="checkbox" id="fDel"> 含已删除</label>
+      <button class="btn" id="btnNew">＋ 新增笔记</button>
+    </div>
+    <p class="stat" id="stat"></p>
+    <div class="list" id="list"></div>
+  </div>
+
+  <div class="pane" id="pane-marks">
+    <div class="bar">
+      <select id="mCh"><option value="all">全部章节</option></select>
+      <select id="mColor"><option value="all">全部颜色</option><option value="y">黄</option><option value="g">绿</option><option value="b">蓝</option><option value="p">粉</option></select>
+      <input type="text" id="mQ" placeholder="搜索重点原文…">
+    </div>
+    <p class="stat" id="mStat"></p>
+    <div class="list" id="mList"></div>
+  </div>
+
+  <div class="pane" id="pane-chapters">
+    <div class="hint">按章查看批注分布；点章名可跳到该书正文阅读页（需输入正文密码）。此表随笔记与重点实时更新。</div>
+    <div id="chapTable"></div>
+    <div class="ops"><button id="btnMD">导出 Markdown（全部批注）</button></div>
+  </div>
+
+  <div class="pane" id="pane-data">
+    <div class="hint">
+      <b>存储边界</b>：批注只存在本机浏览器的 localStorage（同一浏览器同一设备），不上传、不跨设备。<br>
+      正文阅读页的写笔记／高亮、这里的编辑／新增／删除，都写同一份数据并实时互通；换设备或清缓存前请用「JSON 完整备份」迁移。<br>
+      当前只收《自体心理学入门》，数据已带 <code>book</code> 字段，日后可加入其它书目。
+    </div>
+    <div class="ops">
+      <button id="btnJSON">JSON 完整备份（下载）</button>
+      <button id="btnMD2">导出 Markdown</button>
+      <button id="btnImp">导入 JSON</button>
+      <button id="btnClear" class="warn">清空全部批注</button>
+      <input type="file" id="fileImp" accept=".json,application/json" style="display:none">
+    </div>
+    <p class="stat" id="dStat"></p>
+  </div>
+
+  <footer><a href="../index.html">← 返回自体心理学</a><a href="../../index.html">个人学习</a></footer>
+</div>
+
+<div class="mask" id="mask"><div class="dlg" id="dlg"></div></div>
+
+<script src="../assets/notes-store.js"></script>
+<script>
+(function () {
+  'use strict';
+  var H = window.NotesHub;
+  H.init();
+  var PAGES = {1:'003–021',2:'025–038',3:'041–061',4:'066–082',5:'085–102',6:'105–119',
+               7:'123–137',8:'141–150',9:'153–163',10:'167–180',11:'183–201',12:'205–218'};
+  var COLORS = {y:'#ffe27a',g:'#b7e6b0',b:'#b9dcf5',p:'#f7c2d9'};
+  var CNAME = {y:'黄',g:'绿',b:'蓝',p:'粉'};
+  var ST = { tab:'notes', editing:null, isNew:false, type:'note' };
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function cut(s,n){ s=String(s||''); return s.length>n?s.slice(0,n)+'…':s; }
+  function chapLabel(n){ return '第' + n + '章'; }
+  function time(s){ return String(s||'').replace('T',' ').slice(0,16); }
+  function selCh(el){
+    for(var n=1;n<=12;n++){ var o=document.createElement('option'); o.value=n; o.textContent=chapLabel(n); el.appendChild(o); }
+  }
+  selCh($('fCh')); selCh($('mCh'));
+
+  function rows(){
+    var arr = H.all(true);
+    var ch=$('fCh').value, ty=$('fType').value, q=$('fQ').value.trim().toLowerCase();
+    var showDel=$('fDel').checked;
+    return arr.filter(function(x){
+      if(!showDel && x.deleted) return false;
+      if(ch!=='all' && String(x.ch)!==ch) return false;
+      if(ty!=='all' && x.type!==ty) return false;
+      if(q){
+        var hay=[x.text,x.quote,x.preview,x.sec,x.pid,(x.tags||[]).join(' ')].join(' ').toLowerCase();
+        if(hay.indexOf(q)<0) return false;
+      }
+      return true;
+    });
+  }
+  function itemHTML(x){
+    var isNote=x.type==='note';
+    var body=isNote
+      ? '<div class="text">'+esc(x.text)+'</div>'
+      : '<div class="quote" style="border-left-color:'+(COLORS[x.color]||'#ffe27a')+'">'+esc(x.quote||'（无引用）')+'</div>';
+    var tags=(x.tags||[]).map(function(t){return '<span class="pill tag">'+esc(t)+'</span>';}).join('');
+    return '<div class="item'+(x.deleted?' del':'')+'">'+
+      '<div class="top">'+
+        '<span class="pill type">'+(isNote?'笔记':'重点')+'</span>'+
+        '<span class="pill">'+esc(chapLabel(x.ch))+' · pp.'+esc(PAGES[x.ch]||'')+'</span>'+
+        (x.sec?'<span class="pill src">'+esc(x.sec)+'</span>':'')+
+        (!isNote?'<span class="dot" style="background:'+(COLORS[x.color]||'#ffe27a')+'"></span><span class="pill">'+esc(CNAME[x.color]||'黄')+'</span>':'')+
+        tags+(x.deleted?'<span class="pill">已删除</span>':'')+
+      '</div>'+
+      (x.preview?'<div class="anchor">锚点：'+esc(x.preview)+'</div>':'')+
+      body+
+      '<div class="foot"><span>'+esc(cut(x.pid||'未定位段落',18))+' · '+esc(time(x.createdAt))+'</span>'+
+        '<span class="sp"></span>'+
+        '<button data-act="edit" data-uid="'+esc(x.uid)+'">编辑</button>'+
+        (!isNote?'<a href="../xujun-intro/text/ch'+x.ch+'.html#'+esc(x.pid)+'"><button data-act="noop">看原文</button></a>':'')+
+        (x.deleted
+          ? '<button data-act="restore" data-uid="'+esc(x.uid)+'">恢复</button>'
+          : '<button class="danger" data-act="del" data-uid="'+esc(x.uid)+'">删除</button>')+
+      '</div></div>';
+  }
+  function bindList(el){
+    Array.prototype.forEach.call(el.querySelectorAll('[data-act]'),function(b){
+      b.onclick=function(){
+        var a=b.getAttribute('data-act'), uid=b.getAttribute('data-uid');
+        if(a==='edit') openEditor(uid);
+        else if(a==='del'){ if(confirm('删除这条批注？可在「含已删除」中恢复。')) H.remove(uid); }
+        else if(a==='restore') H.restore(uid);
+      };
+    });
+  }
+  function renderNotes(){
+    var rs=rows();
+    $('stat').innerHTML='共 <b>'+rs.length+'</b> 条显示 · 全库 <b>'+H.counts().notes+'</b> 条笔记 / <b>'+H.counts().marks+'</b> 处重点 / <b>'+H.counts().deleted+'</b> 条已删除';
+    $('list').innerHTML = rs.length ? rs.map(itemHTML).join('')
+      : '<div class="empty"><b>这里还是空的</b><br>去<a href="../xujun-intro/text/">正文阅读页</a>选中文字高亮、点段落旁 ✎ 写笔记；<br>也可以点右上「＋ 新增笔记」直接建立条目。<br>已有的章节学习笔记 md 按你的选择<b>暂不导入</b>。</div>';
+    bindList($('list'));
+  }
+  function renderMarks(){
+    var ch=$('mCh').value, co=$('mColor').value, q=$('mQ').value.trim().toLowerCase();
+    var rs=H.allMarks().filter(function(x){
+      if(ch!=='all'&&String(x.ch)!==ch) return false;
+      if(co!=='all'&&x.color!==co) return false;
+      if(q&&String(x.quote||'').toLowerCase().indexOf(q)<0) return false;
+      return true;
+    });
+    $('mStat').innerHTML='共 <b>'+rs.length+'</b> 处重点';
+    $('mList').innerHTML=rs.length?rs.map(itemHTML).join('')
+      :'<div class="empty">还没有重点标记。<br>在正文阅读页选中一段文字，即可四色高亮。</div>';
+    bindList($('mList'));
+  }
+  function renderChapters(){
+    var ns=H.allNotes(), ms=H.allMarks();
+    var h='<table><thead><tr><th>章</th><th>页码</th><th>笔记</th><th>重点</th><th>正文</th></tr></thead><tbody>';
+    for(var n=1;n<=12;n++){
+      var a=ns.filter(function(x){return Number(x.ch)===n;}).length;
+      var b=ms.filter(function(x){return Number(x.ch)===n;}).length;
+      h+='<tr><td>'+chapLabel(n)+'</td><td>pp.'+PAGES[n]+'</td><td>'+a+'</td><td>'+b+'</td>'+
+         '<td><a href="../xujun-intro/text/ch'+n+'.html">阅读 →</a></td></tr>';
+    }
+    h+='</tbody></table>';
+    $('chapTable').innerHTML=h;
+  }
+  function renderData(){
+    var c=H.counts();
+    $('dStat').innerHTML='当前：<b>'+c.notes+'</b> 条笔记 · <b>'+c.marks+'</b> 处重点 · <b>'+c.deleted+'</b> 条已删除';
+  }
+  function render(){ renderNotes(); renderMarks(); renderChapters(); renderData(); }
+
+  /* ---------- 编辑 / 新增 ---------- */
+  function openEditor(uid){
+    var x = uid ? H.all(true).filter(function(a){return a.uid===uid;})[0] : null;
+    ST.editing = uid || ''; ST.isNew = !uid; ST.type = x ? x.type : 'note';
+    var isNote = ST.type==='note';
+    var opts='';
+    for(var n=1;n<=12;n++) opts+='<option value="'+n+'"'+((x?Number(x.ch):Number($('fCh').value)||1)===n?' selected':'')+'>'+chapLabel(n)+'</option>';
+    var copts='';
+    Object.keys(CNAME).forEach(function(k){
+      copts+='<option value="'+k+'"'+((x&&x.color===k)?' selected':'')+'>'+CNAME[k]+'</option>';
+    });
+    $('dlg').innerHTML=
+      '<h3>'+(uid?'编辑':'新增')+(isNote?'笔记':'重点')+'</h3>'+
+      '<div class="row"><div><label>章节</label><select id="edCh">'+opts+'</select></div>'+
+      '<div><label>小节</label><input id="edSec" value="'+esc(x?x.sec:'')+'" placeholder="如 s003"></div></div>'+
+      '<div class="row"><div><label>段落锚点</label><input id="edPid" value="'+esc(x?x.pid:'')+'" placeholder="如 p0023"></div>'+
+      '<div><label>颜色</label><select id="edColor">'+copts+'</select></div></div>'+
+      '<label>锚点摘要（显示在列表里）</label><input id="edPreview" value="'+esc(x?x.preview:'')+'" placeholder="该段开头 / 小节标题">'+
+      (isNote
+        ? '<label>笔记正文</label><textarea id="edText" placeholder="写下想法…">'+esc(x?x.text:'')+'</textarea>'+
+          '<label>标签（逗号分隔）</label><input id="edTags" value="'+esc(x?(x.tags||[]).join('，'):'')+'">'
+        : '<label>重点原文（只读）</label><textarea id="edQuote" readonly>'+esc(x?x.quote:'')+'</textarea>')+
+      '<div class="acts"><button id="edCancel">取消</button><button class="ok" id="edSave">保存</button></div>';
+    $('mask').classList.add('show');
+    $('edCancel').onclick=closeEditor;
+    $('edSave').onclick=saveEditor;
+  }
+  function closeEditor(){ $('mask').classList.remove('show'); ST.editing=null; }
+  function saveEditor(){
+    var patch={
+      book:H.BOOK, ch:Number($('edCh').value)||1, sec:$('edSec').value.trim(),
+      pid:$('edPid').value.trim(), preview:$('edPreview').value.trim(),
+      color:$('edColor').value, tags:$('edTags')?$('edTags').value.split(/[,，]/).map(function(s){return s.trim();}).filter(Boolean):[]
+    };
+    if(ST.type==='note'){
+      patch.text=$('edText').value.trim();
+      if(!patch.text){ alert('笔记正文不能为空'); return; }
+      if(ST.isNew) H.addNote(patch); else H.updateNote(ST.editing,patch);
+    } else {
+      if(ST.isNew) return;
+      patch.quote=$('edQuote').value;
+      H.updateMark(ST.editing,patch);
+    }
+    closeEditor();
+  }
+
+  /* ---------- 导出 / 导入 ---------- */
+  function download(name,text,type){
+    try{
+      var blob=new Blob([text],{type:type||'text/plain;charset=utf-8'});
+      var a=document.createElement('a');
+      a.href=URL.createObjectURL(blob); a.download=name;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
+    }catch(e){ alert('导出失败：'+e.message); }
+  }
+  function markdown(){
+    var ns=H.allNotes(), ms=H.allMarks();
+    var out=['# '+H.BOOK+' · 阅读批注','','导出时间：'+new Date().toLocaleString('zh-CN'),
+             '共 '+ns.length+' 条笔记 / '+ms.length+' 处重点',''];
+    for(var n=1;n<=12;n++){
+      var a=ns.filter(function(x){return Number(x.ch)===n;});
+      var b=ms.filter(function(x){return Number(x.ch)===n;});
+      if(!a.length&&!b.length) continue;
+      out.push('## 第'+n+'章（pp.'+PAGES[n]+'）','');
+      if(a.length){
+        out.push('### 笔记','');
+        a.forEach(function(x){
+          out.push('- **'+(x.pid||'未定位')+'**'+(x.sec?'〔'+x.sec+'〕':'')+(x.preview?' · '+x.preview:''));
+          out.push('  '+String(x.text||'').replace(/\n/g,'\n  '));
+          if((x.tags||[]).length) out.push('  标签：'+x.tags.join('、'));
+          out.push('');
+        });
+      }
+      if(b.length){
+        out.push('### 重点','');
+        b.forEach(function(x){
+          out.push('- ['+(CNAME[x.color]||'黄')+'] '+(x.pid||'未定位')+'「'+String(x.quote||'').replace(/\n/g,' ')+'」');
+        });
+        out.push('');
+      }
+    }
+    if(!ns.length&&!ms.length) out.push('（暂无批注）');
+    return out.join('\n');
+  }
+
+  /* ---------- 事件 ---------- */
+  $('tabs').onclick=function(e){
+    var b=e.target.closest ? e.target.closest('button[data-tab]') : null;
+    if(!b) return;
+    ST.tab=b.getAttribute('data-tab');
+    Array.prototype.forEach.call($('tabs').children,function(x){ x.classList.toggle('on',x===b); });
+    ['notes','marks','chapters','data'].forEach(function(k){ $('pane-'+k).classList.toggle('on',k===ST.tab); });
+  };
+  ['fCh','fType','fQ','fDel'].forEach(function(id){ $(id).addEventListener(id==='fQ'?'input':'change',renderNotes); });
+  ['mCh','mColor','mQ'].forEach(function(id){ $(id).addEventListener(id==='mQ'?'input':'change',renderMarks); });
+  $('btnNew').onclick=function(){ openEditor(''); };
+  $('btnMD').onclick=$('btnMD2').onclick=function(){ download('自体心理学入门_阅读批注.md',markdown(),'text/markdown;charset=utf-8'); };
+  $('btnJSON').onclick=function(){ download('自体心理学_笔记备份.json',H.exportAll(),'application/json'); };
+  $('btnImp').onclick=function(){ $('fileImp').click(); };
+  $('fileImp').onchange=function(e){
+    var f=e.target.files&&e.target.files[0]; if(!f) return;
+    var r=new FileReader();
+    r.onload=function(){
+      try{
+        var c=H.importAll(String(r.result),confirm('点「确定」＝与现有数据合并；点「取消」＝用备份替换全部现有数据。'));
+        alert('导入完成：'+c.notes+' 条笔记 / '+c.marks+' 处重点');
+      }catch(err){ alert('导入失败：'+err.message); }
+      $('fileImp').value='';
+    };
+    r.readAsText(f);
+  };
+  $('btnClear').onclick=function(){
+    if(!confirm('清空全部批注？此操作不可撤销，建议先做 JSON 备份。')) return;
+    if(!confirm('再确认一次：真的清空吗？')) return;
+    H.clearAll();
+  };
+  $('mask').onclick=function(e){ if(e.target===$('mask')) closeEditor(); };
+  window.addEventListener('noteschange',render);
+  render();
+})();
+</script>
+</body>
+</html>
