@@ -204,6 +204,41 @@ html.xj-locked #xjGate{display:flex; position:fixed; inset:0; z-index:999;
   cursor:pointer; border:1px solid #dfe7e5; background:#fff; color:#5b716e;}
 .ann-box-f button.primary{background:#0f766e; color:#fff; border-color:#0f766e; font-weight:700;}
 .ann-box-f button.danger{color:#c0392b; border-color:#f0cccc;}
+/* ---- 划线（句子级重点）与工具条分组 ---- */
+.ann-under{border-bottom:2px solid #e0b93f; padding-bottom:1px; border-radius:1px; cursor:pointer;}
+.ann-u-y{border-bottom-color:#e0b93f;}
+.ann-u-g{border-bottom-color:#68ad61;}
+.ann-u-b{border-bottom-color:#5b9fd4;}
+.ann-u-p{border-bottom-color:#d978a8;}
+.ann-under .ann-mark{border-radius:2px;}
+.ann-u-dot.ann-u-y{background:#e0b93f;}
+.ann-u-dot.ann-u-g{background:#68ad61;}
+.ann-u-dot.ann-u-b{background:#5b9fd4;}
+.ann-u-dot.ann-u-p{background:#d978a8;}
+
+.ann-grp{display:flex; align-items:center; gap:5px;}
+.ann-grp-lb{font-size:10.5px; color:#7b918e; white-space:nowrap; margin-right:2px;}
+.ann-sep{width:1px; height:20px; background:#e2eae8; margin:0 3px; flex:0 0 1px;}
+.ann-ucolor{border-radius:5px; width:21px; height:21px;}
+.ann-ucolor.ann-u-y{background:#ffe27a;}
+.ann-ucolor.ann-u-g{background:#b7e6b0;}
+.ann-ucolor.ann-u-b{background:#b9dcf5;}
+.ann-ucolor.ann-u-p{background:#f7c2d9;}
+.ann-primary{width:25px; height:25px; box-shadow:0 0 0 2px rgba(15,118,110,.28);}
+
+.ann-excerpt .ann-ex-txt{display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical;
+  overflow:hidden; font-size:12px; line-height:1.75; color:#334b48; word-break:break-word;}
+.ann-excerpt mark{border-radius:2px; padding:0 1px;}
+.ann-hl-n{font-size:10.5px; color:#0f766e; margin-top:2px;}
+
+.ann-quote-box{background:#f8fbfa; border-left:3px solid #0f766e; border-radius:0 8px 8px 0;
+  padding:10px 12px; max-height:220px; overflow:auto; font-size:13.5px; line-height:1.9;
+  white-space:pre-wrap; word-break:break-word; margin-bottom:6px;}
+.ann-quote-tip{font-size:11px; color:#8a9b98; line-height:1.7; margin-bottom:10px;}
+.ann-color-lb{display:flex; align-items:center; gap:8px; font-size:12px; color:#5b716e; margin-top:10px;}
+.ann-color-lb select{padding:6px 9px; border:1px solid #dfe7e5; border-radius:8px;
+  font-size:13px; font-family:inherit; outline:none;}
+
 @media (max-width:1000px){
   .ann-panel{width:220px; right:10px; top:80px;}
 }

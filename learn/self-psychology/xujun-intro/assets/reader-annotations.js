@@ -1,6 +1,7 @@
 /* 正文阅读页 · 批注层（运行时注入，不改动生成的正文文本）
-   选区多色高亮 + 段落笔记；锚定已有 p0001… / s001…
-   与 learn/self-psychology/notes/ 共用 NotesHub，双向编辑、跨标签同步。 */
+   层级：划线＝重点句（四色，默认优先）；高亮＝划线句内的词级重点（原四色，保留）。
+   笔记中，划线自动成为摘抄，摘抄里的高亮词被标记；摘抄由 NotesHub.excerpt() 实时合成。
+   段落笔记 + 划线想法 + 选区标注，全部与 learn/self-psychology/notes/ 共用同一份数据，双向编辑。 */
 (function () {
   'use strict';
   if (!window.NotesHub) return;
@@ -13,7 +14,7 @@
     { k: 'b', name: '蓝', c: '#b9dcf5' },
     { k: 'p', name: '粉', c: '#f7c2d9' }
   ];
-  var article, wrap, ch, pid2sec = {}, btns = {};
+  var article, wrap, ch, btns = {};
   var toolbar, panel, editor, editing = null;
 
   function el(tag, cls, txt) {
@@ -23,11 +24,12 @@
     return e;
   }
   function esc(s) {
-    return String(s || '').replace(/[&<>"']/g, function (c) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   }
   function cut(s, n) { s = String(s || ''); return s.length > n ? s.slice(0, n) + '…' : s; }
+  function last(a) { return a.length ? a[a.length - 1] : null; }
   function closestP(node) {
     while (node && node !== article) {
       if (node.nodeType === 1 && node.getAttribute && node.getAttribute('data-pid')) return node;
@@ -52,18 +54,21 @@
     return (secTitle ? '〔' + cut(secTitle, 16) + '〕' : '') + cut(p.textContent.trim(), 42);
   }
 
-  /* ---------- 高亮重绘 ---------- */
-  function clearMarks() {
-    var ms = article.querySelectorAll('mark[data-mid]');
-    for (var i = ms.length - 1; i >= 0; i--) {
-      var m = ms[i], parent = m.parentNode;
+  /* ---------- 标注重绘：按边界切分，划线包高亮，跨文本节点自动拆 ---------- */
+  function clearAnn() {
+    var els = article.querySelectorAll('[data-ann]');
+    for (var i = els.length - 1; i >= 0; i--) {
+      var x = els[i], parent = x.parentNode;
       if (!parent) continue;
-      while (m.firstChild) parent.insertBefore(m.firstChild, m);
-      parent.removeChild(m);
-      parent.normalize();
+      while (x.firstChild) parent.insertBefore(x.firstChild, x);
+      parent.removeChild(x);
     }
+    Array.prototype.forEach.call(article.querySelectorAll('[data-pid]'), function (p) {
+      if (p.normalize) p.normalize();
+    });
   }
-  function wrapRange(p, start, end, mid, color) {
+  function wrapSegments(p, segs) {
+    if (!segs.length) return;
     var tw = document.createTreeWalker(p, 4 /* SHOW_TEXT */, null, false);
     var items = [], pos = 0, node;
     while ((node = tw.nextNode())) {
@@ -72,34 +77,77 @@
       pos += len;
     }
     if (!pos) return;
-    for (var i = items.length - 1; i >= 0; i--) {
-      var it = items[i];
-      var a = Math.max(start, it.s), b = Math.min(end, it.e);
-      if (a >= b) continue;
-      var r = document.createRange();
-      r.setStart(it.node, a - it.s);
-      r.setEnd(it.node, b - it.s);
-      var mk = el('mark', 'ann-mark ann-' + color);
-      mk.setAttribute('data-mid', mid);
-      try { r.surroundContents(mk); }
-      catch (e) {
-        try { var frag = r.extractContents(); mk.appendChild(frag); r.insertNode(mk); }
-        catch (e2) {}
-      }
-    }
-  }
-  function paintMarks() {
-    clearMarks();
-    H.chapterMarks(ch).forEach(function (m) {
-      var p = article.querySelector('[data-pid="' + m.pid + '"]');
-      if (!p) return;
-      wrapRange(p, Number(m.start) || 0, Number(m.end) || 0, m.uid, m.color || 'y');
+    var ops = [];
+    segs.forEach(function (sg) {
+      items.forEach(function (it) {
+        var a = Math.max(sg.a, it.s), b = Math.min(sg.b, it.e);
+        if (a < b) ops.push({ node: it.node, a: a - it.s, b: b - it.s, abs: a, u: sg.u, m: sg.m });
+      });
     });
-    Array.prototype.forEach.call(article.querySelectorAll('mark[data-mid]'), function (m) {
+    ops.sort(function (x, y) { return y.abs - x.abs || y.a - x.a; });
+    ops.forEach(function (op) {
+      var r = document.createRange();
+      try { r.setStart(op.node, op.a); r.setEnd(op.node, op.b); }
+      catch (e) { return; }
+      var frag;
+      try { frag = r.extractContents(); } catch (e2) { return; }
+      var host = null;
+      if (op.m) {
+        host = el('mark', 'ann-mark ann-' + (op.m.color || 'y'));
+        host.setAttribute('data-ann', 'm');
+        host.setAttribute('data-mid', op.m.uid);
+      }
+      if (op.u) {
+        var sp = el('span', 'ann-under ann-u-' + (op.u.color || 'y'));
+        sp.setAttribute('data-ann', 'u');
+        sp.setAttribute('data-uid', op.u.uid);
+        if (host) { sp.appendChild(host); host.appendChild(frag); }
+        else sp.appendChild(frag);
+        host = sp;
+      } else if (host) host.appendChild(frag);
+      if (host) r.insertNode(host);
+    });
+  }
+  function paintAnn() {
+    clearAnn();
+    var groups = {};
+    function bucket(pid) { return groups[pid] || (groups[pid] = { u: [], m: [] }); }
+    H.chapterUnderlines(ch).forEach(function (u) { bucket(u.pid).u.push(u); });
+    H.chapterMarks(ch).forEach(function (m) { bucket(m.pid).m.push(m); });
+
+    Object.keys(groups).forEach(function (pid) {
+      var p = article.querySelector('[data-pid="' + pid + '"]');
+      if (!p) return;
+      var g = groups[pid], len = p.textContent.length, bounds = [0, len];
+      g.u.concat(g.m).forEach(function (x) {
+        [x.start, x.end].forEach(function (v) {
+          v = Math.max(0, Math.min(len, Number(v) || 0));
+          if (bounds.indexOf(v) < 0) bounds.push(v);
+        });
+      });
+      bounds.sort(function (a, b) { return a - b; });
+      var segs = [];
+      for (var i = 0; i < bounds.length - 1; i++) {
+        var a = bounds[i], b = bounds[i + 1];
+        if (a >= b) continue;
+        var covers = function (x) { return Number(x.start) <= a && Number(x.end) >= b; };
+        var u = last(g.u.filter(covers)), m = last(g.m.filter(covers));
+        if (!u && !m) continue;
+        segs.push({ a: a, b: b, u: u, m: m });
+      }
+      wrapSegments(p, segs);
+    });
+
+    Array.prototype.forEach.call(article.querySelectorAll('mark[data-ann="m"]'), function (m) {
       m.addEventListener('click', function (ev) {
         ev.stopPropagation();
-        var mid = m.getAttribute('data-mid');
-        if (window.confirm('移除这处高亮？')) H.remove(mid);
+        if (window.confirm('移除这处句内高亮？')) H.remove(m.getAttribute('data-mid'));
+      });
+    });
+    Array.prototype.forEach.call(article.querySelectorAll('span[data-ann="u"]'), function (s) {
+      s.addEventListener('click', function (ev) {
+        ev.stopPropagation();
+        if (window.confirm('移除这条划线？其句内高亮会保留，但不再属于摘抄。')) H.remove(s.getAttribute('data-uid'));
       });
     });
   }
@@ -142,10 +190,24 @@
   function paintPanel() {
     if (!panel) return;
     var body = panel.querySelector('.ann-body');
-    var notes = H.chapterNotes(ch), marks = H.chapterMarks(ch);
-    var html = '<div class="ann-stat">' + notes.length + ' 条笔记 · ' + marks.length + ' 处重点</div>';
-    if (!notes.length && !marks.length) {
-      html += '<p class="ann-empty">还没有批注。<br>选中文字可高亮，点段落右侧 ✎ 可写笔记。</p>';
+    var notes = H.chapterNotes(ch), us = H.chapterUnderlines(ch), ms = H.chapterMarks(ch);
+    var html = '<div class="ann-stat">' + notes.length + ' 条笔记 · ' + us.length +
+               ' 处划线 · ' + ms.length + ' 处句内高亮</div>';
+    if (!notes.length && !us.length && !ms.length) {
+      html += '<p class="ann-empty">还没有批注。<br>选中句子先<b>划线</b>（重点句，会自动摘抄），<br>再选中句中词汇<b>高亮</b>（句内重点）；<br>点段落右侧 ✎ 可写笔记。</p>';
+    }
+    if (us.length) {
+      html += '<div class="ann-h">划线摘抄（含高亮标记）</div>';
+      us.forEach(function (u) {
+        var ex = H.excerpt(u.uid);
+        html += '<div class="ann-item ann-excerpt" data-goto="' + esc(u.pid) + '" data-open="' + esc(u.uid) + '">' +
+          '<span class="ann-dot ann-u-dot ann-u-' + esc(u.color || 'y') + '"></span>' +
+          '<span class="ann-ex-txt">' + (ex ? ex.html : esc(cut(u.quote, 46))) + '</span>' +
+          (ex && ex.parts.filter(function (p) { return p.color; }).length
+            ? '<span class="ann-hl-n">含 ' + ex.parts.filter(function (p) { return p.color; }).length + ' 处句内重点</span>' : '') +
+          (u.note ? '<span class="ann-txt">💭 ' + esc(cut(u.note, 34)) + '</span>' : '') +
+          '</div>';
+      });
     }
     if (notes.length) {
       html += '<div class="ann-h">笔记</div>';
@@ -155,12 +217,13 @@
           '<span class="ann-txt">' + esc(cut(n.text, 60)) + '</span></div>';
       });
     }
-    if (marks.length) {
-      html += '<div class="ann-h">重点</div>';
-      marks.forEach(function (m) {
+    if (ms.length) {
+      html += '<div class="ann-h">句内高亮</div>';
+      ms.forEach(function (m) {
         html += '<div class="ann-item" data-goto="' + esc(m.pid) + '">' +
           '<span class="ann-dot ann-' + esc(m.color || 'y') + '"></span>' +
-          '<span class="ann-txt">' + esc(cut(m.quote, 46)) + '</span></div>';
+          '<span class="ann-txt">' + esc(cut(m.quote, 46)) + '</span>' +
+          (m.under ? '<span class="ann-src">隶属某条划线摘抄</span>' : '') + '</div>';
       });
     }
     body.innerHTML = html;
@@ -170,12 +233,15 @@
         var p = pid && article.querySelector('[data-pid="' + pid + '"]');
         if (p && p.scrollIntoView) p.scrollIntoView({ behavior: 'smooth', block: 'center' });
         var uid = it.getAttribute('data-open');
-        if (uid) openEditor(uid);
+        if (uid) {
+          if (it.classList.contains('ann-excerpt')) openUnderEditor(uid);
+          else openEditor(uid);
+        }
       };
     });
   }
 
-  /* ---------- 笔记编辑弹层 ---------- */
+  /* ---------- 弹层：段落笔记 / 划线想法 ---------- */
   function buildEditor() {
     editor = el('div', 'ann-editor');
     editor.id = 'annEditor';
@@ -199,7 +265,7 @@
       '<div class="ann-box-f">' +
       (n ? '<button type="button" id="annDel" class="danger">删除</button>' : '<span></span>') +
       '<button type="button" id="annSave" class="primary">保存</button></div></div>';
-    editor.classList.add('show');
+    showEditor();
     document.getElementById('annClose').onclick = closeEditor;
     document.getElementById('annSave').onclick = function () {
       var text = document.getElementById('annText').value.trim();
@@ -218,21 +284,72 @@
     var ta = document.getElementById('annText');
     if (ta.focus) ta.focus();
   }
+  function openUnderEditor(uid) {
+    var u = H.allUnderlines().filter(function (x) { return x.uid === uid; })[0];
+    if (!u) return;
+    var ex = H.excerpt(uid);
+    var opts = COLORS.map(function (c) {
+      return '<option value="' + c.k + '"' + (u.color === c.k ? ' selected' : '') + '>' + c.name + '</option>';
+    }).join('');
+    editor.innerHTML =
+      '<div class="ann-box"><div class="ann-box-h"><b>划线摘抄 · 我的想法</b>' +
+      '<button type="button" id="annClose">×</button></div>' +
+      '<div class="ann-anchor">第 ' + ch + ' 章 · ' + esc(cut(u.preview || u.pid, 30)) + '</div>' +
+      '<div class="ann-quote-box">' + (ex ? ex.html : esc(u.quote)) + '</div>' +
+      '<div class="ann-quote-tip">上为自动摘抄；句中的<b>底色词</b>是后来加的句内高亮，会随高亮增删自动变化。</div>' +
+      '<textarea id="annUnderNote" placeholder="针对这句摘抄写下想法…">' + esc(u.note || '') + '</textarea>' +
+      '<label class="ann-color-lb">划线颜色 <select id="annUnderColor">' + opts + '</select></label>' +
+      '<div class="ann-box-f">' +
+      '<button type="button" id="annDel" class="danger">删除划线</button>' +
+      '<button type="button" id="annSave" class="primary">保存</button></div></div>';
+    showEditor();
+    document.getElementById('annClose').onclick = closeEditor;
+    document.getElementById('annSave').onclick = function () {
+      H.updateUnderline(uid, {
+        note: document.getElementById('annUnderNote').value.trim(),
+        color: document.getElementById('annUnderColor').value
+      });
+      closeEditor();
+    };
+    document.getElementById('annDel').onclick = function () {
+      if (confirm('删除这条划线？摘抄会一并移除，句内高亮保留。')) { H.remove(uid); closeEditor(); }
+    };
+    var ta = document.getElementById('annUnderNote');
+    if (ta.focus) ta.focus();
+  }
+  function showEditor() { if (editor) editor.classList.add('show'); }
   function closeEditor() { if (editor) editor.classList.remove('show'); }
 
-  /* ---------- 选区工具条 ---------- */
+  /* ---------- 选区工具条：划线优先（主）+ 保留高亮（次） ---------- */
   function buildToolbar() {
     toolbar = el('div', 'ann-toolbar');
     toolbar.id = 'annToolbar';
+
+    var g1 = el('span', 'ann-grp');
+    g1.appendChild(el('span', 'ann-grp-lb', '划线 · 重点句'));
+    COLORS.forEach(function (c) {
+      var b = el('button', 'ann-color ann-ucolor ann-u-' + c.k + (c.k === 'y' ? ' ann-primary' : ''), '');
+      b.type = 'button'; b.title = '划线 · ' + c.name + '（重点句，自动摘抄）';
+      b.onclick = function () { addUnderline(c.k); };
+      g1.appendChild(b);
+    });
+    toolbar.appendChild(g1);
+    toolbar.appendChild(el('span', 'ann-sep'));
+
+    var g2 = el('span', 'ann-grp');
+    g2.appendChild(el('span', 'ann-grp-lb', '高亮 · 句内重点'));
     COLORS.forEach(function (c) {
       var b = el('button', 'ann-color ann-' + c.k, '');
-      b.type = 'button'; b.title = c.name;
+      b.type = 'button'; b.title = '高亮 · ' + c.name + '（句中的重点词）';
       b.onclick = function () { addHighlight(c.k); };
-      toolbar.appendChild(b);
+      g2.appendChild(b);
     });
+    toolbar.appendChild(g2);
+    toolbar.appendChild(el('span', 'ann-sep'));
+
     var clear = el('button', 'ann-clear', '清除本段');
-    clear.type = 'button';
-    clear.onclick = clearParagraphMarks;
+    clear.type = 'button'; clear.title = '清除本段全部划线与高亮';
+    clear.onclick = clearParagraphAnn;
     toolbar.appendChild(clear);
     var note = el('button', 'ann-addnote', '写笔记');
     note.type = 'button';
@@ -268,25 +385,45 @@
     toolbar.classList.add('show');
   }
   function hideToolbar() { if (toolbar) toolbar.classList.remove('show'); pendingSel = null; }
+  function clearSelection() {
+    try { window.getSelection().removeAllRanges(); } catch (e) {}
+    hideToolbar();
+  }
+  /* 划线：句子级重点；同时把范围内的已有高亮归属到这条摘抄 */
+  function addUnderline(color) {
+    var s = pendingSel || selectionInfo();
+    if (!s) return;
+    var p = s.p, pid = p.getAttribute('data-pid');
+    var u = H.addUnderline({ book: H.BOOK, ch: ch, sec: secOf(p), pid: pid,
+                             start: s.start, end: s.end, quote: s.quote, color: color,
+                             preview: previewOf(p, secOf(p)) });
+    H.chapterMarks(ch).forEach(function (m) {
+      if (m.pid === pid && !m.under &&
+          Number(m.start) >= s.start && Number(m.end) <= s.end) H.updateMark(m.uid, { under: u.uid });
+    });
+    clearSelection();
+  }
+  /* 高亮：句内重点；落在划线内则自动成为该句摘抄里的标记 */
   function addHighlight(color) {
     var s = pendingSel || selectionInfo();
     if (!s) return;
     var p = s.p, pid = p.getAttribute('data-pid');
     H.addMark({ book: H.BOOK, ch: ch, sec: secOf(p), pid: pid,
-                start: s.start, end: s.end, quote: s.quote, color: color });
-    try { window.getSelection().removeAllRanges(); } catch (e) {}
-    hideToolbar();
+                start: s.start, end: s.end, quote: s.quote, color: color,
+                under: H.findUnderline(ch, pid, s.start, s.end) });
+    clearSelection();
   }
-  function clearParagraphMarks() {
+  function clearParagraphAnn() {
     var s = pendingSel;
     if (!s) return;
     var pid = s.p.getAttribute('data-pid');
+    H.chapterUnderlines(ch).forEach(function (u) { if (u.pid === pid) H.remove(u.uid); });
     H.chapterMarks(ch).forEach(function (m) { if (m.pid === pid) H.remove(m.uid); });
     hideToolbar();
   }
 
   /* ---------- 初始化 ---------- */
-  function refresh() { paintMarks(); paintButtons(); paintPanel(); }
+  function refresh() { paintAnn(); paintButtons(); paintPanel(); }
 
   function boot() {
     article = document.querySelector('article.article');
@@ -296,7 +433,6 @@
 
     Array.prototype.forEach.call(article.querySelectorAll('[data-pid]'), function (p) {
       var pid = p.getAttribute('data-pid');
-      pid2sec[pid] = secOf(p);
       var b = el('button', 'ann-note-btn', '✎');
       b.type = 'button'; b.title = '给这一段写笔记';
       b.setAttribute('data-pid', pid);
@@ -320,6 +456,15 @@
       if (toolbar && !toolbar.contains(ev.target) && editor && !editor.contains(ev.target)) hideToolbar();
     });
     document.addEventListener('scroll', hideToolbar, true);
+    // 优先划线：选中文字后按回车，直接应用默认黄色划线
+    document.addEventListener('keydown', function (ev) {
+      if (ev.key !== 'Enter' || !pendingSel) return;
+      var t = ev.target;
+      if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName || '')) return;
+      if (editor && editor.classList.contains('show')) return;
+      if (ev.preventDefault) ev.preventDefault();
+      addUnderline('y');
+    });
   }
 
   function whenUnlocked() {

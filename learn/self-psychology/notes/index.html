@@ -20,7 +20,6 @@
   .bar label{font-size:12.5px; color:var(--sub); display:flex; align-items:center; gap:5px;}
   .bar .btn{padding:7px 13px; border:0; border-radius:8px; background:var(--teal);
     color:#fff; font-size:13px; cursor:pointer; font-family:inherit; font-weight:700;}
-  .bar .btn.ghost{background:#fff; color:var(--teal-d); border:1px solid var(--line); font-weight:400;}
   .stat{font-size:12.5px; color:var(--sub); margin:0 0 12px;}
   .stat b{color:var(--teal-d);}
   .list{display:flex; flex-direction:column; gap:10px;}
@@ -30,12 +29,28 @@
   .item .top{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:7px;}
   .pill{font-size:11px; padding:2px 8px; border-radius:20px; background:#eef4f3; color:var(--teal-d);}
   .pill.type{background:#e8f0fb; color:#35618f;}
+  .pill.type.underline{background:#e7f5f2; color:#0f766e; font-weight:700;}
+  .pill.type.mark{background:#fff4dd; color:#96690d;}
   .pill.src{background:#fff4dd; color:#96690d;}
   .pill.tag{background:#f3eefb; color:#6c4a9c;}
   .item .anchor{font-size:11.5px; color:var(--sub); margin-bottom:6px; line-height:1.6;}
   .item .text{font-size:14px; line-height:1.85; color:var(--ink); white-space:pre-wrap; word-break:break-word;}
-  .item .quote{font-size:13.5px; line-height:1.8; color:#42544f; border-left:3px solid #ffe27a;
-    padding-left:10px; white-space:pre-wrap; word-break:break-word;}
+  .item .quote,.item .excerpt{font-size:13.5px; line-height:1.85; color:#42544f; border-left:3px solid #ffe27a;
+    padding:8px 10px; background:#fbfdfc; border-radius:0 8px 8px 0;
+    white-space:pre-wrap; word-break:break-word;}
+  .item .excerpt.under-y{border-left-color:#e0b93f;}
+  .item .excerpt.under-g{border-left-color:#68ad61;}
+  .item .excerpt.under-b{border-left-color:#5b9fd4;}
+  .item .excerpt.under-p{border-left-color:#d978a8;}
+  .ann-mark{border-radius:2px; padding:0 1px;}
+  .ann-mark.ann-y{background:#ffe27a;}
+  .ann-mark.ann-g{background:#b7e6b0;}
+  .ann-mark.ann-b{background:#b9dcf5;}
+  .ann-mark.ann-p{background:#f7c2d9;}
+  .item .mynote{font-size:13px; line-height:1.8; color:#334b48; margin-top:8px;
+    padding-top:8px; border-top:1px dashed var(--line); white-space:pre-wrap; word-break:break-word;}
+  .item .mynote b{color:var(--teal-d);}
+  .item .rel{font-size:11.5px; color:#8a9b98; margin-top:7px;}
   .item .foot{display:flex; gap:8px; align-items:center; margin-top:10px; font-size:11.5px; color:var(--sub);}
   .item .foot .sp{margin-left:auto;}
   .item .foot button{padding:4px 10px; border:1px solid var(--line); background:#fff;
@@ -61,13 +76,17 @@
   .mask{display:none; position:fixed; inset:0; z-index:900; align-items:center; justify-content:center;
     padding:20px; background:rgba(15,40,38,.42);}
   .mask.show{display:flex;}
-  .dlg{width:100%; max-width:500px; max-height:88vh; overflow:auto; background:#fff;
+  .dlg{width:100%; max-width:520px; max-height:88vh; overflow:auto; background:#fff;
     border-radius:16px; padding:18px 20px; box-shadow:0 18px 50px rgba(0,0,0,.2);}
   .dlg h3{margin:0 0 12px; font-size:16px; color:var(--teal-d);}
   .dlg label{display:block; font-size:12px; color:var(--sub); margin:10px 0 4px;}
   .dlg input,.dlg select,.dlg textarea{width:100%; padding:9px 11px; border:1px solid var(--line);
     border-radius:9px; font-size:13.5px; font-family:inherit; outline:none;}
-  .dlg textarea{min-height:130px; line-height:1.8; resize:vertical;}
+  .dlg textarea{min-height:110px; line-height:1.8; resize:vertical;}
+  .dlg .readonly{background:#f8fbfa; border:1px solid var(--line); border-radius:9px;
+    padding:10px 12px; font-size:13.5px; line-height:1.85; white-space:pre-wrap;
+    word-break:break-word; max-height:190px; overflow:auto;}
+  .dlg .tip{font-size:11.5px; color:#8a9b98; line-height:1.7; margin:6px 0 2px;}
   .dlg .row{display:flex; gap:10px;} .dlg .row>div{flex:1;}
   .dlg .acts{display:flex; gap:9px; justify-content:flex-end; margin-top:16px;}
   .dlg .acts button{padding:8px 16px; border-radius:9px; border:1px solid var(--line);
@@ -87,13 +106,14 @@
   <div class="hero">
     <p class="kicker">CROSS-CHAPTER TOOL</p>
     <h1>笔记管理</h1>
-    <p class="sub">把阅读《自体心理学入门》正文时写下的笔记与重点汇成一个库；与正文阅读页双向编辑。</p>
-    <span class="badge">空库启动 · 本地存储 · 双向同步 · 结构预留跨书目</span>
+    <p class="sub">划线即重点句，自动摘抄；句中的高亮词在摘抄里被标记。与正文阅读页双向编辑。</p>
+    <span class="badge">划线摘抄 · 句内高亮 · 本地存储 · 双向同步 · 结构预留跨书目</span>
   </div>
 
   <div class="tabs" id="tabs">
     <button data-tab="notes" class="on">笔记库</button>
-    <button data-tab="marks">重点标记</button>
+    <button data-tab="excerpts">划线摘抄</button>
+    <button data-tab="marks">句内高亮</button>
     <button data-tab="chapters">按章汇总</button>
     <button data-tab="data">数据管理</button>
   </div>
@@ -101,8 +121,9 @@
   <div class="pane on" id="pane-notes">
     <div class="bar">
       <select id="fCh"><option value="all">全部章节</option></select>
-      <select id="fType"><option value="all">笔记＋重点</option><option value="note">仅笔记</option><option value="mark">仅重点</option></select>
-      <input type="text" id="fQ" placeholder="搜索正文、引用、锚点、标签…">
+      <select id="fType"><option value="all">全部类型</option><option value="note">笔记</option>
+        <option value="underline">划线摘抄</option><option value="mark">句内高亮</option></select>
+      <input type="text" id="fQ" placeholder="搜索正文、摘抄、锚点、标签…">
       <label><input type="checkbox" id="fDel"> 含已删除</label>
       <button class="btn" id="btnNew">＋ 新增笔记</button>
     </div>
@@ -110,18 +131,33 @@
     <div class="list" id="list"></div>
   </div>
 
+  <div class="pane" id="pane-excerpts">
+    <div class="bar">
+      <select id="eCh"><option value="all">全部章节</option></select>
+      <select id="eColor"><option value="all">全部划线颜色</option><option value="y">黄</option>
+        <option value="g">绿</option><option value="b">蓝</option><option value="p">粉</option></select>
+      <input type="text" id="eQ" placeholder="搜索摘抄原文或想法…">
+    </div>
+    <div class="hint"><b>层级说明</b>：<b>划线</b>＝重点句，会自动成为这里的摘抄；在划线句里再选词<b>高亮</b>，该词就是这句的重点，在摘抄中以底色标记。高亮增删会实时改变摘抄里的标记，无需手动维护。摘抄下方「我的想法」可编辑，与正文页同步。</div>
+    <p class="stat" id="eStat"></p>
+    <div class="list" id="eList"></div>
+  </div>
+
   <div class="pane" id="pane-marks">
     <div class="bar">
       <select id="mCh"><option value="all">全部章节</option></select>
-      <select id="mColor"><option value="all">全部颜色</option><option value="y">黄</option><option value="g">绿</option><option value="b">蓝</option><option value="p">粉</option></select>
-      <input type="text" id="mQ" placeholder="搜索重点原文…">
+      <select id="mColor"><option value="all">全部颜色</option><option value="y">黄</option>
+        <option value="g">绿</option><option value="b">蓝</option><option value="p">粉</option></select>
+      <select id="mRel"><option value="all">全部高亮</option><option value="in">仅在划线句内</option>
+        <option value="out">独立高亮</option></select>
+      <input type="text" id="mQ" placeholder="搜索高亮原文…">
     </div>
     <p class="stat" id="mStat"></p>
     <div class="list" id="mList"></div>
   </div>
 
   <div class="pane" id="pane-chapters">
-    <div class="hint">按章查看批注分布；点章名可跳到该书正文阅读页（需输入正文密码）。此表随笔记与重点实时更新。</div>
+    <div class="hint">按章查看批注分布；点章名可跳到该书正文阅读页（需输入正文密码）。此表随笔记、划线与高亮实时更新。</div>
     <div id="chapTable"></div>
     <div class="ops"><button id="btnMD">导出 Markdown（全部批注）</button></div>
   </div>
@@ -129,8 +165,8 @@
   <div class="pane" id="pane-data">
     <div class="hint">
       <b>存储边界</b>：批注只存在本机浏览器的 localStorage（同一浏览器同一设备），不上传、不跨设备。<br>
-      正文阅读页的写笔记／高亮、这里的编辑／新增／删除，都写同一份数据并实时互通；换设备或清缓存前请用「JSON 完整备份」迁移。<br>
-      当前只收《自体心理学入门》，数据已带 <code>book</code> 字段，日后可加入其它书目。
+      正文阅读页的划线／高亮／写笔记、这里的编辑／新增／删除，都写同一份数据并实时互通；换设备或清缓存前请用「JSON 完整备份」迁移。<br>
+      当前只收《自体心理学入门》，数据已带 <code>book</code> 字段，日后可加入其它书目。旧版备份（无划线表）可直接导入，原有笔记与高亮不会丢失。
     </div>
     <div class="ops">
       <button id="btnJSON">JSON 完整备份（下载）</button>
@@ -156,7 +192,9 @@
   var PAGES = {1:'003–021',2:'025–038',3:'041–061',4:'066–082',5:'085–102',6:'105–119',
                7:'123–137',8:'141–150',9:'153–163',10:'167–180',11:'183–201',12:'205–218'};
   var COLORS = {y:'#ffe27a',g:'#b7e6b0',b:'#b9dcf5',p:'#f7c2d9'};
+  var UCOLORS = {y:'#e0b93f',g:'#68ad61',b:'#5b9fd4',p:'#d978a8'};
   var CNAME = {y:'黄',g:'绿',b:'蓝',p:'粉'};
+  var TYPES = {note:'笔记',underline:'划线摘抄',mark:'句内高亮'};
   var ST = { tab:'notes', editing:null, isNew:false, type:'note' };
   function $(id){ return document.getElementById(id); }
   function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
@@ -167,43 +205,48 @@
   function selCh(el){
     for(var n=1;n<=12;n++){ var o=document.createElement('option'); o.value=n; o.textContent=chapLabel(n); el.appendChild(o); }
   }
-  selCh($('fCh')); selCh($('mCh'));
+  ['fCh','eCh','mCh'].forEach(function(id){ selCh($(id)); });
 
-  function rows(){
-    var arr = H.all(true);
-    var ch=$('fCh').value, ty=$('fType').value, q=$('fQ').value.trim().toLowerCase();
-    var showDel=$('fDel').checked;
-    return arr.filter(function(x){
-      if(!showDel && x.deleted) return false;
-      if(ch!=='all' && String(x.ch)!==ch) return false;
-      if(ty!=='all' && x.type!==ty) return false;
-      if(q){
-        var hay=[x.text,x.quote,x.preview,x.sec,x.pid,(x.tags||[]).join(' ')].join(' ').toLowerCase();
-        if(hay.indexOf(q)<0) return false;
-      }
-      return true;
-    });
+  function excerptOf(x){ return H.excerpt(x.uid) || {html:esc(x.quote||''),md:String(x.quote||''),parts:[]}; }
+  function markedCount(ex){ return ex.parts.filter(function(p){return !!p.color;}).length; }
+  function relUnder(x){
+    if(!x.under) return '';
+    var u=H.allUnderlines().filter(function(a){return a.uid===x.under;})[0];
+    return u ? cut(u.quote,30) : '';
   }
+
   function itemHTML(x){
-    var isNote=x.type==='note';
-    var body=isNote
-      ? '<div class="text">'+esc(x.text)+'</div>'
-      : '<div class="quote" style="border-left-color:'+(COLORS[x.color]||'#ffe27a')+'">'+esc(x.quote||'（无引用）')+'</div>';
+    var ty=x.type;
+    var body='';
+    if(ty==='note'){
+      body='<div class="text">'+esc(x.text)+'</div>';
+    } else if(ty==='underline'){
+      var ex=excerptOf(x), mc=markedCount(ex);
+      body='<div class="excerpt under-'+esc(x.color||'y')+'">'+ex.html+'</div>'+
+        (mc?'<div class="rel">含 '+mc+' 处句内高亮（摘抄中带底色的词）</div>':'')+
+        (x.note?'<div class="mynote"><b>我的想法：</b>'+esc(x.note)+'</div>':
+                '<div class="rel">还没写想法，点「编辑」可补上。</div>');
+    } else {
+      var r=relUnder(x);
+      body='<div class="quote" style="border-left-color:'+(COLORS[x.color]||'#ffe27a')+'">'+esc(x.quote||'（无引用）')+'</div>'+
+        (r?'<div class="rel">所属划线：'+esc(r)+'</div>':'<div class="rel">独立高亮（不在划线句内）</div>');
+    }
     var tags=(x.tags||[]).map(function(t){return '<span class="pill tag">'+esc(t)+'</span>';}).join('');
     return '<div class="item'+(x.deleted?' del':'')+'">'+
       '<div class="top">'+
-        '<span class="pill type">'+(isNote?'笔记':'重点')+'</span>'+
+        '<span class="pill type '+ty+'">'+TYPES[ty]+'</span>'+
         '<span class="pill">'+esc(chapLabel(x.ch))+' · pp.'+esc(PAGES[x.ch]||'')+'</span>'+
         (x.sec?'<span class="pill src">'+esc(x.sec)+'</span>':'')+
-        (!isNote?'<span class="dot" style="background:'+(COLORS[x.color]||'#ffe27a')+'"></span><span class="pill">'+esc(CNAME[x.color]||'黄')+'</span>':'')+
+        (ty!=='note'?'<span class="dot" style="background:'+
+          ((ty==='underline'?UCOLORS:COLORS)[x.color]||'#ffe27a')+'"></span><span class="pill">'+esc(CNAME[x.color]||'黄')+'</span>':'')+
         tags+(x.deleted?'<span class="pill">已删除</span>':'')+
       '</div>'+
       (x.preview?'<div class="anchor">锚点：'+esc(x.preview)+'</div>':'')+
       body+
       '<div class="foot"><span>'+esc(cut(x.pid||'未定位段落',18))+' · '+esc(time(x.createdAt))+'</span>'+
         '<span class="sp"></span>'+
-        '<button data-act="edit" data-uid="'+esc(x.uid)+'">编辑</button>'+
-        (!isNote?'<a href="../xujun-intro/text/ch'+x.ch+'.html#'+esc(x.pid)+'"><button data-act="noop">看原文</button></a>':'')+
+        '<button data-act="edit" data-uid="'+esc(x.uid)+'">'+(ty==='underline'?'写想法 / 编辑':'编辑')+'</button>'+
+        '<a href="../xujun-intro/text/ch'+x.ch+'.html#'+esc(x.pid)+'"><button data-act="noop">看原文</button></a>'+
         (x.deleted
           ? '<button data-act="restore" data-uid="'+esc(x.uid)+'">恢复</button>'
           : '<button class="danger" data-act="del" data-uid="'+esc(x.uid)+'">删除</button>')+
@@ -214,38 +257,75 @@
       b.onclick=function(){
         var a=b.getAttribute('data-act'), uid=b.getAttribute('data-uid');
         if(a==='edit') openEditor(uid);
-        else if(a==='del'){ if(confirm('删除这条批注？可在「含已删除」中恢复。')) H.remove(uid); }
+        else if(a==='del'){
+          if(confirm('删除这条批注？可在「含已删除」中恢复。')) H.remove(uid);
+        }
         else if(a==='restore') H.restore(uid);
       };
     });
   }
+
+  function rows(){
+    var arr = H.all(true);
+    var ch=$('fCh').value, ty=$('fType').value, q=$('fQ').value.trim().toLowerCase();
+    var showDel=$('fDel').checked;
+    return arr.filter(function(x){
+      if(!showDel && x.deleted) return false;
+      if(ch!=='all' && String(x.ch)!==ch) return false;
+      if(ty!=='all' && x.type!==ty) return false;
+      if(q){
+        var hay=[x.text,x.note,x.quote,x.preview,x.sec,x.pid,(x.tags||[]).join(' ')].join(' ').toLowerCase();
+        if(hay.indexOf(q)<0) return false;
+      }
+      return true;
+    });
+  }
   function renderNotes(){
-    var rs=rows();
-    $('stat').innerHTML='共 <b>'+rs.length+'</b> 条显示 · 全库 <b>'+H.counts().notes+'</b> 条笔记 / <b>'+H.counts().marks+'</b> 处重点 / <b>'+H.counts().deleted+'</b> 条已删除';
+    var rs=rows(), c=H.counts();
+    $('stat').innerHTML='共 <b>'+rs.length+'</b> 条显示 · 全库 <b>'+c.notes+'</b> 条笔记 / <b>'+
+      c.underlines+'</b> 处划线摘抄 / <b>'+c.marks+'</b> 处句内高亮 / <b>'+c.deleted+'</b> 条已删除';
     $('list').innerHTML = rs.length ? rs.map(itemHTML).join('')
-      : '<div class="empty"><b>这里还是空的</b><br>去<a href="../xujun-intro/text/">正文阅读页</a>选中文字高亮、点段落旁 ✎ 写笔记；<br>也可以点右上「＋ 新增笔记」直接建立条目。<br>已有的章节学习笔记 md 按你的选择<b>暂不导入</b>。</div>';
+      : '<div class="empty"><b>这里还是空的</b><br>去<a href="../xujun-intro/text/">正文阅读页</a>选中句子<b>划线</b>（重点句，自动摘抄），<br>再选句中词汇<b>高亮</b>；点段落旁 ✎ 可写笔记。<br>已有的章节学习笔记 md 按你的选择<b>暂不导入</b>。</div>';
     bindList($('list'));
   }
+  function renderExcerpts(){
+    var ch=$('eCh').value, co=$('eColor').value, q=$('eQ').value.trim().toLowerCase();
+    var rs=H.allUnderlines().filter(function(x){
+      if(ch!=='all'&&String(x.ch)!==ch) return false;
+      if(co!=='all'&&x.color!==co) return false;
+      if(q&&(String(x.quote||'')+String(x.note||'')).toLowerCase().indexOf(q)<0) return false;
+      return true;
+    });
+    var total=H.allMarks().length;
+    $('eStat').innerHTML='共 <b>'+rs.length+'</b> 条划线摘抄 · 其中带句内高亮标记的 <b>'+
+      rs.filter(function(x){return markedCount(excerptOf(x))>0;}).length+'</b> 条';
+    $('eList').innerHTML=rs.length?rs.map(itemHTML).join('')
+      :'<div class="empty">还没有划线摘抄。<br>在正文阅读页选中一个句子，点<b>划线</b>四色之一即可；<br>摘抄会自动出现在这里。</div>';
+    bindList($('eList'));
+  }
   function renderMarks(){
-    var ch=$('mCh').value, co=$('mColor').value, q=$('mQ').value.trim().toLowerCase();
+    var ch=$('mCh').value, co=$('mColor').value, rel=$('mRel').value, q=$('mQ').value.trim().toLowerCase();
     var rs=H.allMarks().filter(function(x){
       if(ch!=='all'&&String(x.ch)!==ch) return false;
       if(co!=='all'&&x.color!==co) return false;
+      if(rel==='in'&&!x.under) return false;
+      if(rel==='out'&&x.under) return false;
       if(q&&String(x.quote||'').toLowerCase().indexOf(q)<0) return false;
       return true;
     });
-    $('mStat').innerHTML='共 <b>'+rs.length+'</b> 处重点';
+    $('mStat').innerHTML='共 <b>'+rs.length+'</b> 处句内高亮 · 全库 <b>'+H.allMarks().length+'</b> 处';
     $('mList').innerHTML=rs.length?rs.map(itemHTML).join('')
-      :'<div class="empty">还没有重点标记。<br>在正文阅读页选中一段文字，即可四色高亮。</div>';
+      :'<div class="empty">还没有高亮。<br>先在正文页<b>划线</b>一个句子，再选中句中的词点<b>高亮</b>；<br>该词会成为这句摘抄里的重点标记。</div>';
     bindList($('mList'));
   }
   function renderChapters(){
-    var ns=H.allNotes(), ms=H.allMarks();
-    var h='<table><thead><tr><th>章</th><th>页码</th><th>笔记</th><th>重点</th><th>正文</th></tr></thead><tbody>';
+    var ns=H.allNotes(), us=H.allUnderlines(), ms=H.allMarks();
+    var h='<table><thead><tr><th>章</th><th>页码</th><th>笔记</th><th>划线摘抄</th><th>句内高亮</th><th>正文</th></tr></thead><tbody>';
     for(var n=1;n<=12;n++){
       var a=ns.filter(function(x){return Number(x.ch)===n;}).length;
+      var u=us.filter(function(x){return Number(x.ch)===n;}).length;
       var b=ms.filter(function(x){return Number(x.ch)===n;}).length;
-      h+='<tr><td>'+chapLabel(n)+'</td><td>pp.'+PAGES[n]+'</td><td>'+a+'</td><td>'+b+'</td>'+
+      h+='<tr><td>'+chapLabel(n)+'</td><td>pp.'+PAGES[n]+'</td><td>'+a+'</td><td>'+u+'</td><td>'+b+'</td>'+
          '<td><a href="../xujun-intro/text/ch'+n+'.html">阅读 →</a></td></tr>';
     }
     h+='</tbody></table>';
@@ -253,32 +333,44 @@
   }
   function renderData(){
     var c=H.counts();
-    $('dStat').innerHTML='当前：<b>'+c.notes+'</b> 条笔记 · <b>'+c.marks+'</b> 处重点 · <b>'+c.deleted+'</b> 条已删除';
+    $('dStat').innerHTML='当前：<b>'+c.notes+'</b> 条笔记 · <b>'+c.underlines+'</b> 处划线摘抄 · <b>'+
+      c.marks+'</b> 处句内高亮 · <b>'+c.deleted+'</b> 条已删除';
   }
-  function render(){ renderNotes(); renderMarks(); renderChapters(); renderData(); }
+  function render(){ renderNotes(); renderExcerpts(); renderMarks(); renderChapters(); renderData(); }
 
   /* ---------- 编辑 / 新增 ---------- */
   function openEditor(uid){
     var x = uid ? H.all(true).filter(function(a){return a.uid===uid;})[0] : null;
     ST.editing = uid || ''; ST.isNew = !uid; ST.type = x ? x.type : 'note';
-    var isNote = ST.type==='note';
+    var ty=ST.type, isNote=ty==='note';
     var opts='';
     for(var n=1;n<=12;n++) opts+='<option value="'+n+'"'+((x?Number(x.ch):Number($('fCh').value)||1)===n?' selected':'')+'>'+chapLabel(n)+'</option>';
     var copts='';
     Object.keys(CNAME).forEach(function(k){
       copts+='<option value="'+k+'"'+((x&&x.color===k)?' selected':'')+'>'+CNAME[k]+'</option>';
     });
+    var body='';
+    if(ty==='underline'){
+      var ex=excerptOf(x);
+      body='<label>摘抄原文（自动，含句内高亮标记）</label>'+
+        '<div class="readonly">'+ex.html+'</div>'+
+        '<div class="tip">底色词＝后来加的句内高亮；增删高亮会自动改变这里，不需手动改。</div>'+
+        '<label>我的想法（可编辑）</label><textarea id="edUNote" placeholder="针对这句摘抄写下想法…">'+esc(x?x.note:'')+'</textarea>';
+    } else if(ty==='mark'){
+      body='<label>高亮原文（只读）</label><div class="readonly">'+esc(x?x.quote:'')+'</div>'+
+        (x&&x.under?'<div class="tip">所属划线：'+esc(relUnder(x))+'</div>':'');
+    } else {
+      body='<label>笔记正文</label><textarea id="edText" placeholder="写下想法…">'+esc(x?x.text:'')+'</textarea>'+
+        '<label>标签（逗号分隔）</label><input id="edTags" value="'+esc(x?(x.tags||[]).join('，'):'')+'">';
+    }
     $('dlg').innerHTML=
-      '<h3>'+(uid?'编辑':'新增')+(isNote?'笔记':'重点')+'</h3>'+
+      '<h3>'+(uid?'编辑':'新增')+TYPES[ty]+'</h3>'+
       '<div class="row"><div><label>章节</label><select id="edCh">'+opts+'</select></div>'+
       '<div><label>小节</label><input id="edSec" value="'+esc(x?x.sec:'')+'" placeholder="如 s003"></div></div>'+
       '<div class="row"><div><label>段落锚点</label><input id="edPid" value="'+esc(x?x.pid:'')+'" placeholder="如 p0023"></div>'+
-      '<div><label>颜色</label><select id="edColor">'+copts+'</select></div></div>'+
+      '<div><label>'+(ty==='underline'?'划线':'高亮')+'颜色</label><select id="edColor">'+copts+'</select></div></div>'+
       '<label>锚点摘要（显示在列表里）</label><input id="edPreview" value="'+esc(x?x.preview:'')+'" placeholder="该段开头 / 小节标题">'+
-      (isNote
-        ? '<label>笔记正文</label><textarea id="edText" placeholder="写下想法…">'+esc(x?x.text:'')+'</textarea>'+
-          '<label>标签（逗号分隔）</label><input id="edTags" value="'+esc(x?(x.tags||[]).join('，'):'')+'">'
-        : '<label>重点原文（只读）</label><textarea id="edQuote" readonly>'+esc(x?x.quote:'')+'</textarea>')+
+      body+
       '<div class="acts"><button id="edCancel">取消</button><button class="ok" id="edSave">保存</button></div>';
     $('mask').classList.add('show');
     $('edCancel').onclick=closeEditor;
@@ -287,18 +379,24 @@
   function closeEditor(){ $('mask').classList.remove('show'); ST.editing=null; }
   function saveEditor(){
     var patch={
-      book:H.BOOK, ch:Number($('edCh').value)||1, sec:$('edSec').value.trim(),
+      ch:Number($('edCh').value)||1, sec:$('edSec').value.trim(),
       pid:$('edPid').value.trim(), preview:$('edPreview').value.trim(),
-      color:$('edColor').value, tags:$('edTags')?$('edTags').value.split(/[,，]/).map(function(s){return s.trim();}).filter(Boolean):[]
+      color:$('edColor').value,
+      tags:$('edTags')?$('edTags').value.split(/[,，]/).map(function(s){return s.trim();}).filter(Boolean):[]
     };
     if(ST.type==='note'){
       patch.text=$('edText').value.trim();
       if(!patch.text){ alert('笔记正文不能为空'); return; }
+      patch.book=H.BOOK; patch.source='hub';
       if(ST.isNew) H.addNote(patch); else H.updateNote(ST.editing,patch);
+    } else if(ST.type==='underline'){
+      if(ST.isNew) return;
+      patch.note=$('edUNote').value.trim();
+      H.updateUnderline(ST.editing,patch);
     } else {
       if(ST.isNew) return;
-      patch.quote=$('edQuote').value;
-      H.updateMark(ST.editing,patch);
+      H.updateMark(ST.editing,{ch:patch.ch,sec:patch.sec,pid:patch.pid,
+        preview:patch.preview,color:patch.color});
     }
     closeEditor();
   }
@@ -314,14 +412,27 @@
     }catch(e){ alert('导出失败：'+e.message); }
   }
   function markdown(){
-    var ns=H.allNotes(), ms=H.allMarks();
+    var ns=H.allNotes(), us=H.allUnderlines(), ms=H.allMarks();
     var out=['# '+H.BOOK+' · 阅读批注','','导出时间：'+new Date().toLocaleString('zh-CN'),
-             '共 '+ns.length+' 条笔记 / '+ms.length+' 处重点',''];
+             '共 '+ns.length+' 条笔记 / '+us.length+' 条划线摘抄 / '+ms.length+' 处句内高亮','',
+             '> 摘抄中的 **加粗词** 即划线句内的高亮（句内重点）。',''];
     for(var n=1;n<=12;n++){
       var a=ns.filter(function(x){return Number(x.ch)===n;});
+      var u=us.filter(function(x){return Number(x.ch)===n;});
       var b=ms.filter(function(x){return Number(x.ch)===n;});
-      if(!a.length&&!b.length) continue;
+      if(!a.length&&!u.length&&!b.length) continue;
       out.push('## 第'+n+'章（pp.'+PAGES[n]+'）','');
+      if(u.length){
+        out.push('### 划线摘抄','');
+        u.forEach(function(x){
+          var ex=excerptOf(x);
+          out.push('- ['+(CNAME[x.color]||'黄')+'] '+(x.pid||'未定位')+(x.sec?'〔'+x.sec+'〕':''));
+          out.push('  > '+String(ex.md||'').replace(/\n/g,' '));
+          if(markedCount(ex)) out.push('  句内重点：'+ex.parts.filter(function(p){return p.color;}).map(function(p){return p.text;}).join('、'));
+          if(x.note) out.push('  我的想法：'+String(x.note).replace(/\n/g,' '));
+          out.push('');
+        });
+      }
       if(a.length){
         out.push('### 笔记','');
         a.forEach(function(x){
@@ -332,14 +443,15 @@
         });
       }
       if(b.length){
-        out.push('### 重点','');
+        out.push('### 句内高亮','');
         b.forEach(function(x){
-          out.push('- ['+(CNAME[x.color]||'黄')+'] '+(x.pid||'未定位')+'「'+String(x.quote||'').replace(/\n/g,' ')+'」');
+          out.push('- ['+(CNAME[x.color]||'黄')+'] '+(x.pid||'未定位')+'「'+
+            String(x.quote||'').replace(/\n/g,' ')+'」'+(x.under?'（隶属划线摘抄）':'（独立）'));
         });
         out.push('');
       }
     }
-    if(!ns.length&&!ms.length) out.push('（暂无批注）');
+    if(!ns.length&&!us.length&&!ms.length) out.push('（暂无批注）');
     return out.join('\n');
   }
 
@@ -349,10 +461,11 @@
     if(!b) return;
     ST.tab=b.getAttribute('data-tab');
     Array.prototype.forEach.call($('tabs').children,function(x){ x.classList.toggle('on',x===b); });
-    ['notes','marks','chapters','data'].forEach(function(k){ $('pane-'+k).classList.toggle('on',k===ST.tab); });
+    ['notes','excerpts','marks','chapters','data'].forEach(function(k){ $('pane-'+k).classList.toggle('on',k===ST.tab); });
   };
   ['fCh','fType','fQ','fDel'].forEach(function(id){ $(id).addEventListener(id==='fQ'?'input':'change',renderNotes); });
-  ['mCh','mColor','mQ'].forEach(function(id){ $(id).addEventListener(id==='mQ'?'input':'change',renderMarks); });
+  ['eCh','eColor','eQ'].forEach(function(id){ $(id).addEventListener(id==='eQ'?'input':'change',renderExcerpts); });
+  ['mCh','mColor','mRel','mQ'].forEach(function(id){ $(id).addEventListener(id==='mQ'?'input':'change',renderMarks); });
   $('btnNew').onclick=function(){ openEditor(''); };
   $('btnMD').onclick=$('btnMD2').onclick=function(){ download('自体心理学入门_阅读批注.md',markdown(),'text/markdown;charset=utf-8'); };
   $('btnJSON').onclick=function(){ download('自体心理学_笔记备份.json',H.exportAll(),'application/json'); };
@@ -363,7 +476,7 @@
     r.onload=function(){
       try{
         var c=H.importAll(String(r.result),confirm('点「确定」＝与现有数据合并；点「取消」＝用备份替换全部现有数据。'));
-        alert('导入完成：'+c.notes+' 条笔记 / '+c.marks+' 处重点');
+        alert('导入完成：'+c.notes+' 条笔记 / '+c.underlines+' 条划线摘抄 / '+c.marks+' 处句内高亮');
       }catch(err){ alert('导入失败：'+err.message); }
       $('fileImp').value='';
     };
