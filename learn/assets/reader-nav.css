@@ -1,0 +1,101 @@
+/* 正文阅读页 · 左侧浮动导航栏（《自体心理学入门》与 Freud作品 共用）
+   依赖 site.css 的 --teal / --ink / --line 等变量；只在带 #xjNavData 的正文页显示。
+   右侧仍留给笔记/标注侧栏，两者互不占用。 */
+.xj-sidenav{
+  position:fixed; left:0; top:0; height:100vh; width:250px; z-index:805;
+  display:flex; flex-direction:column;
+  background:#fffefa; border-right:1px solid var(--line);
+  box-shadow:2px 0 16px rgba(15,118,110,.07);
+  color:var(--ink); font-size:12.5px;
+}
+.xj-sidenav.folded{width:38px; box-shadow:none;}
+
+/* 收起 / 展开按钮 */
+.xj-nav-toggle{
+  flex:0 0 40px; height:40px; width:100%; margin:0; padding:0 13px;
+  border:0; border-bottom:1px solid var(--line); background:var(--soft);
+  color:var(--teal-d); font-family:inherit; font-size:12.5px; font-weight:700;
+  letter-spacing:.5px; text-align:left; cursor:pointer;
+}
+.xj-nav-toggle:hover{background:#e3f1ee;}
+.xj-sidenav:not(.folded) .xj-nav-when-folded{display:none;}
+.xj-sidenav.folded .xj-nav-when-open{display:none;}
+.xj-sidenav.folded .xj-nav-toggle{
+  flex:1 1 auto; height:auto; width:38px; padding:14px 0;
+  writing-mode:vertical-rl; text-align:center; letter-spacing:3px; border-bottom:0;
+}
+.xj-sidenav.folded .xj-nav-panel{display:none;}
+
+/* 面板 */
+.xj-nav-panel{flex:1 1 auto; min-height:0; display:flex; flex-direction:column; overflow:hidden;}
+.xj-nav-hd{padding:12px 14px 11px; border-bottom:1px dashed var(--line);}
+.xj-nav-kicker{font-size:10.5px; letter-spacing:.14em; color:#9aaca9;}
+.xj-nav-title{margin-top:5px; font-size:13.5px; font-weight:800; color:var(--teal-d);
+  line-height:1.45; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+  overflow:hidden; word-break:break-word;}
+.xj-nav-pos{margin-top:5px; font-size:11px; color:var(--sub); font-variant-numeric:tabular-nums;}
+.xj-nav-body{flex:1 1 auto; min-height:0; overflow:auto; padding:2px 10px 20px;
+  scrollbar-width:thin;}
+.xj-nav-lbl{margin:14px 4px 7px; font-size:10.5px; font-weight:800;
+  letter-spacing:.09em; color:#9aaca9;}
+
+/* 快捷跳转：上一章 / 下一章 / 上一层 / 首页 */
+.xj-nav-grid{display:grid; grid-template-columns:1fr 1fr; gap:6px;}
+.xj-nav-jump{
+  display:flex; align-items:center; justify-content:center; gap:4px;
+  min-height:32px; padding:6px 7px; background:#fff; border:1px solid var(--line);
+  border-radius:8px; color:var(--teal-d); text-decoration:none; font-size:12px;
+  font-weight:600; text-align:center; white-space:nowrap;
+}
+.xj-nav-jump:hover{border-color:var(--teal-l); background:#f2faf8;}
+.xj-nav-jump.full{grid-column:1 / -1; justify-content:flex-start; padding-left:10px;}
+.xj-nav-jump.dis{opacity:.4; pointer-events:none; background:#faf9f5;}
+.xj-nav-jump .ic{font-size:13px; color:var(--teal);}
+
+/* 本章 / 本篇小节目录 */
+.xj-nav-toc{list-style:none; margin:0; padding:0;}
+.xj-nav-toc li{margin:1px 0;}
+.xj-nav-toc a{
+  display:block; padding:6px 9px; border-radius:7px; border-left:3px solid transparent;
+  color:#42544f; text-decoration:none; font-size:12px; line-height:1.55;
+  word-break:break-word;
+}
+.xj-nav-toc a:hover{background:#f2faf8; color:var(--teal-d);}
+.xj-nav-toc a.cur{background:#e7f5f2; border-left-color:var(--teal);
+  color:var(--teal-d); font-weight:700;}
+.xj-nav-toc li.sub a{padding-left:20px; font-size:11.5px; color:#6f716c;}
+.xj-nav-toc .plain{display:block; padding:5px 9px; font-size:11.5px;
+  line-height:1.55; color:#8a9b98;}
+.xj-nav-empty{margin:2px 4px; padding:7px 9px; font-size:11.5px;
+  line-height:1.7; color:#9aaca9;}
+
+/* 相关链接 */
+.xj-nav-link{display:block; padding:5px 9px; border-radius:7px;
+  color:var(--teal-d); text-decoration:none; font-size:12px; line-height:1.55;}
+.xj-nav-link:hover{background:#f2faf8;}
+
+/* 窄屏：收起时只剩左下角圆钮，展开为浮层，避免压住正文 */
+@media (max-width:700px){
+  .xj-sidenav{
+    top:auto; bottom:12px; left:10px; height:auto; width:44px;
+    border:1px solid var(--line); border-radius:14px; overflow:hidden;
+    box-shadow:0 6px 20px rgba(15,118,110,.18);
+  }
+  .xj-sidenav.folded{width:44px;}
+  .xj-nav-toggle{
+    flex:0 0 44px; height:44px; width:44px; padding:0; text-align:center;
+    border-bottom:0; background:var(--teal); color:#fff; font-size:17px; letter-spacing:0;
+  }
+  .xj-sidenav.folded .xj-nav-toggle{
+    flex:0 0 44px; height:44px; width:44px; padding:0;
+    writing-mode:horizontal-tb; letter-spacing:0; font-size:17px;
+  }
+  .xj-sidenav.folded .xj-nav-when-folded > span{display:none;}
+  .xj-sidenav:not(.folded){width:min(260px,84vw); height:min(76vh,620px);}
+  .xj-sidenav:not(.folded) .xj-nav-toggle{
+    flex:0 0 38px; height:38px; width:100%; padding:0 13px; text-align:left;
+    background:var(--soft); color:var(--teal-d); font-size:12.5px;
+    border-bottom:1px solid var(--line);
+  }
+}
+@media print{ .xj-sidenav{display:none !important;} }

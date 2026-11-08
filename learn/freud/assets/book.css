@@ -144,6 +144,8 @@ html.xj-locked #xjGate{display:flex; position:fixed; inset:0; z-index:999;
   border-radius:8px; cursor:pointer; user-select:none; -webkit-user-select:none; font-family:inherit;}
 .ann-note-btn:hover{color:#0f766e; border-color:#9fd6cf; background:#e7f5f2;}
 .ann-note-btn.has{color:#0f766e; background:#dff3ef; border-color:#9fd6cf; font-weight:700;}
+/* 小节标题后的笔记按钮：与段落按钮同机制，略小一号以贴合标题行 */
+.ann-note-btn-sec{margin-left:10px; font-size:11px; padding:0 6px; border-radius:7px;}
 .ann-mark{border-radius:3px; padding:1px 0; cursor:pointer;}
 .ann-y,.ann-mark.ann-y{background:#ffe27a;}
 .ann-g,.ann-mark.ann-g{background:#b7e6b0;}

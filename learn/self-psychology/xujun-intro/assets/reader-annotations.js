@@ -38,7 +38,15 @@
     }
     return null;
   }
+  function plainText(node) {
+    // 去掉运行时注入的 ✎ 按钮文本；划线/高亮只包裹文本，不影响取词
+    var c = node.cloneNode(true);
+    var bs = c.querySelectorAll('.ann-note-btn');
+    for (var i = bs.length - 1; i >= 0; i--) bs[i].parentNode.removeChild(bs[i]);
+    return (c.textContent || '').trim();
+  }
   function secOf(p) {
+    if (p.getAttribute && p.getAttribute('data-sec')) return p.getAttribute('data-sec');
     var cur = p.previousElementSibling;
     while (cur) {
       if (cur.getAttribute && cur.getAttribute('data-sec')) return cur.getAttribute('data-sec');
@@ -50,9 +58,12 @@
     var secTitle = '';
     if (sec) {
       var h = article.querySelector('[data-sec="' + sec + '"]');
-      if (h) secTitle = h.textContent.trim();
+      if (h) secTitle = plainText(h);
     }
-    return (secTitle ? '〔' + cut(secTitle, 16) + '〕' : '') + cut(p.textContent.trim(), 42);
+    var txt = plainText(p);
+    // 小标题自身就是归属小节，避免把标题重复拼两遍
+    if (p.getAttribute && p.getAttribute('data-sec')) return '〔小节〕' + cut(txt, 42);
+    return (secTitle ? '〔' + cut(secTitle, 16) + '〕' : '') + cut(txt, 42);
   }
 
   /* ---------- 标注重绘：按边界切分，划线包高亮，跨文本节点自动拆 ---------- */
@@ -195,7 +206,7 @@
     var html = '<div class="ann-stat">' + notes.length + ' 条笔记 · ' + us.length +
                ' 处划线 · ' + ms.length + ' 处句内高亮</div>';
     if (!notes.length && !us.length && !ms.length) {
-      html += '<p class="ann-empty">还没有批注。<br>选中句子先<b>划线</b>（重点句，会自动摘抄），<br>再选中句中词汇<b>高亮</b>（句内重点）；<br>点段落右侧 ✎ 可写笔记。</p>';
+      html += '<p class="ann-empty">还没有批注。<br>选中句子先<b>划线</b>（重点句，会自动摘抄），<br>再选中句中词汇<b>高亮</b>（句内重点）；<br>点段落或小节标题后的 ✎ 可写笔记。</p>';
     }
     if (us.length) {
       html += '<div class="ann-h">划线摘抄（含高亮标记）</div>';
@@ -435,10 +446,17 @@
     notesUrl = article.getAttribute('data-notes-url') || '../../notes/';
     chLabel = article.getAttribute('data-ch-label') || ('第 ' + ch + ' 章');
 
+    // 小标题也挂笔记按钮：用其稳定的 data-sec 作 pid，复用段落笔记的全套机制
+    // （运行时注入，不改动生成好的正文 HTML）
+    Array.prototype.forEach.call(article.querySelectorAll('[data-sec]'), function (h) {
+      if (!h.getAttribute('data-pid')) h.setAttribute('data-pid', h.getAttribute('data-sec'));
+    });
+
     Array.prototype.forEach.call(article.querySelectorAll('[data-pid]'), function (p) {
       var pid = p.getAttribute('data-pid');
-      var b = el('button', 'ann-note-btn', '✎');
-      b.type = 'button'; b.title = '给这一段写笔记';
+      var isSec = !!p.getAttribute('data-sec');
+      var b = el('button', 'ann-note-btn' + (isSec ? ' ann-note-btn-sec' : ''), '✎');
+      b.type = 'button'; b.title = isSec ? '给这一小节写笔记' : '给这一段写笔记';
       b.setAttribute('data-pid', pid);
       b.onclick = function (ev) { ev.stopPropagation(); openEditor(null, pid); };
       p.appendChild(b);
