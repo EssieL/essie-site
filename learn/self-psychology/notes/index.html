@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>笔记管理 · 自体心理学 · 个人学习</title>
+<title>笔记管理 · 个人学习（跨书目）</title>
 <link rel="stylesheet" href="../../assets/site.css">
 <style>
   .hero .badge{background:#e7f5f2; color:#0f766e;}
@@ -100,14 +100,14 @@
   <div class="crumb">
     <a href="../../../index.html">个人网站</a><span class="sep">›</span>
     <a href="../../index.html">个人学习</a><span class="sep">›</span>
-    <a href="../index.html">自体心理学</a><span class="sep">›</span><span>笔记管理</span>
+    <a href="../index.html">自体心理学</a><span class="sep">›</span><span>笔记管理（跨书目）</span>
   </div>
 
   <div class="hero">
     <p class="kicker">CROSS-CHAPTER TOOL</p>
     <h1>笔记管理</h1>
-    <p class="sub">划线即重点句，自动摘抄；句中的高亮词在摘抄里被标记。与正文阅读页双向编辑。</p>
-    <span class="badge">划线摘抄 · 句内高亮 · 本地存储 · 双向同步 · 结构预留跨书目</span>
+    <p class="sub">划线即重点句，自动摘抄；句中的高亮词在摘抄里被标记。《自体心理学入门》与 Freud作品 共用一份数据库，与两处正文页双向编辑。</p>
+    <span class="badge">跨书目共用 · 划线摘抄 · 句内高亮 · 本地存储 · 双向同步</span>
   </div>
 
   <div class="tabs" id="tabs">
@@ -116,6 +116,12 @@
     <button data-tab="marks">句内高亮</button>
     <button data-tab="chapters">按章汇总</button>
     <button data-tab="data">数据管理</button>
+  </div>
+
+  <div class="bar" id="gBar">
+    <label>书目 <select id="gBook"><option value="all">全部书目</option>
+      <option value="freud-rse-v1">Freud作品 · RSE 第 1 卷（全部 4 册）</option></select></label>
+    <span class="stat" id="gStat" style="margin:0 0 0 auto"></span>
   </div>
 
   <div class="pane on" id="pane-notes">
@@ -165,8 +171,8 @@
   <div class="pane" id="pane-data">
     <div class="hint">
       <b>存储边界</b>：批注只存在本机浏览器的 localStorage（同一浏览器同一设备），不上传、不跨设备。<br>
-      正文阅读页的划线／高亮／写笔记、这里的编辑／新增／删除，都写同一份数据并实时互通；换设备或清缓存前请用「JSON 完整备份」迁移。<br>
-      当前只收《自体心理学入门》，数据已带 <code>book</code> 字段，日后可加入其它书目。旧版备份（无划线表）可直接导入，原有笔记与高亮不会丢失。
+      两处正文阅读页（自体心理学 / Freud作品）的划线／高亮／写笔记、这里的编辑／新增／删除，都写<b>同一份数据库</b>并实时互通；用顶部「书目」筛选查看，换设备或清缓存前请用「JSON 完整备份」迁移。<br>
+      已收录《自体心理学入门》与 RSE 第 1 卷 4 册；数据带 <code>book</code> 字段。旧版备份（无划线表）可直接导入，原有笔记与高亮不会丢失。
     </div>
     <div class="ops">
       <button id="btnJSON">JSON 完整备份（下载）</button>
@@ -183,14 +189,25 @@
 
 <div class="mask" id="mask"><div class="dlg" id="dlg"></div></div>
 
+<script src="../../assets/notes-books.js"></script>
 <script src="../assets/notes-store.js"></script>
 <script>
 (function () {
   'use strict';
   var H = window.NotesHub;
   H.init();
-  var PAGES = {1:'003–021',2:'025–038',3:'041–061',4:'066–082',5:'085–102',6:'105–119',
-               7:'123–137',8:'141–150',9:'153–163',10:'167–180',11:'183–201',12:'205–218'};
+  var REG = window.XJ_NOTES_BOOKS || {books:[], chapters:{}, order:[]};
+  function chInfo(n){ return REG.chapters[String(n)] || null; }
+  function chapPages(n){ var i=chInfo(n); return i ? i.pages : ''; }
+  function chapUrl(n){ var i=chInfo(n); return i ? ('../../' + i.url) : ('../xujun-intro/text/ch'+n+'.html'); }
+  function chapBook(n){ var i=chInfo(n); return i ? i.bookName : H.BOOK; }
+  function bookMatches(i,f){
+    if(f==='all') return true;
+    if(!i) return false;
+    if(f==='freud-rse-v1') return i.book.indexOf('freud-')===0;
+    return i.book===f;
+  }
+  function bookOK(x){ return bookMatches(chInfo(x.ch), $('gBook') ? $('gBook').value : 'all'); }
   var COLORS = {y:'#ffe27a',g:'#b7e6b0',b:'#b9dcf5',p:'#f7c2d9'};
   var UCOLORS = {y:'#e0b93f',g:'#68ad61',b:'#5b9fd4',p:'#d978a8'};
   var CNAME = {y:'黄',g:'绿',b:'蓝',p:'粉'};
@@ -200,12 +217,27 @@
   function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   function cut(s,n){ s=String(s||''); return s.length>n?s.slice(0,n)+'…':s; }
-  function chapLabel(n){ return '第' + n + '章'; }
+  function chapLabel(n){ var i=chInfo(n); return i ? i.label : ('第'+n+'章'); }
   function time(s){ return String(s||'').replace('T',' ').slice(0,16); }
   function selCh(el){
-    for(var n=1;n<=12;n++){ var o=document.createElement('option'); o.value=n; o.textContent=chapLabel(n); el.appendChild(o); }
+    (REG.books||[]).forEach(function(b){
+      var g=document.createElement('optgroup'); g.label=b.name;
+      (b.chapters||[]).forEach(function(n){
+        var o=document.createElement('option'); o.value=n; o.textContent=chapLabel(n); g.appendChild(o);
+      });
+      el.appendChild(g);
+    });
   }
   ['fCh','eCh','mCh'].forEach(function(id){ selCh($(id)); });
+  (function(){
+    var g=$('gBook');
+    (REG.books||[]).forEach(function(b){
+      var o=document.createElement('option'); o.value=b.id; o.textContent=b.name; g.appendChild(o);
+    });
+    var m=/[?&]book=([^&]+)/.exec(location.search);
+    if(m) g.value=decodeURIComponent(m[1]);
+    g.addEventListener('change',render);
+  })();
 
   function excerptOf(x){ return H.excerpt(x.uid) || {html:esc(x.quote||''),md:String(x.quote||''),parts:[]}; }
   function markedCount(ex){ return ex.parts.filter(function(p){return !!p.color;}).length; }
@@ -235,7 +267,7 @@
     return '<div class="item'+(x.deleted?' del':'')+'">'+
       '<div class="top">'+
         '<span class="pill type '+ty+'">'+TYPES[ty]+'</span>'+
-        '<span class="pill">'+esc(chapLabel(x.ch))+' · pp.'+esc(PAGES[x.ch]||'')+'</span>'+
+        '<span class="pill">'+esc(chapBook(x.ch))+' · '+esc(chapLabel(x.ch))+' · '+esc(chapPages(x.ch))+'</span>'+
         (x.sec?'<span class="pill src">'+esc(x.sec)+'</span>':'')+
         (ty!=='note'?'<span class="dot" style="background:'+
           ((ty==='underline'?UCOLORS:COLORS)[x.color]||'#ffe27a')+'"></span><span class="pill">'+esc(CNAME[x.color]||'黄')+'</span>':'')+
@@ -246,7 +278,7 @@
       '<div class="foot"><span>'+esc(cut(x.pid||'未定位段落',18))+' · '+esc(time(x.createdAt))+'</span>'+
         '<span class="sp"></span>'+
         '<button data-act="edit" data-uid="'+esc(x.uid)+'">'+(ty==='underline'?'写想法 / 编辑':'编辑')+'</button>'+
-        '<a href="../xujun-intro/text/ch'+x.ch+'.html#'+esc(x.pid)+'"><button data-act="noop">看原文</button></a>'+
+        '<a href="'+esc(chapUrl(x.ch))+'#'+esc(x.pid)+'"><button data-act="noop">看原文</button></a>'+
         (x.deleted
           ? '<button data-act="restore" data-uid="'+esc(x.uid)+'">恢复</button>'
           : '<button class="danger" data-act="del" data-uid="'+esc(x.uid)+'">删除</button>')+
@@ -271,6 +303,7 @@
     var showDel=$('fDel').checked;
     return arr.filter(function(x){
       if(!showDel && x.deleted) return false;
+      if(!bookOK(x)) return false;
       if(ch!=='all' && String(x.ch)!==ch) return false;
       if(ty!=='all' && x.type!==ty) return false;
       if(q){
@@ -285,12 +318,13 @@
     $('stat').innerHTML='共 <b>'+rs.length+'</b> 条显示 · 全库 <b>'+c.notes+'</b> 条笔记 / <b>'+
       c.underlines+'</b> 处划线摘抄 / <b>'+c.marks+'</b> 处句内高亮 / <b>'+c.deleted+'</b> 条已删除';
     $('list').innerHTML = rs.length ? rs.map(itemHTML).join('')
-      : '<div class="empty"><b>这里还是空的</b><br>去<a href="../xujun-intro/text/">正文阅读页</a>选中句子<b>划线</b>（重点句，自动摘抄），<br>再选句中词汇<b>高亮</b>；点段落旁 ✎ 可写笔记。<br>已有的章节学习笔记 md 按你的选择<b>暂不导入</b>。</div>';
+      : '<div class="empty"><b>这里还是空的</b><br>去<a href="../xujun-intro/text/">《自体心理学入门》正文</a>或<a href="../../freud/vol1/">Freud作品正文</a>选中句子<b>划线</b>（重点句，自动摘抄），<br>再选句中词汇<b>高亮</b>；点段落旁 ✎ 可写笔记。</div>';
     bindList($('list'));
   }
   function renderExcerpts(){
     var ch=$('eCh').value, co=$('eColor').value, q=$('eQ').value.trim().toLowerCase();
     var rs=H.allUnderlines().filter(function(x){
+      if(!bookOK(x)) return false;
       if(ch!=='all'&&String(x.ch)!==ch) return false;
       if(co!=='all'&&x.color!==co) return false;
       if(q&&(String(x.quote||'')+String(x.note||'')).toLowerCase().indexOf(q)<0) return false;
@@ -306,6 +340,7 @@
   function renderMarks(){
     var ch=$('mCh').value, co=$('mColor').value, rel=$('mRel').value, q=$('mQ').value.trim().toLowerCase();
     var rs=H.allMarks().filter(function(x){
+      if(!bookOK(x)) return false;
       if(ch!=='all'&&String(x.ch)!==ch) return false;
       if(co!=='all'&&x.color!==co) return false;
       if(rel==='in'&&!x.under) return false;
@@ -320,14 +355,21 @@
   }
   function renderChapters(){
     var ns=H.allNotes(), us=H.allUnderlines(), ms=H.allMarks();
-    var h='<table><thead><tr><th>章</th><th>页码</th><th>笔记</th><th>划线摘抄</th><th>句内高亮</th><th>正文</th></tr></thead><tbody>';
-    for(var n=1;n<=12;n++){
+    var f=$('gBook').value, last='';
+    var h='<table><thead><tr><th>书目 / 篇目</th><th>页码</th><th>笔记</th><th>划线摘抄</th><th>句内高亮</th><th>正文</th></tr></thead><tbody>';
+    (REG.order||[]).forEach(function(n0){
+      var n=Number(n0), i=chInfo(n);
+      if(!i || !bookMatches(i,f)) return;
       var a=ns.filter(function(x){return Number(x.ch)===n;}).length;
       var u=us.filter(function(x){return Number(x.ch)===n;}).length;
       var b=ms.filter(function(x){return Number(x.ch)===n;}).length;
-      h+='<tr><td>'+chapLabel(n)+'</td><td>pp.'+PAGES[n]+'</td><td>'+a+'</td><td>'+u+'</td><td>'+b+'</td>'+
-         '<td><a href="../xujun-intro/text/ch'+n+'.html">阅读 →</a></td></tr>';
-    }
+      if(last!==i.book){
+        h+='<tr><td colspan="6" style="background:#f3f8f7;font-weight:700;color:#115e59">'+esc(i.bookName)+'</td></tr>';
+        last=i.book;
+      }
+      h+='<tr><td>'+esc(chapLabel(n))+'</td><td>'+esc(chapPages(n))+'</td><td>'+a+'</td><td>'+u+'</td><td>'+b+'</td>'+
+         '<td><a href="'+esc(chapUrl(n))+'">阅读 →</a></td></tr>';
+    });
     h+='</tbody></table>';
     $('chapTable').innerHTML=h;
   }
@@ -343,8 +385,14 @@
     var x = uid ? H.all(true).filter(function(a){return a.uid===uid;})[0] : null;
     ST.editing = uid || ''; ST.isNew = !uid; ST.type = x ? x.type : 'note';
     var ty=ST.type, isNote=ty==='note';
-    var opts='';
-    for(var n=1;n<=12;n++) opts+='<option value="'+n+'"'+((x?Number(x.ch):Number($('fCh').value)||1)===n?' selected':'')+'>'+chapLabel(n)+'</option>';
+    var opts='', cur=x?Number(x.ch):(Number($('fCh').value)||Number((REG.order||[1])[0])||1);
+    (REG.books||[]).forEach(function(bk){
+      opts+='<optgroup label="'+esc(bk.name)+'">';
+      (bk.chapters||[]).forEach(function(n){
+        opts+='<option value="'+n+'"'+(cur===Number(n)?' selected':'')+'>'+esc(chapLabel(n))+'</option>';
+      });
+      opts+='</optgroup>';
+    });
     var copts='';
     Object.keys(CNAME).forEach(function(k){
       copts+='<option value="'+k+'"'+((x&&x.color===k)?' selected':'')+'>'+CNAME[k]+'</option>';
@@ -387,7 +435,7 @@
     if(ST.type==='note'){
       patch.text=$('edText').value.trim();
       if(!patch.text){ alert('笔记正文不能为空'); return; }
-      patch.book=H.BOOK; patch.source='hub';
+      var ci=chInfo(patch.ch); patch.book=ci?ci.bookId:H.BOOK; patch.source='hub';
       if(ST.isNew) H.addNote(patch); else H.updateNote(ST.editing,patch);
     } else if(ST.type==='underline'){
       if(ST.isNew) return;
@@ -413,15 +461,19 @@
   }
   function markdown(){
     var ns=H.allNotes(), us=H.allUnderlines(), ms=H.allMarks();
-    var out=['# '+H.BOOK+' · 阅读批注','','导出时间：'+new Date().toLocaleString('zh-CN'),
+    var out=['# 阅读批注 · 全部书目','','导出时间：'+new Date().toLocaleString('zh-CN'),
              '共 '+ns.length+' 条笔记 / '+us.length+' 条划线摘抄 / '+ms.length+' 处句内高亮','',
              '> 摘抄中的 **加粗词** 即划线句内的高亮（句内重点）。',''];
-    for(var n=1;n<=12;n++){
+    var f=$('gBook').value, lastBook='';
+    (REG.order||[]).forEach(function(n0){
+      var n=Number(n0), i=chInfo(n);
+      if(!i || !bookMatches(i,f)) return;
       var a=ns.filter(function(x){return Number(x.ch)===n;});
       var u=us.filter(function(x){return Number(x.ch)===n;});
       var b=ms.filter(function(x){return Number(x.ch)===n;});
-      if(!a.length&&!u.length&&!b.length) continue;
-      out.push('## 第'+n+'章（pp.'+PAGES[n]+'）','');
+      if(!a.length&&!u.length&&!b.length) return;
+      if(lastBook!==i.book){ out.push('# '+i.bookName,''); lastBook=i.book; }
+      out.push('## '+chapLabel(n)+'（'+chapPages(n)+'）','');
       if(u.length){
         out.push('### 划线摘抄','');
         u.forEach(function(x){
@@ -450,7 +502,7 @@
         });
         out.push('');
       }
-    }
+    });
     if(!ns.length&&!us.length&&!ms.length) out.push('（暂无批注）');
     return out.join('\n');
   }

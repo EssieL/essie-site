@@ -15,6 +15,7 @@
     { k: 'p', name: '粉', c: '#f7c2d9' }
   ];
   var article, wrap, ch, btns = {};
+  var book = H.BOOK, notesUrl = '../../notes/', chLabel = '';
   var toolbar, panel, editor, editing = null;
 
   function el(tag, cls, txt) {
@@ -170,7 +171,7 @@
     var head = el('div', 'ann-head');
     head.appendChild(el('b', '', '本章批注'));
     var link = el('a', 'ann-link', '↗ 笔记管理');
-    link.href = '../../notes/';
+    link.href = notesUrl;
     head.appendChild(link);
     var toggle = el('button', 'ann-toggle', '收起');
     toggle.type = 'button';
@@ -273,7 +274,7 @@
         .map(function (x) { return x.trim(); }).filter(Boolean);
       if (!text) { alert('笔记内容不能为空'); return; }
       if (editing.uid) H.updateNote(editing.uid, { text: text, tags: tg });
-      else H.addNote({ book: H.BOOK, ch: ch, sec: sec, pid: editing.pid,
+      else H.addNote({ book: book, ch: ch, sec: sec, pid: editing.pid,
                        preview: editing.preview, text: text, tags: tg, source: 'reader' });
       closeEditor();
     };
@@ -294,7 +295,7 @@
     editor.innerHTML =
       '<div class="ann-box"><div class="ann-box-h"><b>划线摘抄 · 我的想法</b>' +
       '<button type="button" id="annClose">×</button></div>' +
-      '<div class="ann-anchor">第 ' + ch + ' 章 · ' + esc(cut(u.preview || u.pid, 30)) + '</div>' +
+      '<div class="ann-anchor">' + esc(chLabel) + ' · ' + esc(cut(u.preview || u.pid, 30)) + '</div>' +
       '<div class="ann-quote-box">' + (ex ? ex.html : esc(u.quote)) + '</div>' +
       '<div class="ann-quote-tip">上为自动摘抄；句中的<b>底色词</b>是后来加的句内高亮，会随高亮增删自动变化。</div>' +
       '<textarea id="annUnderNote" placeholder="针对这句摘抄写下想法…">' + esc(u.note || '') + '</textarea>' +
@@ -394,7 +395,7 @@
     var s = pendingSel || selectionInfo();
     if (!s) return;
     var p = s.p, pid = p.getAttribute('data-pid');
-    var u = H.addUnderline({ book: H.BOOK, ch: ch, sec: secOf(p), pid: pid,
+    var u = H.addUnderline({ book: book, ch: ch, sec: secOf(p), pid: pid,
                              start: s.start, end: s.end, quote: s.quote, color: color,
                              preview: previewOf(p, secOf(p)) });
     H.chapterMarks(ch).forEach(function (m) {
@@ -408,7 +409,7 @@
     var s = pendingSel || selectionInfo();
     if (!s) return;
     var p = s.p, pid = p.getAttribute('data-pid');
-    H.addMark({ book: H.BOOK, ch: ch, sec: secOf(p), pid: pid,
+    H.addMark({ book: book, ch: ch, sec: secOf(p), pid: pid,
                 start: s.start, end: s.end, quote: s.quote, color: color,
                 under: H.findUnderline(ch, pid, s.start, s.end) });
     clearSelection();
@@ -430,6 +431,9 @@
     if (!article) return;
     wrap = document.querySelector('body > .wrap') || document.body;
     ch = Number(article.getAttribute('data-ch')) || 1;
+    book = article.getAttribute('data-book') || H.BOOK;
+    notesUrl = article.getAttribute('data-notes-url') || '../../notes/';
+    chLabel = article.getAttribute('data-ch-label') || ('第 ' + ch + ' 章');
 
     Array.prototype.forEach.call(article.querySelectorAll('[data-pid]'), function (p) {
       var pid = p.getAttribute('data-pid');
