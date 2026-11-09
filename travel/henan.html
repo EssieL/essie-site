@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f766e">
+<meta name="robots" content="noindex, nofollow">
+<title>只有河南 · 戏剧幻城 两日攻略（11/11–11/12）</title>
+<style>
+  :root{
+    --teal:#0f766e; --teal-d:#115e59; --teal-l:#14b8a6;
+    --amber:#b45309; --amber-bg:#fff7ed; --amber-bd:#fcd34d; --amber-ink:#92400e;
+    --ink:#1f2937; --sub:#64748b; --line:#e2e8f0;
+    --bg:#f5f7f7; --card:#ffffff; --soft:#eef4f4;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; padding:0; scroll-behavior:smooth;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.65; font-size:16px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:640px; margin:0 auto; padding-bottom:44px;}
+
+  .hero{background:linear-gradient(135deg,var(--teal-d),var(--teal-l)); color:#fff; padding:26px 20px 22px;}
+  .hero .kicker{font-size:12px; letter-spacing:2px; opacity:.85; margin:0 0 6px; text-transform:uppercase;}
+  .hero h1{margin:0 0 8px; font-size:25px; font-weight:800; letter-spacing:.5px;}
+  .hero .sub{font-size:13.5px; opacity:.94; margin:0; line-height:1.6;}
+  .hero .badges{margin-top:14px; display:flex; flex-wrap:wrap; gap:7px;}
+  .hero .badge{background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.35);
+    padding:5px 12px; border-radius:999px; font-size:12.5px; font-weight:600;}
+
+  .nav{position:sticky; top:0; z-index:30; background:rgba(245,247,247,.97); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line); padding:8px 10px; display:flex; gap:7px; overflow-x:auto; -webkit-overflow-scrolling:touch;}
+  .nav a{flex:0 0 auto; text-decoration:none; color:var(--teal-d); background:#fff; border:1px solid var(--line);
+    padding:5px 11px; border-radius:999px; font-size:12.5px; font-weight:600; white-space:nowrap;}
+  .nav a:active{background:var(--teal); color:#fff; border-color:var(--teal);}
+
+  section{padding:18px 16px 2px;}
+  .sec-title{display:flex; align-items:center; gap:9px; font-size:17.5px; font-weight:800; color:var(--teal-d); margin:4px 0 12px;}
+  .sec-title .ic{width:26px; height:26px; border-radius:8px; background:var(--soft); color:var(--teal);
+    display:flex; align-items:center; justify-content:center; font-size:14px; flex:0 0 26px;}
+  .sec-title small{font-weight:600; font-size:12px; color:var(--sub); margin-left:auto;}
+
+  .card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px 15px;
+    margin-bottom:12px; box-shadow:0 1px 3px rgba(15,118,110,.05);}
+  .card h3{margin:0 0 8px; font-size:15px; font-weight:750; color:var(--ink);}
+  .card p{margin:0; font-size:13.5px; color:#475569; line-height:1.7;}
+
+  .kpi{display:grid; grid-template-columns:1fr 1fr; gap:9px;}
+  @media (max-width:520px){ .kpi{grid-template-columns:1fr 1fr;} }
+  .kpi .k{background:#fff; border:1px solid var(--line); border-radius:14px; padding:11px 12px;}
+  .kpi .k .lab{font-size:11.5px; color:var(--sub); font-weight:700; letter-spacing:.5px;}
+  .kpi .k .val{font-size:14px; font-weight:750; color:var(--teal-d); margin-top:3px; line-height:1.45;}
+  .kpi .k .val em{font-style:normal; font-weight:600; font-size:12px; color:var(--sub); display:block;}
+
+  .hl{background:var(--amber-bg); border:1px solid var(--amber-bd); border-radius:13px; padding:11px 13px;
+    font-size:13px; color:var(--amber-ink); font-weight:600; line-height:1.65; margin-bottom:12px;}
+
+  figure{margin:0 0 14px;}
+  figure img{width:100%; height:auto; display:block; border-radius:14px; border:1px solid var(--line); background:#fff;}
+  figcaption{font-size:12px; color:var(--sub); margin-top:7px; line-height:1.6;}
+
+  .diagram{background:#fff; border:1px solid var(--line); border-radius:16px; padding:8px 6px 4px; margin-bottom:14px;
+    box-shadow:0 1px 3px rgba(15,118,110,.05);}
+  .diagram svg{width:100%; height:auto; display:block;}
+  .dg-cap{font-size:12px; color:var(--sub); padding:0 8px 8px; line-height:1.6;}
+
+  .dayhead{display:flex; align-items:center; gap:11px; margin:16px 0 10px;}
+  .dayhead .dnum{flex:0 0 auto; padding:6px 13px; border-radius:12px; font-weight:800; font-size:14px; color:#fff;}
+  .dayhead.wed .dnum{background:linear-gradient(135deg,#b45309,#f59e0b);}
+  .dayhead.thu .dnum{background:linear-gradient(135deg,var(--teal-d),var(--teal-l));}
+  .dayhead .dt b{display:block; font-size:15px; color:var(--ink);}
+  .dayhead .dt small{display:block; font-size:12px; color:var(--sub);}
+
+  .row{display:grid; grid-template-columns:66px 1fr; gap:11px; padding:9px 12px; background:#fff;
+    border:1px solid var(--line); border-left:4px solid var(--teal-l); border-radius:12px; margin-bottom:7px;}
+  .row .t{font-weight:800; font-size:13px; color:var(--teal-d); line-height:1.35;}
+  .row .t em{display:block; font-style:normal; font-size:10.5px; color:var(--sub); font-weight:600; margin-top:1px;}
+  .row .c b{font-size:14px; color:var(--ink); font-weight:750;}
+  .row .c p{margin:3px 0 0; font-size:12.5px; color:#64748b; line-height:1.55;}
+  .row.main{border-left-color:#b45309; background:#fffdf6;}
+  .row.main .t{color:var(--amber);}
+  .row.walk{border-left-color:#cbd5e1; background:#fafbfc;}
+  .row.walk .c b{font-weight:650; color:#64748b; font-size:13px;}
+  .row.rest{border-left-color:#93c5fd; background:#f8fbff;}
+  .row.work{border-left-color:#818cf8; background:#f6f5ff;}
+
+  .tg{display:inline-block; font-size:10.5px; font-weight:700; padding:1px 6px; border-radius:5px;
+    background:var(--soft); color:var(--teal-d); margin-left:5px; vertical-align:1px;}
+  .tg.main{background:#fef3c7; color:var(--amber-ink);}
+  .tg.work{background:#e0e7ff; color:#3730a3;}
+
+  table{width:100%; border-collapse:collapse; font-size:12.5px;}
+  th,td{padding:6px 5px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; line-height:1.5;}
+  th{color:var(--teal-d); font-size:11.5px; background:var(--soft); font-weight:750;}
+  td.mono{font-variant-numeric:tabular-nums; white-space:nowrap; font-weight:700; color:var(--teal-d);}
+  tr.sel td{background:#fffbeb;}
+  tr.sel td:first-child{box-shadow:inset 3px 0 0 #f59e0b;}
+  tr.no td{color:#94a3b8;}
+  .cd{display:inline-block; font-size:10.5px; font-weight:800; padding:1px 6px; border-radius:4px; margin-left:2px; white-space:nowrap;}
+  .cd.w{background:#fef3c7; color:#92400e;}
+  .cd.t{background:#ccfbf1; color:#115e59;}
+  .cd.x{background:#f1f5f9; color:#94a3b8;}
+
+  details{background:#fff; border:1px solid var(--line); border-radius:16px; padding:0; margin-bottom:12px; overflow:hidden;}
+  details summary{cursor:pointer; padding:13px 15px; font-weight:750; font-size:14.5px; color:var(--teal-d); list-style:none;}
+  details summary::-webkit-details-marker{display:none;}
+  details summary::after{content:"展开 ▾"; float:right; font-size:12px; color:var(--sub); font-weight:600;}
+  details[open] summary::after{content:"收起 ▴";}
+  details .inner{padding:0 12px 12px;}
+
+  ul.clean{margin:0; padding-left:0; list-style:none;}
+  ul.clean li{position:relative; padding:7px 0 7px 22px; border-bottom:1px dashed var(--line); font-size:13.5px; color:#334155;}
+  ul.clean li:last-child{border-bottom:none;}
+  ul.clean li:before{content:"✓"; position:absolute; left:2px; top:7px; color:var(--teal-l); font-weight:800;}
+  ul.clean li b{color:var(--teal-d);}
+
+  .note{font-size:12.5px; color:var(--sub); margin:8px 2px 0; line-height:1.7;}
+  .foot{text-align:center; font-size:12px; color:var(--sub); padding:26px 16px 0;}
+  .back{display:block; margin:14px 16px 0; font-size:13px; color:var(--teal-d); text-decoration:none; font-weight:650;}
+  .back:active{opacity:.6;}
+
+  @media print{
+    .nav{display:none;} .hero{background:#115e59 !important; -webkit-print-color-adjust:exact;}
+    body{font-size:12pt;} .row{break-inside:avoid;} details{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <p class="kicker">Essie's Travel Notes · 2026</p>
+    <h1>只有河南 · 戏剧幻城</h1>
+    <p class="sub">郑州中牟 · 两日通票 · 三场主剧锁在周三</p>
+    <div class="badges">
+      <span class="badge">11/11 周三 · 主剧日</span>
+      <span class="badge">11/12 周四 · 小剧场日</span>
+      <span class="badge">入园 2 次 · 7 场小剧场</span>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <a href="#brief">速览</a>
+    <a href="#map">地图</a>
+    <a href="#route">路线图</a>
+    <a href="#wed">周三</a>
+    <a href="#thu">周四</a>
+    <a href="#walk">步行时间</a>
+    <a href="#all">全部场次</a>
+    <a href="#skip">不看的剧</a>
+    <a href="#tips">现场备忘</a>
+  </nav>
+
+  <!-- ══════════ 速览 ══════════ -->
+  <section id="brief">
+    <div class="sec-title"><span class="ic">◈</span>先看这六条</div>
+
+    <div class="kpi">
+      <div class="k"><div class="lab">门票</div><div class="val">两日通票<em>工作日 ¥390 · 已购 · 刷身份证入园</em></div></div>
+      <div class="k"><div class="lab">主剧</div><div class="val">3 场全在 11/11<em>11:00 火车站 / 13:00 李家村 / 17:00 幻城</em></div></div>
+      <div class="k"><div class="lab">开闭园</div><div class="val">10:00 – 20:00<em>工作日；周五六延到 21:30</em></div></div>
+      <div class="k"><div class="lab">住处</div><div class="val">只有陋室·别院<em>3.6 km · 免费班车 8 分钟</em></div></div>
+      <div class="k"><div class="lab">周三强度</div><div class="val">在园 10 小时<em>站立 140 分钟 · 走路约 4 km</em></div></div>
+      <div class="k"><div class="lab">周四硬约束</div><div class="val">17:05 必须出园<em>18:30 两场咨询，在住处线上</em></div></div>
+    </div>
+
+    <div class="hl" style="margin-top:12px">
+      两天不是“看多少场”的问题：<b>周三把三场主剧一次看完，周四只扫小剧场，17:05 干净出园</b>。周四上午 10:00 还有督导，两个工作时段都不能被园区拖住。
+    </div>
+
+    <div class="card">
+      <h3>进出园方式（两天一样）</h3>
+      <p>入口在园区<b>东侧</b>，「文明之光」投影墙的正下方。住处到园区 3.6 km，管家班车 7–8 分钟，<b>要提前一晚说好时间</b>，别等出门才叫车。周三 09:45 上车，周四 11:05 上车、17:05 接回。</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 地图 ══════════ -->
+  <section id="map">
+    <div class="sec-title"><span class="ic">🗺</span>官方简版地图</div>
+
+    <figure>
+      <a href="assets/henan-map.jpg" target="_blank" rel="noopener">
+        <img src="assets/henan-map.jpg" alt="只有河南·戏剧幻城 简版地图（官方）">
+      </a>
+      <figcaption>点图可看原尺寸。官方《只有河南》简版地图，全部场地、卫生间、热水站、救助站都在上面。</figcaption>
+    </figure>
+
+    <div class="hl">
+      <b>这张图是转过来的，先记住这一句：</b>图上方＝西，图下方＝东，图左＝南，图右＝北。<br>
+      所以 <b>左上＝西南、右上＝西北、右下＝东北、左下＝东南</b>。下面所有页面都用真实方位说话。
+    </div>
+
+    <div class="card">
+      <h3>四个角，钉死这四个就够了</h3>
+      <table>
+        <tr><th style="width:34%">真实方位</th><th>场地</th></tr>
+        <tr><td><b>西南角（图左上）</b></td><td>火车站剧场</td></tr>
+        <tr><td><b>西北角（图右上）</b></td><td>幻城剧场</td></tr>
+        <tr><td><b>东北角（图右下）</b></td><td>李家村剧场</td></tr>
+        <tr><td><b>东南角（图左下）</b></td><td>麦浪餐厅</td></tr>
+        <tr><td><b>东侧（图下方）</b></td><td>文明之光墙 · 幻城景观广场 · 园区入口</td></tr>
+        <tr><td>正中</td><td>地坑院 · 宋街（下沉式，有扶梯）</td></tr>
+      </table>
+      <p class="note">地坑院是全场唯一的“穿堂”：出口分别写着「幻城／候车大厅／天子驾六／老院子」「麦浪餐厅／苏轼的河南／红庙学校」「下沉岁月／第七机车／曹操的麦田」「椅阵／李家村剧场／张家大院」。<b>认出口比记路快。</b></p>
+    </div>
+  </section>
+
+  <!-- ══════════ 路线图 ══════════ -->
+  <section id="route">
+    <div class="sec-title"><span class="ic">➤</span>按这张地图画的路线<small>与官方地图同向</small></div>
+
+    <div class="diagram">
+      <svg viewBox="0 0 680 760" role="img" aria-label="周三 11/11 主剧日路线示意图">
+        <defs><marker id="aw" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+          <path d="M0,0 L9,4.5 L0,9 z" fill="#b45309"/></marker></defs>
+        <text x="50" y="30" font-size="15" font-weight="800" fill="#b45309">周三 11/11 · 主剧日</text>
+        <text x="50" y="50" font-size="10.5" fill="#64748b">入口 → 候车大厅 → 火车站 → 地坑院（午饭）→ 李家村 → 曹操的麦田 → 幻城 → 文明之光</text>
+        <rect x="50" y="72" width="580" height="510" rx="5" fill="#fbfcfd" stroke="#cbd5e1" stroke-width="1.4"/>
+        <g stroke="#e8edf2" stroke-width="1.5">
+          <line x1="50" y1="190" x2="630" y2="190"/>
+          <line x1="50" y1="300" x2="630" y2="300"/>
+          <line x1="50" y1="430" x2="630" y2="430"/>
+          <line x1="240" y1="72" x2="240" y2="582"/>
+          <line x1="430" y1="72" x2="430" y2="582"/>
+        </g>
+        <path d="M340,690 L305,179 L131,143 L334,317 L549,511 L212,256 L549,143 L340,592"
+              fill="none" stroke="#b45309" stroke-width="2.4" stroke-opacity=".42"
+              stroke-linejoin="round" stroke-linecap="round" marker-end="url(#aw)"/>
+        <circle cx="305" cy="179" r="13" fill="#b45309" stroke="#fff" stroke-width="2.2"/><text x="305" y="183" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">1</text><rect x="200.0" y="159.0" width="88.0" height="20" rx="5" fill="#fff" fill-opacity="0.94" stroke="#b45309" stroke-opacity="0.35"/><text x="207.0" y="173.0" font-size="11.5" fill="#5b6b7a"><tspan font-weight="800" fill="#b45309">10:20</tspan> <tspan>候车大厅</tspan></text><circle cx="131" cy="143" r="13" fill="#b45309" stroke="#fff" stroke-width="2.2"/><text x="131" y="147" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">2</text><rect x="147.0" y="126.0" width="98.5" height="20" rx="5" fill="#fff" fill-opacity="0.94" stroke="#b45309" stroke-opacity="0.35"/><text x="154.0" y="140.0" font-size="11.5" fill="#5b6b7a"><tspan font-weight="800" fill="#b45309">11:00</tspan> <tspan>火车站剧场</tspan></text><circle cx="334" cy="317" r="13" fill="#b45309" stroke="#fff" stroke-width="2.2"/><text x="334" y="321" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">3</text><rect x="350.0" y="305.0" width="109.0" height="20" rx="5" fill="#fff" fill-opacity="0.94" stroke="#b45309" stroke-opacity="0.35"/><text x="357.0" y="319.0" font-size="11.5" fill="#5b6b7a"><tspan font-weight="800" fill="#b45309">12:10</tspan> <tspan>地坑院·宋街</tspan></text><circle cx="549" cy="511" r="13" fill="#b45309" stroke="#fff" stroke-width="2.2"/><text x="549" y="515" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">4</text><rect x="431.5" y="498.0" width="98.5" height="20" rx="5" fill="#fff" fill-opacity="0.94" stroke="#b45309" stroke-opacity="0.35"/><text x="438.5" y="512.0" font-size="11.5" fill="#5b6b7a"><tspan font-weight="800" fill="#b45309">13:00</tspan> <tspan>李家村剧场</tspan></text><circle cx="212" cy="256" r="13" fill="#b45309" stroke="#fff" stroke-width="2.2"/><text x="212" y="260" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">5</text><rect x="91.5" y="244.0" width="98.5" height="20" rx="5" fill="#fff" fill-opacity="0.94" stroke="#b45309" stroke-opacity="0.35"/><text x="98.5" y="258.0" font-size="11.5" fill="#5b6b7a"><tspan font-weight="800" fill="#b45309">15:10</tspan> <tspan>曹操的麦田</tspan></text><circle cx="549" cy="143" r="13" fill="#b45309" stroke="#fff" stroke-width="2.2"/><text x="549" y="147" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">6</text><rect x="442.0" y="126.0" width="88.0" height="20" rx="5" fill="#fff" fill-opacity="0.94" stroke="#b45309" stroke-opacity="0.35"/><text x="449.0" y="140.0" font-size="11.5" fill="#5b6b7a"><tspan font-weight="800" fill="#b45309">17:00</tspan> <tspan>幻城剧场</tspan></text>
+        <rect x="50" y="592" width="580" height="38" fill="#fef3c7" stroke="#f6cf6b" stroke-width="1.2"/>
+        <text x="340" y="609" font-size="11.5" font-weight="800" fill="#92400e" text-anchor="middle">文明之光 · 东墙激光投影</text>
+        <text x="340" y="623" font-size="10" fill="#a16207" text-anchor="middle">18:30 / 19:00 / 19:30 三场 · 看完即出口</text>
+
+        <rect x="50" y="636" width="580" height="60" fill="#eef4f4" stroke="#dbe6e6" stroke-width="1"/>
+        <text x="340" y="663" font-size="11" fill="#7a8b99" text-anchor="middle">幻城景观广场</text>
+        <text x="340" y="681" font-size="10" fill="#a9b6c4" text-anchor="middle">观众服务中心</text>
+        <path d="M330,722 L350,722 L340,706 Z" fill="#0f766e"/>
+        <text x="340" y="742" font-size="11.5" font-weight="700" fill="#0f766e" text-anchor="middle">园区入口 · 东侧</text>
+      </svg>
+      <div class="dg-cap">周三动线：一条从东往西再折返的“之”字。<b>全天四次横穿</b>，走路约 4 km——这是三场主剧分踞三角的代价，也是为什么 14:15 那 35 分钟要真的坐下。</div>
+    </div>
+
+    <div class="diagram">
+      <svg viewBox="0 0 680 760" role="img" aria-label="周四 11/12 小剧场日路线示意图">
+        <defs><marker id="at" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+          <path d="M0,0 L9,4.5 L0,9 z" fill="#0f766e"/></marker>
+          <marker id="ag" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+          <path d="M0,0 L9,4.5 L0,9 z" fill="#94a3b8"/></marker></defs>
+        <text x="50" y="30" font-size="15" font-weight="800" fill="#0f766e">周四 11/12 · 小剧场日</text>
+        <text x="50" y="50" font-size="10.5" fill="#64748b">入口 → 第七机车 → 麦浪（午饭）→ 苏轼 → 薛怀义 → 麦子啊麦子 → 天子驾六 → 出口</text>
+        <rect x="50" y="72" width="580" height="510" rx="5" fill="#fbfcfd" stroke="#cbd5e1" stroke-width="1.4"/>
+        <g stroke="#e8edf2" stroke-width="1.5">
+          <line x1="50" y1="190" x2="630" y2="190"/>
+          <line x1="50" y1="300" x2="630" y2="300"/>
+          <line x1="50" y1="430" x2="630" y2="430"/>
+          <line x1="240" y1="72" x2="240" y2="582"/>
+          <line x1="430" y1="72" x2="430" y2="582"/>
+        </g>
+        <path d="M381,184 L340,690" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5 5"
+              stroke-opacity=".85" marker-end="url(#ag)"/>
+        <text x="352" y="470" font-size="9.5" fill="#94a3b8" text-anchor="end">返程 7′</text>
+        <path d="M340,690 L73,378 L102,541 L172,378 L172,327 L85,256 L381,184"
+              fill="none" stroke="#0f766e" stroke-width="2.4" stroke-opacity=".5"
+              stroke-linejoin="round" stroke-linecap="round" marker-end="url(#at)"/>
+        <circle cx="73" cy="378" r="13" fill="#0f766e" stroke="#fff" stroke-width="2.2"/><text x="73" y="382" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">1</text><rect x="73.0" y="392.0" width="140.5" height="20" rx="5" fill="#fff" fill-opacity="0.94" stroke="#0f766e" stroke-opacity="0.35"/><text x="80.0" y="406.0" font-size="11.5" fill="#5b6b7a"><tspan font-weight="800" fill="#0f766e">11:30</tspan> <tspan>第七机车车辆厂礼堂</tspan></text><circle cx="102" cy="541" r="13" fill="#0f766e" stroke="#fff" stroke-width="2.2"/><text x="102" y="545" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">2</text><rect x="118.0" y="529.0" width="88.0" height="20" rx="5" fill="#fff" fill-opacity="0.94" stroke="#0f766e" stroke-opacity="0.35"/><text x="125.0" y="543.0" font-size="11.5" fill="#5b6b7a"><tspan font-weight="800" fill="#0f766e">12:05</tspan> <tspan>麦浪餐厅</tspan></text><circle cx="172" cy="378" r="13" fill="#0f766e" stroke="#fff" stroke-width="2.2"/><text x="172" y="382" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">3</text><rect x="188.0" y="361.0" width="98.5" height="20" rx="5" fill="#fff" fill-opacity="0.94" stroke="#0f766e" stroke-opacity="0.35"/><text x="195.0" y="375.0" font-size="11.5" fill="#5b6b7a"><tspan font-weight="800" fill="#0f766e">13:10</tspan> <tspan>苏轼的河南</tspan></text><circle cx="172" cy="327" r="13" fill="#0f766e" stroke="#fff" stroke-width="2.2"/><text x="172" y="331" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">4</text><rect x="77.5" y="314.0" width="77.5" height="20" rx="5" fill="#fff" fill-opacity="0.94" stroke="#0f766e" stroke-opacity="0.35"/><text x="84.5" y="328.0" font-size="11.5" fill="#5b6b7a"><tspan font-weight="800" fill="#0f766e">14:20</tspan> <tspan>薛怀义</tspan></text><circle cx="85" cy="256" r="13" fill="#0f766e" stroke="#fff" stroke-width="2.2"/><text x="85" y="260" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">5</text><rect x="85.0" y="272.0" width="98.5" height="20" rx="5" fill="#fff" fill-opacity="0.94" stroke="#0f766e" stroke-opacity="0.35"/><text x="92.0" y="286.0" font-size="11.5" fill="#5b6b7a"><tspan font-weight="800" fill="#0f766e">15:10</tspan> <tspan>麦子啊麦子</tspan></text><circle cx="381" cy="184" r="13" fill="#0f766e" stroke="#fff" stroke-width="2.2"/><text x="381" y="188" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">6</text><rect x="397.0" y="167.0" width="119.5" height="20" rx="5" fill="#fff" fill-opacity="0.94" stroke="#0f766e" stroke-opacity="0.35"/><text x="404.0" y="181.0" font-size="11.5" fill="#5b6b7a"><tspan font-weight="800" fill="#0f766e">16:30</tspan> <tspan>天子驾六遗址坑</tspan></text>
+        <rect x="50" y="592" width="580" height="38" fill="#fef3c7" stroke="#f6cf6b" stroke-width="1.2"/>
+        <text x="340" y="609" font-size="11.5" font-weight="800" fill="#92400e" text-anchor="middle">文明之光 · 东墙激光投影</text>
+        <text x="340" y="623" font-size="10" fill="#a16207" text-anchor="middle">18:30 / 19:00 / 19:30 三场 · 看完即出口</text>
+
+        <rect x="50" y="636" width="580" height="60" fill="#eef4f4" stroke="#dbe6e6" stroke-width="1"/>
+        <text x="340" y="663" font-size="11" fill="#7a8b99" text-anchor="middle">幻城景观广场</text>
+        <text x="340" y="681" font-size="10" fill="#a9b6c4" text-anchor="middle">观众服务中心</text>
+        <path d="M330,722 L350,722 L340,706 Z" fill="#0f766e"/>
+        <text x="340" y="742" font-size="11.5" font-weight="700" fill="#0f766e" text-anchor="middle">园区入口 · 东侧</text>
+      </svg>
+      <div class="dg-cap">周四动线：绕着园区<b>南半边画一个圈</b>。除进园 6 分钟、出园 7 分钟，其余每段都在 5 分钟以内，还空出 13:44–14:18 和 15:44–16:20 两段时间。</div>
+    </div>
+
+    <div class="card">
+      <h3>怎么读这两张图</h3>
+      <p>示意图与官方地图<b>同向</b>（上西、下东、左南、右北），方便你拿着手机对着纸质图找位置。圆圈里的数字是停靠顺序，旁边小框里前面是开演时间、后面是场地。灰虚线是周四看完最后一场回出口的那一段。</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 周三 ══════════ -->
+  <section id="wed">
+    <div class="sec-title"><span class="ic">🎭</span>周三 11/11</div>
+
+    <div class="dayhead wed">
+      <span class="dnum">周三</span>
+      <span class="dt"><b>主剧日 · 三场一次看完</b><small>在园 10 小时 · 主剧 200 分钟（站立 140）· 小剧场 60 分钟</small></span>
+    </div>
+
+    <div class="row walk"><div class="t">09:40</div><div class="c"><b>早饭、收拾</b><p>前一天跟管家约好「明早 09:45 送园区」。</p></div></div>
+    <div class="row walk"><div class="t">09:45<em>8′</em></div><div class="c"><b>班车 → 园区</b><p>3.6 km，7–8 分钟。</p></div></div>
+    <div class="row"><div class="t">09:55</div><div class="c"><b>到东侧园区入口</b><p>「文明之光」墙下面。顶门第一批，等 10:00 开园。</p></div></div>
+    <div class="row"><div class="t">10:00<em>走 7′</em></div><div class="c"><b>进园 → 候车大厅</b><p>领纸质导览图、拍下当天节目单，然后直接往西走。<b>别在入口拍照逗留</b>，这是全天第一段长路。</p></div></div>
+
+    <div class="row main"><div class="t">10:20<em>25′</em></div><div class="c"><b>《候车大厅》</b><span class="tg main">小剧场</span><p>顶门第一场，几乎不排队。散场即走，往西南 3 分钟到火车站剧场。</p></div></div>
+
+    <div class="row main"><div class="t">11:00<em>65′</em></div><div class="c"><b>《火车站》</b><span class="tg main">主剧</span><p>行进式，全程站着走。1942 大饥荒，与《李家村》是上下篇。10:48 到场门口排队，想站前排就早点站定。</p></div></div>
+
+    <div class="row"><div class="t">12:05<em>走 4′</em></div><div class="c"><b>→ 地坑院 · 宋街</b><p>往东北进城中心。</p></div></div>
+    <div class="row rest"><div class="t">12:10<em>35′</em></div><div class="c"><b>午饭在宋街吃</b><p>河南地方特色美食那一排。<b>别去麦浪餐厅</b>——它在东南角，从火车站过去要横穿整条南侧，吃完还得折回。12:45 必须起身。</p></div></div>
+
+    <div class="row"><div class="t">12:45<em>走 5′</em></div><div class="c"><b>→ 李家村剧场（东北角）</b><p>穿过地坑院往东。</p></div></div>
+
+    <div class="row main"><div class="t">13:00<em>75′</em></div><div class="c"><b>《李家村》</b><span class="tg main">主剧</span><p>行进式，全园口碑最高、最催泪，备纸巾。剧场昏暗、有强光与音效，散场别急着接下一场。</p></div></div>
+
+    <div class="row rest"><div class="t">14:15<em>35′</em></div><div class="c"><b>就地坐 35 分钟</b><p>散场出来后就是乾台、坤台一带。<b>这段时间不是机动时间</b>：刚站了 140 分钟，第二场主剧后半段的体力全押在这里。</p></div></div>
+
+    <div class="row"><div class="t">14:50<em>走 7′</em></div><div class="c"><b>→ 曹操的麦田</b><p>全天最长的一段转场（东北角 → 南侧中段）。</p></div></div>
+
+    <div class="row main"><div class="t">15:10<em>35′</em></div><div class="c"><b>《曹操的麦田》</b><span class="tg main">小剧场</span><p>露天实景。散场往东北 5 分钟到幻城剧场。</p></div></div>
+
+    <div class="row rest"><div class="t">15:51<em>44′</em></div><div class="c"><b>空档：麦田落日 / 买水 / 上厕所</b><p>不加正剧。若真想补一场，16:00 有《红脸蛋儿》(27′)，但评价偏低，且会把排队时间挤掉——不建议。</p></div></div>
+
+    <div class="row"><div class="t">16:35</div><div class="c"><b>幻城剧场门口排队</b><p>坐定式，2300–3000 人，提前 25 分钟去抢中区。</p></div></div>
+
+    <div class="row main"><div class="t">17:00<em>60′</em></div><div class="c"><b>《幻城》</b><span class="tg main">主剧</span><p>唯一坐定的一场，光影穿越夏商周至明清。情绪轻，正好收尾。</p></div></div>
+
+    <div class="row rest"><div class="t">18:00<em>40′</em></div><div class="c"><b>晚饭</b><p>幻城剧场门口就有餐饮，<b>别走远</b>——19:00 的投影在东侧墙上。</p></div></div>
+
+    <div class="row"><div class="t">18:48<em>走 7′</em></div><div class="c"><b>→ 文明之光墙（东侧）</b><p>跟着人流走，方向就是出口。</p></div></div>
+
+    <div class="row main"><div class="t">19:00<em>26′</em></div><div class="c"><b>《文明之光》激光投影</b><span class="tg">室外</span><p>就打在东侧入口那面夯土墙上。<b>三场：18:30 / 19:00 / 19:30</b>，19:00 这场时间最顺。</p></div></div>
+
+    <div class="row walk"><div class="t">19:26<em>34′</em></div><div class="c"><b>自由时间</b><p>想再看一遍投影就留到 19:30 那场（19:30–19:56）；想看《张家大院》(19:00–19:30) 就得放弃 19:00 的投影，二选一。</p></div></div>
+
+    <div class="row"><div class="t">20:00</div><div class="c"><b>闭园 → 直接出园</b><p>投影墙外就是广场与入口，不用再穿园子。20:05 班车，20:15 到店。</p></div></div>
+
+    <div class="card" style="margin-top:12px">
+      <h3>这天的账</h3>
+      <p>主剧 <b>200 分钟</b>（65 + 75 + 60），其中<b>站立走动 140 分钟</b>；小剧场 60 分钟；走路约 <b>4 km</b>，横穿四次。所以：<b>鞋穿最舒服的那双，14:15 那 35 分钟真的坐下</b>，别拿去逛商铺。</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 周四 ══════════ -->
+  <section id="thu">
+    <div class="sec-title"><span class="ic">🎬</span>周四 11/12</div>
+
+    <div class="dayhead thu">
+      <span class="dnum">周四</span>
+      <span class="dt"><b>小剧场日 · 17:05 必须出园</b><small>5 场小剧场 148 分钟 · 全部可坐 · 空档约 70 分钟</small></span>
+    </div>
+
+    <div class="row work"><div class="t">09:40</div><div class="c"><b>起床、收拾，把督导材料摆好</b><span class="tg work">工作</span><p><b>10:55 前把电脑收完</b>——别等督导结束再开始收，那是最容易松一下的时候。</p></div></div>
+
+    <div class="row work"><div class="t">10:00<em>60′</em></div><div class="c"><b>督导（线上，在住处）</b><span class="tg work">工作</span><p>前一晚已跟管家说好「11:05 送园区」，11:00 结束直接下楼。</p></div></div>
+
+    <div class="row walk"><div class="t">11:05<em>8′</em></div><div class="c"><b>班车 → 园区</b></div></div>
+    <div class="row"><div class="t">11:15<em>走 6′</em></div><div class="c"><b>进园 → 第七机车车辆厂礼堂</b><p>两天票刷身份证直接进，不用换票。往西南方向，别在入口逛。</p></div></div>
+
+    <div class="row main"><div class="t">11:30<em>32′</em></div><div class="c"><b>《第七机车车辆厂礼堂》</b><span class="tg main">小剧场</span><p>铁路史题材，评价中等偏稳，不排队。散场往东 3 分钟就是麦浪餐厅。</p></div></div>
+
+    <div class="row rest"><div class="t">12:05<em>45′</em></div><div class="c"><b>午饭（麦浪餐厅，东南角）</b><p>比原计划提前，正好避开 12:30 的人流高峰。</p></div></div>
+
+    <div class="row"><div class="t">12:50<em>走 3′</em></div><div class="c"><b>→ 苏轼的河南</b></div></div>
+
+    <div class="row main"><div class="t">13:10<em>34′</em></div><div class="c"><b>《苏轼的河南》</b><span class="tg main">小剧场</span><p>全园评价最高的文戏。</p></div></div>
+
+    <div class="row rest"><div class="t">13:44<em>34′</em></div><div class="c"><b>坐着歇</b><p>《薛怀义》就在<b>隔壁院子，1–2 分钟</b>。这 34 分钟是位置白送的，坐着别逛。</p></div></div>
+
+    <div class="row main"><div class="t">14:20<em>32′</em></div><div class="c"><b>《薛怀义》</b><span class="tg main">小剧场</span><p>演员戏好，第一档必看。14:05 出门排队足够。</p></div></div>
+
+    <div class="row"><div class="t">14:52<em>走 2′</em></div><div class="c"><b>→ 麦子啊麦子（西南角麦田）</b></div></div>
+
+    <div class="row main"><div class="t">15:10<em>28′</em></div><div class="c"><b>《麦子啊麦子》</b><span class="tg main">小剧场</span><p>麦田实景，下午光最好，多份攻略给分最高。散场即走，别停。</p></div></div>
+
+    <div class="row"><div class="t">15:40<em>走 5′</em></div><div class="c"><b>→ 天子驾六一带（西北侧）</b></div></div>
+
+    <div class="row rest"><div class="t">15:44<em>36′</em></div><div class="c"><b>空档：坐着、拍照、买手信</b><p>当天最松的一格。加任何一场都会把出园推到 18:00 之后——<b>不加</b>。</p></div></div>
+
+    <div class="row main"><div class="t">16:30<em>22′</em></div><div class="c"><b>《天子驾六遗址坑》</b><span class="tg main">小剧场</span><p>全天最后一场。散场即走，往东出口 7 分钟，这段别省。</p></div></div>
+
+    <div class="row"><div class="t">17:05</div><div class="c"><b>出园 → 班车 → 17:20 到店</b></div></div>
+    <div class="row rest"><div class="t">17:30<em>60′</em></div><div class="c"><b>静一静，把状态降下来</b><p>别再看手机里的剧评。18:30 要坐进咨询里听别人说话。</p></div></div>
+
+    <div class="row work"><div class="t">18:30<em>110′</em></div><div class="c"><b>两场咨询（线上）</b><span class="tg work">工作</span></div></div>
+
+    <div class="card" style="margin-top:12px">
+      <h3>为什么最后一场不能往后挪</h3>
+      <p>16:52 散场，17:05 出园，17:20 到店——留给 18:30 的是 70 分钟。<b>再往后加一场（17:00 红脸蛋儿 / 17:20 麦子 / 17:30 候车大厅），出园就推到 18:00 之后，降落时间只剩 20 分钟。</b>看完 85 分钟行进式戏剧，人的唤起水平是高的，而咨询要的是低唤起、能容纳、能等待。这个降落过程需要时间。</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 步行 ══════════ -->
+  <section id="walk">
+    <div class="sec-title"><span class="ic">🚶</span>固定步行时间<small>按地图估，±3 分钟</small></div>
+    <div class="card">
+      <table>
+        <tr><th>从 → 到</th><th style="width:74px">分钟</th></tr>
+        <tr><td>园区入口 → 候车大厅 / 天子驾六</td><td class="mono">7–8</td></tr>
+        <tr><td>园区入口 → 第七机车</td><td class="mono">6–7</td></tr>
+        <tr><td>候车大厅 → 火车站剧场</td><td class="mono">2–3</td></tr>
+        <tr><td>火车站剧场 → 地坑院 / 宋街</td><td class="mono">4–5</td></tr>
+        <tr><td>地坑院 → 李家村剧场</td><td class="mono">5–6</td></tr>
+        <tr><td>李家村 → 曹操的麦田</td><td class="mono">7–8</td></tr>
+        <tr><td>曹操的麦田 → 幻城剧场</td><td class="mono">5–6</td></tr>
+        <tr><td>幻城剧场 → 文明之光墙（东）</td><td class="mono">7–8</td></tr>
+        <tr><td>第七机车 → 麦浪餐厅</td><td class="mono">3</td></tr>
+        <tr><td>麦浪餐厅 → 苏轼的河南</td><td class="mono">3</td></tr>
+        <tr><td>苏轼 → 薛怀义（隔一个院子）</td><td class="mono">1–2</td></tr>
+        <tr><td>薛怀义 → 麦子啊麦子</td><td class="mono">2–3</td></tr>
+        <tr><td>麦子啊麦子 → 天子驾六</td><td class="mono">4–5</td></tr>
+        <tr><td>天子驾六 → 园区入口</td><td class="mono">7</td></tr>
+      </table>
+      <p class="note">园区是南北向铺开的一大块，四个大剧场各占一角，小剧场集中在中段与南侧。<b>走路永远比想象的多</b>——两天加起来一万五千步以上是常态。</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 全部场次 ══════════ -->
+  <section id="all">
+    <div class="sec-title"><span class="ic">📋</span>当天全部场次</div>
+
+    <details>
+      <summary>按开演时间排序的全部场次（48 场）</summary>
+      <div class="inner">
+        <p class="note" style="margin-top:0">
+          <span class="cd w">周三</span> 已排入周三 &nbsp; <span class="cd t">周四</span> 已排入周四 &nbsp; <span class="cd x">✕</span> 已决定不看。<br>
+          <b>15 点这一组</b>（曹操的麦田 / 麦子啊麦子 / 苏轼的河南）口报是整点，按各剧时长推算实际应为 15:10 开场，现场以节目单为准。
+        </p>
+        <table>
+          <tr><th style="width:96px">时间</th><th>剧目</th><th style="width:46px">时长</th><th style="width:60px">标记</th></tr>
+          <tr><td class="mono">10:10–10:37</td><td>红脸蛋儿</td><td>27′</td><td><span class="cd x">✕</span></td></tr>
+          <tr class="sel"><td class="mono">10:20–10:45</td><td>候车大厅</td><td>25′</td><td><span class="cd w">周三</span></td></tr>
+          <tr class="no"><td class="mono">10:20–10:48</td><td>红庙学校</td><td>28′</td><td><span class="cd x">✕</span></td></tr>
+          <tr><td class="mono">10:30–11:05</td><td>曹操的麦田</td><td>35′</td><td></td></tr>
+          <tr><td class="mono">10:50–11:07</td><td>下沉岁月</td><td>17′</td><td><span class="cd x">✕</span></td></tr>
+          <tr class="sel"><td class="mono">11:00–12:05</td><td><b>火车站</b>（主剧）</td><td>65′</td><td><span class="cd w">周三</span></td></tr>
+          <tr class="sel"><td class="mono">11:00–12:15</td><td><b>李家村</b>（主剧）</td><td>75′</td><td><span class="cd w">周三</span></td></tr>
+          <tr><td class="mono">11:10–11:44</td><td>苏轼的河南</td><td>34′</td><td></td></tr>
+          <tr class="no"><td class="mono">11:20–11:48</td><td>红庙学校</td><td>28′</td><td><span class="cd x">✕</span></td></tr>
+          <tr class="no"><td class="mono">11:30–11:58</td><td>老院子</td><td>28′</td><td><span class="cd x">✕</span></td></tr>
+          <tr class="sel"><td class="mono">11:30–12:02</td><td>第七机车车辆厂礼堂</td><td>32′</td><td><span class="cd t">周四</span></td></tr>
+          <tr><td class="mono">11:40–11:57</td><td>下沉岁月</td><td>17′</td><td><span class="cd x">✕</span></td></tr>
+          <tr><td class="mono">12:10–12:44</td><td>苏轼的河南</td><td>34′</td><td></td></tr>
+          <tr><td class="mono">12:10–12:45</td><td>曹操的麦田</td><td>35′</td><td></td></tr>
+          <tr class="no"><td class="mono">12:20–12:48</td><td>红庙学校</td><td>28′</td><td><span class="cd x">✕</span></td></tr>
+          <tr><td class="mono">12:20–12:52</td><td>第七机车车辆厂礼堂</td><td>32′</td><td></td></tr>
+          <tr><td class="mono">12:30–12:52</td><td>天子驾六遗址坑</td><td>22′</td><td></td></tr>
+          <tr><td class="mono">13:00–14:05</td><td><b>火车站</b>（主剧）</td><td>65′</td><td></td></tr>
+          <tr class="sel"><td class="mono">13:00–14:15</td><td><b>李家村</b>（主剧）</td><td>75′</td><td><span class="cd w">周三</span></td></tr>
+          <tr class="no"><td class="mono">13:10–13:38</td><td>老院子</td><td>28′</td><td><span class="cd x">✕</span></td></tr>
+          <tr class="sel"><td class="mono">13:10–13:44</td><td>苏轼的河南</td><td>34′</td><td><span class="cd t">周四</span></td></tr>
+          <tr><td class="mono">13:10–13:45</td><td>曹操的麦田</td><td>35′</td><td></td></tr>
+          <tr class="no"><td class="mono">13:20–13:48</td><td>红庙学校</td><td>28′</td><td><span class="cd x">✕</span></td></tr>
+          <tr><td class="mono">14:10–14:44</td><td>苏轼的河南</td><td>34′</td><td></td></tr>
+          <tr><td class="mono">14:10–14:45</td><td>曹操的麦田</td><td>35′</td><td></td></tr>
+          <tr class="no"><td class="mono">14:20–14:48</td><td>老院子</td><td>28′</td><td><span class="cd x">✕</span></td></tr>
+          <tr><td class="mono">14:20–14:52</td><td>第七机车车辆厂礼堂</td><td>32′</td><td></td></tr>
+          <tr class="sel"><td class="mono">14:20–14:52</td><td>薛怀义</td><td>32′</td><td><span class="cd t">周四</span></td></tr>
+          <tr><td class="mono">15:00–16:05</td><td><b>火车站</b>（主剧）</td><td>65′</td><td></td></tr>
+          <tr class="sel"><td class="mono">15:10–15:38</td><td>麦子啊麦子</td><td>28′</td><td><span class="cd t">周四</span></td></tr>
+          <tr><td class="mono">15:10–15:44</td><td>苏轼的河南</td><td>34′</td><td></td></tr>
+          <tr class="sel"><td class="mono">15:10–15:45</td><td>曹操的麦田</td><td>35′</td><td><span class="cd w">周三</span></td></tr>
+          <tr><td class="mono">15:20–15:52</td><td>薛怀义</td><td>32′</td><td></td></tr>
+          <tr><td class="mono">15:30–15:52</td><td>天子驾六遗址坑</td><td>22′</td><td></td></tr>
+          <tr><td class="mono">16:00–16:27</td><td>红脸蛋儿</td><td>27′</td><td><span class="cd x">✕</span></td></tr>
+          <tr><td class="mono">16:20–16:48</td><td>麦子啊麦子</td><td>28′</td><td></td></tr>
+          <tr><td class="mono">16:20–16:52</td><td>薛怀义</td><td>32′</td><td></td></tr>
+          <tr class="sel"><td class="mono">16:30–16:52</td><td>天子驾六遗址坑</td><td>22′</td><td><span class="cd t">周四</span></td></tr>
+          <tr><td class="mono">16:30–16:55</td><td>候车大厅</td><td>25′</td><td></td></tr>
+          <tr><td class="mono">17:00–17:28</td><td>红脸蛋儿</td><td>27′</td><td><span class="cd x">✕</span></td></tr>
+          <tr class="sel"><td class="mono">17:00–18:00</td><td><b>幻城</b>（主剧）</td><td>60′</td><td><span class="cd w">周三</span></td></tr>
+          <tr><td class="mono">17:20–17:48</td><td>麦子啊麦子</td><td>28′</td><td></td></tr>
+          <tr><td class="mono">17:20–17:52</td><td>薛怀义</td><td>32′</td><td></td></tr>
+          <tr><td class="mono">17:30–17:55</td><td>候车大厅</td><td>25′</td><td></td></tr>
+          <tr><td class="mono">18:00–18:27</td><td>红脸蛋儿</td><td>27′</td><td><span class="cd x">✕</span></td></tr>
+          <tr><td class="mono">18:20–18:27</td><td>椅阵灯光秀（室外）</td><td>7′</td><td></td></tr>
+          <tr><td class="mono">18:20–18:52</td><td>薛怀义</td><td>32′</td><td></td></tr>
+          <tr><td class="mono">18:30–18:55</td><td>覆斗书场（室外）</td><td>25′</td><td></td></tr>
+          <tr><td class="mono">18:30–18:56</td><td>唱吧跳吧（室外）</td><td>26′</td><td></td></tr>
+          <tr><td class="mono">18:30–18:56</td><td>文明之光（东墙投影）</td><td>26′</td><td></td></tr>
+          <tr class="sel"><td class="mono">19:00–19:26</td><td>文明之光（东墙投影）</td><td>26′</td><td><span class="cd w">周三</span></td></tr>
+          <tr><td class="mono">19:00–19:30</td><td>张家大院（室外）</td><td>30′</td><td></td></tr>
+          <tr><td class="mono">19:10–19:23</td><td>前生来世（室外）</td><td>13′</td><td></td></tr>
+          <tr><td class="mono">19:10–19:23</td><td>坤台（室外）</td><td>13′</td><td></td></tr>
+          <tr><td class="mono">19:30–19:56</td><td>文明之光（东墙投影）</td><td>26′</td><td></td></tr>
+        </table>
+      </div>
+    </details>
+
+    <div class="card">
+      <h3>晚间室外的这些，不用排</h3>
+      <p>椅阵灯光秀、唱吧跳吧、覆斗书场、张家大院、前生来世、坤台都在 18:20 以后，是室外场地，走哪儿看哪儿，不必进时间表。<b>唯一建议锁死的是 19:00 的《文明之光》</b>——它就在出口那面墙上，是这一天最自然的收尾。</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 不看的 ══════════ -->
+  <section id="skip">
+    <div class="sec-title"><span class="ic">✕</span>不看的四场，理由</div>
+    <div class="card">
+      <table>
+        <tr><th style="width:88px">剧目</th><th>为什么不去</th></tr>
+        <tr><td><b>红庙学校</b></td><td>与《只有红楼》的《37 中》是同一套课堂互动 + 回忆青春，看过红楼、对那段不感冒，等于已经看过。它还是全园排队最狠的一场，跳过省 30–40 分钟。</td></tr>
+        <tr><td><b>老院子</b></td><td>全河南话、现场收音小，听不懂就是干坐着看一群老人唠嗑。本地观众给 8.5 分，外地观众给 5 分。</td></tr>
+        <tr><td><b>下沉岁月</b></td><td>17 分钟，两份独立测评都给最低档 5 分，理由是“意义不明”；且 10:50 撞火车站排队、11:40 撞第七机车。</td></tr>
+        <tr><td><b>红脸蛋儿</b></td><td>同样 5 分、“表现一般”。16:00 那场散场 16:27，接 16:30 的天子驾六只差 3 分钟；周三 17:00、18:00 又被幻城和晚饭占掉。</td></tr>
+      </table>
+      <p class="note">排进来的 7 场（周三候车大厅、曹操的麦田；周四第七机车、苏轼、薛怀义、麦子、天子驾六），5 场是四份攻略共同认可，2 场是“中等但扎实”。<b>没有一场落在偏弱档。</b></p>
+    </div>
+  </section>
+
+  <!-- ══════════ 备忘 ══════════ -->
+  <section id="tips">
+    <div class="sec-title"><span class="ic">📌</span>现场备忘</div>
+
+    <div class="card">
+      <h3>进园第一件事</h3>
+      <ul class="clean">
+        <li>领<b>纸质导览图</b>，拍下<b>当天节目单</b>（小剧场的实际场次以它为准）</li>
+        <li>核对三场主剧：<b>11:00 火车站 / 13:00 李家村 / 17:00 幻城</b>，票面已锁，不能改</li>
+        <li>确认<b>闭园时间</b>与《文明之光》场次（18:30 / 19:00 / 19:30）</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>带什么</h3>
+      <ul class="clean">
+        <li><b>最舒服的鞋</b>——周三站立 140 分钟、走路 4 km</li>
+        <li><b>纸巾</b>——《李家村》散场几乎人人红眼</li>
+        <li><b>充电宝</b>——两天都在园里待 6–10 小时，全程拍照</li>
+        <li><b>水</b>——候车大厅旁、曹操的麦田旁、张家大院旁、幻城剧场东侧都有小卖部</li>
+        <li>薄外套——11 月的中牟，太阳一落就凉</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>三个容易踩的坑</h3>
+      <ul class="clean">
+        <li><b>主剧提前 30 分钟排队。</b>行进式不划座，但幻城要抢中区；晚到只剩边角。</li>
+        <li><b>两场行进式之间必须坐。</b>《火车站》+《李家村》连着站 140 分钟，中间那 35 分钟坐下，比多刷一场划算。</li>
+        <li><b>周五四点后不要排剧。</b>17:05 出园、18:30 咨询，这个窗口没有弹性。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>两天的账</h3>
+      <table>
+        <tr><th></th><th>主剧</th><th>小剧场</th><th>站立</th></tr>
+        <tr><td><b>周三</b></td><td>3 场 200′</td><td>2 场 60′</td><td class="mono">140′</td></tr>
+        <tr><td><b>周四</b></td><td>—</td><td>5 场 148′</td><td class="mono">0</td></tr>
+        <tr><td><b>合计</b></td><td>3 场</td><td>7 场 208′</td><td class="mono">140′</td></tr>
+      </table>
+    </div>
+
+    <a class="back" href="index.html">← 返回旅行记录</a>
+  </section>
+
+  <div class="foot">
+    只有河南 · 戏剧幻城 · 2026.11.11–11.12<br>
+    场次与开闭园时间以当日官方节目单为准
+  </div>
+</div>
+</body>
+</html>
