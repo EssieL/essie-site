@@ -62,9 +62,13 @@
   figcaption{font-size:12px; color:var(--sub); margin-top:7px; line-height:1.6;}
 
   .diagram{background:#fff; border:1px solid var(--line); border-radius:16px; padding:8px 6px 4px; margin-bottom:14px;
-    box-shadow:0 1px 3px rgba(15,118,110,.05);}
-  .diagram svg{width:100%; height:auto; display:block;}
+    box-shadow:0 1px 3px rgba(15,118,110,.05); overflow-x:auto; -webkit-overflow-scrolling:touch;}
+  .diagram svg{width:100%; height:auto; display:block; min-width:620px;}
+  @media (min-width:760px){ .diagram svg{min-width:0;} }
   .dg-cap{font-size:12px; color:var(--sub); padding:0 8px 8px; line-height:1.6;}
+  .swipe{display:none; font-size:11.5px; color:var(--teal-d); background:var(--soft); border-radius:8px;
+    padding:5px 9px; margin:0 2px 8px; font-weight:650;}
+  @media (max-width:759px){ .swipe{display:block;} }
 
   .dayhead{display:flex; align-items:center; gap:11px; margin:16px 0 10px;}
   .dayhead .dnum{flex:0 0 auto; padding:6px 13px; border-radius:12px; font-weight:800; font-size:14px; color:#fff;}
@@ -211,6 +215,7 @@
   <section id="route">
     <div class="sec-title"><span class="ic">➤</span>按这张地图画的路线<small>与官方地图同向</small></div>
 
+    <div class="swipe">↔ 手机上可左右滑动，看整张路线图</div>
     <div class="diagram">
       <svg viewBox="0 0 680 760" role="img" aria-label="周三 11/11 主剧日路线示意图">
         <defs><marker id="aw" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
@@ -242,6 +247,7 @@
       <div class="dg-cap">周三动线：一条从东往西再折返的“之”字。<b>全天四次横穿</b>，走路约 4 km——这是三场主剧分踞三角的代价，也是为什么 14:15 那 35 分钟要真的坐下。</div>
     </div>
 
+    <div class="swipe">↔ 手机上可左右滑动，看整张路线图</div>
     <div class="diagram">
       <svg viewBox="0 0 680 760" role="img" aria-label="周四 11/12 小剧场日路线示意图">
         <defs><marker id="at" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
