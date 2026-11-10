@@ -1,0 +1,65 @@
+/* 精分基础 · Ursano《简明指南》正文与目录样式（复用 site.css 变量） */
+/* ---------- 书目目录页 ---------- */
+.chlist{grid-template-columns:repeat(2,1fr);}
+.chlist .card{min-height:104px;}
+.ch-no{display:inline-block; padding:3px 10px; border-radius:999px; font-size:12px;
+  background:var(--soft); color:var(--teal-d); font-weight:700; margin-bottom:8px;}
+.chlist .card h3{margin:0 0 6px; font-size:16.5px;}
+
+/* ---------- 正文阅读页 ---------- */
+.reader-top{display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+  background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:10px 14px; margin:10px 0 18px; font-size:13px;}
+.reader-top a{color:var(--teal-d); text-decoration:none; padding:4px 10px;
+  border-radius:9px; background:var(--soft);}
+.reader-top a:hover{background:#e2efec;}
+.reader-top .cur{padding:4px 10px; color:var(--sub);}
+.reader-top .dim{color:#b9b7ae; padding:4px 10px;}
+
+.article{background:var(--card); border:1px solid var(--line); border-radius:16px;
+  padding:36px 40px 44px;}
+.article h1{margin:0 0 6px; font-size:25px; line-height:1.4; color:var(--ink);}
+.article .byline{margin:0 0 26px; font-size:12.5px; color:var(--sub);}
+.article h2{margin:34px 0 12px; font-size:19px; color:var(--teal-d);
+  padding-left:12px; border-left:4px solid var(--teal-l); line-height:1.45;}
+.article h3{margin:26px 0 10px; font-size:16.5px; color:var(--ink);}
+.article h4{margin:22px 0 8px; font-size:15.5px; color:var(--ink);}
+.article p{margin:0 0 14px; font-size:16px; line-height:1.95; text-align:justify;}
+.article ul{margin:0 0 16px; padding-left:26px;}
+.article li{font-size:15.5px; line-height:1.9; margin-bottom:5px;}
+.article blockquote{margin:18px 0; padding:14px 18px; background:var(--soft);
+  border-left:4px solid var(--teal-l); border-radius:0 12px 12px 0;}
+.article blockquote p{font-size:15px; line-height:1.85; margin-bottom:8px; color:#3f4a48;}
+.article hr{border:0; border-top:1px dashed var(--line); margin:30px 0;}
+.article strong{color:var(--teal-d);}
+.chapter-nav{display:flex; justify-content:space-between; margin:20px 0 6px;}
+.chapter-nav .pn{color:var(--teal-d); text-decoration:none; font-size:14px;
+  padding:9px 16px; background:var(--card); border:1px solid var(--line); border-radius:12px;}
+.chapter-nav .pn:hover{background:var(--soft);}
+
+/* ---------- 正文阅读区前端门禁（展示层，非服务端鉴权） ---------- */
+html.xj-locked body > .wrap{display:none !important;}
+#xjGate{display:none;}
+html.xj-locked #xjGate{display:flex; position:fixed; inset:0; z-index:999;
+  align-items:center; justify-content:center; padding:20px;
+  background:linear-gradient(135deg,#115e59,#14b8a6);}
+#xjGate .box{width:100%; max-width:360px; background:#fff; border-radius:18px;
+  padding:28px 24px; box-shadow:0 12px 40px rgba(0,0,0,.18); text-align:center;}
+#xjGate .lock{font-size:38px; line-height:1; display:block; margin-bottom:10px;}
+#xjGate h2{margin:0 0 6px; font-size:18px; color:var(--teal-d);}
+#xjGate p{margin:0 0 18px; font-size:13px; color:var(--sub); line-height:1.7;}
+#xjGate input{width:100%; padding:12px 14px; border:1.5px solid var(--line);
+  border-radius:12px; font-size:15px; outline:none;}
+#xjGate input:focus{border-color:var(--teal-l);}
+#xjGate button{margin-top:12px; width:100%; padding:12px; border:0; border-radius:12px;
+  background:var(--teal); color:#fff; font-size:14px; font-weight:700; cursor:pointer;}
+#xjGate button:active{background:var(--teal-d);}
+#xjGate .err{display:none; color:#dc2626; font-size:13px; margin-top:10px;}
+#xjGate .back{display:block; margin-top:16px; font-size:12.5px; color:var(--sub); text-decoration:none;}
+
+@media (max-width:700px){
+  .chlist{grid-template-columns:1fr;}
+  .article{padding:24px 20px 30px;}
+  .article h1{font-size:22px;}
+  .article p{font-size:15.5px; line-height:1.9; text-align:left;}
+}
