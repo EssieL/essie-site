@@ -249,3 +249,16 @@ html.xj-locked #xjGate{display:flex; position:fixed; inset:0; z-index:999;
   .ann-editor{align-items:flex-end; padding:0;}
   .ann-box{border-radius:16px 16px 0 0; max-width:none;}
 }
+
+/* ---------- 触屏 / 平板：放大点按目标，工具条可换行 ---------- */
+@media (pointer: coarse){
+  .ann-toolbar{max-width:calc(100vw - 16px); flex-wrap:wrap; padding:9px 10px; gap:8px;}
+  .ann-toolbar .ann-grp{gap:7px;}
+  .ann-toolbar .ann-grp-lb{font-size:11px;}
+  .ann-color{width:30px; height:30px; border-radius:9px;}
+  .ann-toolbar button.ann-clear,
+  .ann-toolbar button.ann-addnote{min-height:32px; padding:5px 12px; font-size:13px;}
+  .ann-note-btn{font-size:14px; padding:4px 10px; margin-left:10px; min-height:30px;}
+  .ann-note-btn-sec{font-size:12px; padding:3px 9px;}
+  .ann-mark, .ann-under{cursor:pointer;}
+}

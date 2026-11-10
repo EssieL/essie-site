@@ -390,15 +390,43 @@
     if (!quote.trim()) return null;
     return { p: p, start: start, end: start + quote.length, quote: quote };
   }
-  function showToolbar(s) {
-    var rect;
-    try { rect = window.getSelection().getRangeAt(0).getBoundingClientRect(); } catch (e) { return; }
-    pendingSel = s;
-    toolbar.style.left = Math.max(8, rect.left) + 'px';
-    toolbar.style.top = (rect.bottom + 8) + 'px';
+  /* 选区矩形：iOS Safari 有时返回空矩形，退回第一个 clientRect */
+  function selRect() {
+    try {
+      var r = window.getSelection().getRangeAt(0);
+      var b = r.getBoundingClientRect();
+      if (b && (b.width || b.height)) return b;
+      var list = r.getClientRects();
+      return list && list.length ? list[0] : b;
+    } catch (e) { return null; }
+  }
+  /* 工具条贴在选区下方，越界时翻到上方；左右夹在视口内（平板窄屏必需） */
+  function placeToolbar(rect) {
+    if (!toolbar || !rect) return;
+    toolbar.style.visibility = 'hidden';
     toolbar.classList.add('show');
+    var w = toolbar.offsetWidth || 320, h = toolbar.offsetHeight || 42;
+    var vw = window.innerWidth || document.documentElement.clientWidth || w;
+    var vh = window.innerHeight || document.documentElement.clientHeight || h;
+    var left = Math.max(8, Math.min(rect.left, Math.max(8, vw - w - 8)));
+    var top = rect.bottom + 8;
+    if (top + h > vh - 8) top = Math.max(8, rect.top - h - 8);
+    toolbar.style.left = left + 'px';
+    toolbar.style.top = top + 'px';
+    toolbar.style.visibility = '';
+  }
+  function showToolbar(s) {
+    var rect = selRect();
+    if (!rect) return;
+    pendingSel = s;
+    placeToolbar(rect);
   }
   function hideToolbar() { if (toolbar) toolbar.classList.remove('show'); pendingSel = null; }
+  function repositionToolbar() {
+    if (!toolbar || !toolbar.classList.contains('show')) return;
+    var rect = selRect();
+    if (rect) placeToolbar(rect);
+  }
   function clearSelection() {
     try { window.getSelection().removeAllRanges(); } catch (e) {}
     hideToolbar();
@@ -469,17 +497,51 @@
     refresh();
     window.addEventListener('noteschange', refresh);
 
-    document.addEventListener('mouseup', function (ev) {
-      if (toolbar && toolbar.contains(ev.target)) return;
-      setTimeout(function () {
+    var coarse = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+    var selTimer = null, changeTimer = null, lastTouchAt = 0;
+    /* 桌面 mouseup / 平板 touchend / 触控笔 pointerup 统一走同一套选区判定；
+       触屏要等系统把选区稳定下来（长按选词、拖动手柄都在 touchend 之后才落定）。 */
+    function scheduleSelection(wait) {
+      clearTimeout(selTimer);
+      selTimer = setTimeout(function () {
         var s = selectionInfo();
         if (s) showToolbar(s); else hideToolbar();
-      }, 10);
+      }, wait);
+    }
+    function afterSelection(ev) {
+      if (toolbar && ev && ev.target && toolbar.contains(ev.target)) return;
+      if (editor && ev && ev.target && editor.contains(ev.target)) return;
+      var t = (ev && ev.type) || '';
+      if (t === 'touchend' || (t === 'pointerup' && ev.pointerType === 'touch')) lastTouchAt = Date.now();
+      /* 触屏随后会派发合成 mouseup，别让它把 160ms 的等待缩短 */
+      var touchLike = coarse || t === 'touchend' || (Date.now() - lastTouchAt) < 600;
+      scheduleSelection(touchLike ? 160 : 20);
+    }
+    document.addEventListener('mouseup', afterSelection);
+    document.addEventListener('touchend', afterSelection, { passive: true });
+    document.addEventListener('pointerup', afterSelection);
+    /* iOS 上选区常在 touchend 之后才通过 selectionchange 通知，用独立计时器兜底，不打断主判定 */
+    document.addEventListener('selectionchange', function () {
+      clearTimeout(changeTimer);
+      changeTimer = setTimeout(function () {
+        if (pendingSel !== null) return;
+        var s = selectionInfo();
+        if (s) showToolbar(s);
+      }, 260);
     });
     document.addEventListener('mousedown', function (ev) {
       if (toolbar && !toolbar.contains(ev.target) && editor && !editor.contains(ev.target)) hideToolbar();
     });
-    document.addEventListener('scroll', hideToolbar, true);
+    document.addEventListener('touchstart', function (ev) {
+      if (toolbar && !toolbar.contains(ev.target) && editor && !editor.contains(ev.target)) hideToolbar();
+    }, { passive: true });
+    /* 系统中断手势（来电、上滑返回、多指切换）时清掉待判定，避免工具条卡在屏幕上 */
+    document.addEventListener('touchcancel', function () {
+      clearTimeout(selTimer); clearTimeout(changeTimer); hideToolbar();
+    }, { passive: true });
+    /* 桌面滚走即收起；触屏滚动时改为跟随选区重新定位，避免工具条飘走或一点就消失 */
+    document.addEventListener('scroll', coarse ? repositionToolbar : hideToolbar, true);
+    window.addEventListener('resize', repositionToolbar);
     // 优先划线：选中文字后按回车，直接应用默认黄色划线
     document.addEventListener('keydown', function (ev) {
       if (ev.key !== 'Enter' || !pendingSel) return;
