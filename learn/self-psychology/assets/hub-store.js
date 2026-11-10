@@ -2,7 +2,7 @@
    统一闪卡库 · 共享存储层
    ------------------------------------------------------------
    同一 origin 下所有页面共用一份 localStorage：
-     · 四套按章闪卡网页（xujun-intro/ch{1,2,3,4}-flashcards.html）
+     · 五套按章闪卡网页（xujun-intro/ch{1,2,3,4,5}-flashcards.html）
      · 自体心理学层级的闪卡空间（flashcards/）
    因此「按章页面复习」与「闪卡空间编辑／学习」双向同步。
    数据主键 uid = "章号|题干指纹sid"，编辑与新增都按 uid 覆盖。
@@ -16,7 +16,8 @@
     { ch: 1, key: 'xj_ch1_knowledge_cards_v1' },
     { ch: 2, key: 'xj_ch2_knowledge_cards_v4' },
     { ch: 3, key: 'xj_ch3_knowledge_cards_v1' },
-    { ch: 4, key: 'xj_ch4_knowledge_cards_v1' }
+    { ch: 4, key: 'xj_ch4_knowledge_cards_v1' },
+    { ch: 5, key: 'xj_ch5_knowledge_cards_v1' }
   ];
 
   function blank() {
@@ -68,7 +69,7 @@
     if (e.key === KEY || e.key === null) { sync(); broadcast(); }
   });
 
-  /* 旧四套按章页面的复习进度首次接入时合并（只在 hub 尚无记录时写入） */
+  /* 旧五套按章页面的复习进度首次接入时合并（只在 hub 尚无记录时写入） */
   function migrate() {
     var changed = false;
     LEGACY.forEach(function (L) {
