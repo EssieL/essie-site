@@ -1,0 +1,110 @@
+{
+  "books": [
+    {
+      "id": "morrison-shame",
+      "name": "Morrison《Shame: The Underside of Narcissism》",
+      "chapters": [
+        115,
+        116,
+        117,
+        118
+      ]
+    },
+    {
+      "id": "hagman-aesthetic",
+      "name": "Hagman《The Psychoanalysis of Aesthetic Experience》",
+      "chapters": [
+        119,
+        120,
+        121,
+        122,
+        123
+      ]
+    }
+  ],
+  "chapters": {
+    "115": {
+      "book": "morrison-shame",
+      "bookId": "morrison-shame",
+      "bookName": "Morrison《Shame: The Underside of Narcissism》",
+      "label": "第0章　Acknowledgments and Preface（致谢与前言）",
+      "pages": "pp. vii–xii",
+      "url": "self-psychology/morrison-shame/text/ch01.html"
+    },
+    "116": {
+      "book": "morrison-shame",
+      "bookId": "morrison-shame",
+      "bookName": "Morrison《Shame: The Underside of Narcissism》",
+      "label": "第1章　Introduction and Overview（导论与概览）",
+      "pages": "pp. 1–17",
+      "url": "self-psychology/morrison-shame/text/ch02.html"
+    },
+    "117": {
+      "book": "morrison-shame",
+      "bookId": "morrison-shame",
+      "bookName": "Morrison《Shame: The Underside of Narcissism》",
+      "label": "第一部分　A Theoretical Framework（理论框架）· 部分导言",
+      "pages": "pp. 19–20",
+      "url": "self-psychology/morrison-shame/text/ch03.html"
+    },
+    "118": {
+      "book": "morrison-shame",
+      "bookId": "morrison-shame",
+      "bookName": "Morrison《Shame: The Underside of Narcissism》",
+      "label": "第2章　Some Theoretical Perspectives on Shame（羞耻感的理论视角）",
+      "pages": "pp. 21–37",
+      "url": "self-psychology/morrison-shame/text/ch04.html"
+    },
+    "119": {
+      "book": "hagman-aesthetic",
+      "bookId": "hagman-aesthetic",
+      "bookName": "Hagman《The Psychoanalysis of Aesthetic Experience》",
+      "label": "Chapter 1　Introduction（导论）",
+      "pages": "pp. 1–12",
+      "url": "self-psychology/hagman-aesthetic/text/ch01.html"
+    },
+    "120": {
+      "book": "hagman-aesthetic",
+      "bookId": "hagman-aesthetic",
+      "bookName": "Hagman《The Psychoanalysis of Aesthetic Experience》",
+      "label": "Chapter 2　Understanding Aesthetic Experience（理解审美体验）",
+      "pages": "pp. 13–26",
+      "url": "self-psychology/hagman-aesthetic/text/ch02.html"
+    },
+    "121": {
+      "book": "hagman-aesthetic",
+      "bookId": "hagman-aesthetic",
+      "bookName": "Hagman《The Psychoanalysis of Aesthetic Experience》",
+      "label": "Chapter 3　The Development of Aesthetic Experience（审美体验的发展）",
+      "pages": "pp. 27–36",
+      "url": "self-psychology/hagman-aesthetic/text/ch03.html"
+    },
+    "122": {
+      "book": "hagman-aesthetic",
+      "bookId": "hagman-aesthetic",
+      "bookName": "Hagman《The Psychoanalysis of Aesthetic Experience》",
+      "label": "Chapter 4　Idealization and Aesthetic Experience（理想化与审美体验）",
+      "pages": "pp. 37–54",
+      "url": "self-psychology/hagman-aesthetic/text/ch04.html"
+    },
+    "123": {
+      "book": "hagman-aesthetic",
+      "bookId": "hagman-aesthetic",
+      "bookName": "Hagman《The Psychoanalysis of Aesthetic Experience》",
+      "label": "Chapter 5　The Creative Process（创作过程）",
+      "pages": "pp. 55–76",
+      "url": "self-psychology/hagman-aesthetic/text/ch05.html"
+    }
+  },
+  "order": [
+    115,
+    116,
+    117,
+    118,
+    119,
+    120,
+    121,
+    122,
+    123
+  ]
+}

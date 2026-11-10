@@ -107,7 +107,7 @@
     }
   });
   if (!tocItems.length) {
-    tocBox.appendChild(el('div', 'xj-nav-empty', '本篇正文尚未提交，暂无小节目录。'));
+    tocBox.appendChild(el('div', 'xj-nav-empty', d.tocEmpty || '本篇正文尚未提交，暂无小节目录。'));
   } else {
     tocBox.appendChild(ol);
   }

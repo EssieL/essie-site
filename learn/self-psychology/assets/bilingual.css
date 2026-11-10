@@ -1,0 +1,41 @@
+/* 自体心理学 · Morrison / Hagman 两本英中对照书目共用 */
+.bi-bar{display:flex; flex-wrap:wrap; align-items:center; gap:9px; margin:0 0 16px;
+  padding:10px 13px; background:#fffdf7; border:1px solid #f0e6cf; border-radius:12px;
+  font-size:12.5px; color:#7a6b4a;}
+.bi-bar .bi-lb{font-weight:700; color:#8a6d2f;}
+.bi-bar .sp{flex:1;}
+.bi-bar button{padding:5px 12px; border:1px solid #e6d9b8; background:#fff; color:#8a6d2f;
+  border-radius:8px; font-size:12px; font-family:inherit; cursor:pointer;}
+.bi-bar button:hover{border-color:#e6b45c; background:#fffaf0;}
+.bi-bar .bi-n{font-variant-numeric:tabular-nums; color:#9a8c6d;}
+
+.article .bi-en{font-size:15.5px; line-height:1.95; text-align:left; margin:0 0 2px;
+  letter-spacing:.1px; color:#2b2f36;}
+.article .bi-tog{display:inline-flex; align-items:center; gap:6px; margin:0 0 12px;
+  padding:3px 10px; border:1px solid #dfe7e5; background:#f6faf9; color:#0f766e;
+  border-radius:999px; font-size:11.5px; font-family:inherit; cursor:pointer; line-height:1.7;}
+.article .bi-tog:hover{background:#e9f5f2; border-color:#9fd6cf;}
+.article .bi-tog.on{background:#e9f5f2; border-color:#9fd6cf;}
+.article .bi-tog[disabled]{opacity:.5; cursor:default;}
+.article .bi-ic{font-size:10px;}
+.article .bi-cn{font-size:15px; line-height:1.95; text-align:left; margin:0 0 18px;
+  padding:11px 14px; background:#f7faf9; border-left:3px solid #8fd3c7;
+  border-radius:0 9px 9px 0; color:#33413f; letter-spacing:.2px;}
+.article .bi-cn[hidden]{display:none !important;}
+.article .bi-missing{color:#9a978c; font-style:italic;}
+
+.empty-body{text-align:center; padding:34px 18px; color:var(--sub); font-size:13.5px;
+  line-height:2; background:#faf9f5; border:1px dashed var(--line); border-radius:13px;}
+.empty-body b{color:var(--teal-d);}
+.sec-list{margin:18px 0 0; padding:0; list-style:none;}
+.sec-list li{display:flex; gap:10px; align-items:baseline; padding:7px 0;
+  border-bottom:1px dashed var(--line); font-size:13.5px;}
+.sec-list li:last-child{border-bottom:0;}
+.sec-list .pg{flex:0 0 58px; text-align:right; color:var(--sub); font-size:12px;
+  font-variant-numeric:tabular-nums;}
+.sec-list .tt{flex:1; color:#42544f;}
+.part-h{grid-column:1/-1; font-size:12px; font-weight:800; letter-spacing:.6px;
+  color:var(--teal-d); background:var(--soft); border-radius:8px; padding:6px 11px; margin-top:6px;}
+.illus{font-size:12.5px; color:var(--sub); line-height:1.9; margin-top:16px;}
+.illus b{color:var(--teal-d);}
+@media(max-width:700px){ .article{padding:22px 20px 28px;} .chlist{grid-template-columns:1fr;} }

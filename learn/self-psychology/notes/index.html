@@ -106,7 +106,7 @@
   <div class="hero">
     <p class="kicker">CROSS-CHAPTER TOOL</p>
     <h1>笔记管理</h1>
-    <p class="sub">划线即重点句，自动摘抄；句中的高亮词在摘抄里被标记。《自体心理学入门》与 Freud作品 共用一份数据库，与两处正文页双向编辑。</p>
+    <p class="sub">划线即重点句，自动摘抄；句中的高亮词在摘抄里被标记。《自体心理学入门》、Morrison《Shame》、Hagman《Aesthetic Experience》与 Freud作品 四个书目共用一份数据库，双向编辑。</p>
     <span class="badge">跨书目共用 · 划线摘抄 · 句内高亮 · 本地存储 · 双向同步</span>
   </div>
 
@@ -171,8 +171,8 @@
   <div class="pane" id="pane-data">
     <div class="hint">
       <b>存储边界</b>：批注只存在本机浏览器的 localStorage（同一浏览器同一设备），不上传、不跨设备。<br>
-      两处正文阅读页（自体心理学 / Freud作品）的划线／高亮／写笔记、这里的编辑／新增／删除，都写<b>同一份数据库</b>并实时互通；用顶部「书目」筛选查看，换设备或清缓存前请用「JSON 完整备份」迁移。<br>
-      已收录《自体心理学入门》与 RSE 第 1 卷 4 册；数据带 <code>book</code> 字段。旧版备份（无划线表）可直接导入，原有笔记与高亮不会丢失。
+      四个书目的正文阅读页（《自体心理学入门》／Morrison《Shame》／Hagman《Aesthetic Experience》／Freud作品）的划线／高亮／写笔记、这里的编辑／新增／删除，都写<b>同一份数据库</b>并实时互通；用顶部「书目」筛选查看，换设备或清缓存前请用「JSON 完整备份」迁移。<br>
+      已收录《自体心理学入门》、Morrison 4 篇、Hagman 5 篇与 RSE 第 1 卷 4 册；数据带 <code>book</code> 字段。旧版备份（无划线表）可直接导入，原有笔记与高亮不会丢失。
     </div>
     <div class="ops">
       <button id="btnJSON">JSON 完整备份（下载）</button>
@@ -318,7 +318,7 @@
     $('stat').innerHTML='共 <b>'+rs.length+'</b> 条显示 · 全库 <b>'+c.notes+'</b> 条笔记 / <b>'+
       c.underlines+'</b> 处划线摘抄 / <b>'+c.marks+'</b> 处句内高亮 / <b>'+c.deleted+'</b> 条已删除';
     $('list').innerHTML = rs.length ? rs.map(itemHTML).join('')
-      : '<div class="empty"><b>这里还是空的</b><br>去<a href="../xujun-intro/text/">《自体心理学入门》正文</a>或<a href="../../freud/vol1/">Freud作品正文</a>选中句子<b>划线</b>（重点句，自动摘抄），<br>再选句中词汇<b>高亮</b>；点段落旁 ✎ 可写笔记。</div>';
+      : '<div class="empty"><b>这里还是空的</b><br>去<a href="../xujun-intro/text/">《自体心理学入门》正文</a>、<a href="../../freud/vol1/">Freud作品正文</a>，或<a href="../morrison-shame/text/">Morrison《Shame》</a>／<a href="../hagman-aesthetic/text/">Hagman《Aesthetic Experience》</a>选中句子<b>划线</b>（重点句，自动摘抄），<br>再选句中词汇<b>高亮</b>；点段落旁 ✎ 可写笔记。</div>';
     bindList($('list'));
   }
   function renderExcerpts(){
