@@ -44,6 +44,7 @@
   .kpi .k .lab{font-size:11.5px; color:var(--sub); font-weight:700; letter-spacing:.5px;}
   .kpi .k .val{font-size:14px; font-weight:750; color:var(--teal-d); margin-top:3px; line-height:1.45;}
   .kpi .k .val em{font-style:normal; font-weight:600; font-size:12px; color:var(--sub); display:block;}
+  .kpi .k .val em.ok{color:#15803d;}
 
   .hl{background:var(--amber-bg); border:1px solid var(--amber-bd); border-radius:13px; padding:11px 13px;
     font-size:13px; color:var(--amber-ink); font-weight:600; line-height:1.65; margin-bottom:12px;}
@@ -153,3 +154,39 @@
   .skel .sr .s{font-size:10.5px; font-weight:800; text-align:right; color:var(--teal); white-space:nowrap;}
   .skel .sr .s.wait{color:#cbd5e1;}
   .skel .sr.mark{background:#fffdf6;}
+
+  /* 骨架行可点击 */
+  .skel a.sr{text-decoration:none; color:inherit; cursor:pointer; transition:background .13s;}
+  .skel a.sr:hover{background:#f4f8f8;}
+  .skel a.sr:active{background:#e9f2f1;}
+
+  /* ───── 页间跳转 ───── */
+  .pager{display:grid; grid-template-columns:1fr 1fr; gap:9px; padding:16px 16px 0;}
+  .pager a{display:block; text-decoration:none; background:#fff; border:1px solid var(--line);
+    border-radius:13px; padding:11px 13px; font-size:12.5px; font-weight:750; line-height:1.4;
+    color:var(--teal-d); transition:transform .13s, box-shadow .13s;}
+  .pager a small{display:block; font-size:10.5px; color:var(--sub); font-weight:600; margin-top:3px;}
+  .pager a.next{text-align:right; background:linear-gradient(135deg,var(--teal-d),var(--teal-l));
+    color:#fff; border-color:transparent;}
+  .pager a.next small{color:rgba(255,255,255,.85);}
+  .pager a:hover{transform:translateY(-1px); box-shadow:0 6px 16px rgba(15,118,110,.10);}
+  .pager a:active{transform:scale(.99);}
+  .pager a.only{grid-column:1 / -1; text-align:center;}
+
+  /* ───── 密码门（与澳新手册同一套） ───── */
+  html.locked .wrap{display:none;}
+  .gate{position:fixed; inset:0; z-index:100; background:var(--bg);
+    display:flex; align-items:center; justify-content:center; padding:20px;}
+  .gate-inner{width:100%; max-width:360px; background:var(--card); border:1px solid var(--line);
+    border-radius:18px; padding:30px 22px 24px; box-shadow:0 10px 30px rgba(15,118,110,.10); text-align:center;}
+  .gate-inner .lock{font-size:34px; line-height:1; margin-bottom:12px;}
+  .gate-inner h2{margin:0 0 6px; font-size:18px; font-weight:800; color:var(--teal-d);}
+  .gate-inner p{margin:0 0 18px; font-size:12.5px; color:var(--sub); line-height:1.6;}
+  .gate-inner input{width:100%; padding:12px 14px; border:1.5px solid var(--line); border-radius:12px;
+    font-size:16px; text-align:center; letter-spacing:4px; outline:none; color:var(--ink); background:#fbfcfc;}
+  .gate-inner input:focus{border-color:var(--teal-l); background:#fff;}
+  .gate-inner button{margin-top:12px; width:100%; padding:12px; border:none; border-radius:12px;
+    background:var(--teal); color:#fff; font-size:15.5px; font-weight:750; letter-spacing:1px; cursor:pointer;}
+  .gate-inner button:active{background:var(--teal-d);}
+  .gate-err{color:#dc2626; font-size:12.5px; margin-top:10px; min-height:16px;}
+  .gate-inner .hint{margin:14px 0 0; font-size:11.5px; color:#94a3b8;}
