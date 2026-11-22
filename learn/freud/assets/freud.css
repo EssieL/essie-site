@@ -47,3 +47,15 @@
 .article figure.fig figcaption{margin-top:9px; font-size:12.5px; line-height:1.9; color:var(--sub);
   text-align:center;}
 @media(max-width:700px){ .article figure.fig img{max-width:100%;} }
+
+/* 页内复刻表格（Fig. 4/5/6） */
+.article .fig-tbl{margin:24px 0 28px; overflow-x:auto;}
+.article .fig-tbl table{border-collapse:collapse; width:100%; background:#fff; font-size:12.5px;}
+.article .fig-tbl th,.article .fig-tbl td{border:1px solid var(--line); padding:8px 9px;
+  text-align:left; vertical-align:top; line-height:1.65; color:#33413f;}
+.article .fig-tbl thead th{background:#f2f7f6; font-weight:700;}
+.article .fig-tbl tbody th{background:#f8fbfa; font-weight:700; white-space:nowrap;}
+.article .fig-tbl .cn{display:block; margin-top:2px; color:#7c8b88; font-size:11px;
+  font-weight:400; white-space:normal;}
+.article .fig-tbl caption{caption-side:bottom; padding-top:10px; font-size:12px;
+  color:var(--sub); text-align:center;}
