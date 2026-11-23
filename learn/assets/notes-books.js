@@ -165,6 +165,37 @@ window.XJ_NOTES_BOOKS = {
         122,
         123
       ]
+    },
+    {
+      "id": "ursano3-concise-guide",
+      "name": "Ursano 等《心理动力学心理治疗简明指南（第3版）》",
+      "chapters": [
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139
+      ]
+    },
+    {
+      "id": "gabbard2-basics",
+      "name": "Gabbard《长程心理动力学心理治疗基础读本（第2版）》",
+      "chapters": [
+        140
+      ]
+    },
+    {
+      "id": "greenson-technique",
+      "name": "Greenson《精神分析的技术与实践》",
+      "chapters": [
+        141,
+        142
+      ]
     }
   ],
   "chapters": {
@@ -1151,6 +1182,110 @@ window.XJ_NOTES_BOOKS = {
       "label": "Chapter 5　The Creative Process（创作过程）",
       "pages": "pp. 55–76",
       "url": "self-psychology/hagman-aesthetic/text/ch05.html"
+    },
+    "130": {
+      "book": "ursano3-concise-guide",
+      "bookId": "ursano3-concise-guide",
+      "bookName": "Ursano 等《心理动力学心理治疗简明指南（第3版）》",
+      "label": "第一章　为何要做心理动力学心理治疗？",
+      "pages": "",
+      "url": "psychoanalysis-basics/ursano3/ch1.html"
+    },
+    "131": {
+      "book": "ursano3-concise-guide",
+      "bookId": "ursano3-concise-guide",
+      "bookName": "Ursano 等《心理动力学心理治疗简明指南（第3版）》",
+      "label": "第二章　心理动力学心理治疗的基本原则",
+      "pages": "",
+      "url": "psychoanalysis-basics/ursano3/ch2.html"
+    },
+    "132": {
+      "book": "ursano3-concise-guide",
+      "bookId": "ursano3-concise-guide",
+      "bookName": "Ursano 等《心理动力学心理治疗简明指南（第3版）》",
+      "label": "第三章　病人的评估Ⅰ：选择与开始评估",
+      "pages": "",
+      "url": "psychoanalysis-basics/ursano3/ch3.html"
+    },
+    "133": {
+      "book": "ursano3-concise-guide",
+      "bookId": "ursano3-concise-guide",
+      "bookName": "Ursano 等《心理动力学心理治疗简明指南（第3版）》",
+      "label": "第四章　病人的评估Ⅱ：心理动力学倾听",
+      "pages": "",
+      "url": "psychoanalysis-basics/ursano3/ch4.html"
+    },
+    "134": {
+      "book": "ursano3-concise-guide",
+      "bookId": "ursano3-concise-guide",
+      "bookName": "Ursano 等《心理动力学心理治疗简明指南（第3版）》",
+      "label": "第五章　病人的评估Ⅲ：心理动力学评估",
+      "pages": "",
+      "url": "psychoanalysis-basics/ursano3/ch5.html"
+    },
+    "135": {
+      "book": "ursano3-concise-guide",
+      "bookId": "ursano3-concise-guide",
+      "bookName": "Ursano 等《心理动力学心理治疗简明指南（第3版）》",
+      "label": "第六章　开始治疗",
+      "pages": "",
+      "url": "psychoanalysis-basics/ursano3/ch6.html"
+    },
+    "136": {
+      "book": "ursano3-concise-guide",
+      "bookId": "ursano3-concise-guide",
+      "bookName": "Ursano 等《心理动力学心理治疗简明指南（第3版）》",
+      "label": "第七章　阻抗与防御",
+      "pages": "",
+      "url": "psychoanalysis-basics/ursano3/ch7.html"
+    },
+    "137": {
+      "book": "ursano3-concise-guide",
+      "bookId": "ursano3-concise-guide",
+      "bookName": "Ursano 等《心理动力学心理治疗简明指南（第3版）》",
+      "label": "第八章　移情",
+      "pages": "",
+      "url": "psychoanalysis-basics/ursano3/ch8.html"
+    },
+    "138": {
+      "book": "ursano3-concise-guide",
+      "bookId": "ursano3-concise-guide",
+      "bookName": "Ursano 等《心理动力学心理治疗简明指南（第3版）》",
+      "label": "第九章　反移情",
+      "pages": "",
+      "url": "psychoanalysis-basics/ursano3/ch9.html"
+    },
+    "139": {
+      "book": "ursano3-concise-guide",
+      "bookId": "ursano3-concise-guide",
+      "bookName": "Ursano 等《心理动力学心理治疗简明指南（第3版）》",
+      "label": "第十章　梦",
+      "pages": "",
+      "url": "psychoanalysis-basics/ursano3/ch10.html"
+    },
+    "140": {
+      "book": "gabbard2-basics",
+      "bookId": "gabbard2-basics",
+      "bookName": "Gabbard《长程心理动力学心理治疗基础读本（第2版）》",
+      "label": "第一章　核心概念",
+      "pages": "",
+      "url": "psychoanalysis-basics/gabbard2/ch1.html"
+    },
+    "141": {
+      "book": "greenson-technique",
+      "bookId": "greenson-technique",
+      "bookName": "Greenson《精神分析的技术与实践》",
+      "label": "第一章　导言",
+      "pages": "",
+      "url": "psychoanalysis-basics/greenson/ch1.html"
+    },
+    "142": {
+      "book": "greenson-technique",
+      "bookId": "greenson-technique",
+      "bookName": "Greenson《精神分析的技术与实践》",
+      "label": "第二章　阻抗",
+      "pages": "",
+      "url": "psychoanalysis-basics/greenson/ch2.html"
     }
   },
   "order": [
@@ -1276,6 +1411,19 @@ window.XJ_NOTES_BOOKS = {
     120,
     121,
     122,
-    123
+    123,
+    130,
+    131,
+    132,
+    133,
+    134,
+    135,
+    136,
+    137,
+    138,
+    139,
+    140,
+    141,
+    142
   ]
 };
