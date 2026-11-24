@@ -63,3 +63,13 @@ html.xj-locked #xjGate{display:flex; position:fixed; inset:0; z-index:999;
   .article h1{font-size:22px;}
   .article p{font-size:15.5px; line-height:1.9; text-align:left;}
 }
+/* ---------- 正文页 · 本章小节目录（供左侧章节导航读取） ---------- */
+.toc{background:#fffdf7; border:1px solid #f0e6cf; border-radius:12px;
+  padding:14px 18px; margin:0 0 20px; font-size:13px;}
+.toc b{color:var(--amber); font-size:13px;}
+.toc ol{margin:8px 0 0; padding-left:22px; columns:2; column-gap:26px;}
+.toc li{margin:3px 0; break-inside:avoid;}
+.toc a{color:var(--teal-d); text-decoration:none;}
+.toc a:hover{text-decoration:underline;}
+.article h2,.article h3{scroll-margin-top:70px;}
+@media (max-width:700px){ .toc ol{columns:1;} }
